@@ -1,3 +1,4 @@
+import math
 import unittest
 from parameterized import parameterized
 
@@ -13,12 +14,28 @@ input_data = [63455, 147371, 83071, 57460, 74392, 145303, 130181, 53102, 120073,
 
 def required_module_fuel(mass):
     """Calculate required fuel for a module with mass 'mass'"""
-    return int(mass / 3) - 2
+    return math.floor(mass / 3) - 2
 
 
-def total_fuel_amount(masses):
+def required_modules_fuel(masses):
     """Calculate the sum of required fuel for every module"""
     return sum(required_module_fuel(mass) for mass in masses)
+
+
+def required_total_module_fuel(mass):
+    """Calculate the total fuel of a mass, including fuel for fuel"""
+    total_fuel = 0
+    while mass > 0:
+        new_fuel = required_module_fuel(mass)
+        if new_fuel >= 0:
+            total_fuel += new_fuel
+        mass = new_fuel
+    return total_fuel
+
+
+def required_total_modules_fuel(masses):
+    """Calculates the sum of fuel of fuels for all masses"""
+    return sum(required_total_module_fuel(mass) for mass in masses)
 
 
 class TestFuel(unittest.TestCase):
@@ -36,8 +53,26 @@ class TestFuel(unittest.TestCase):
         ["medium", [12, 14, 1969, 100756], 2+2+654+33583]
     ])
     def testModulesFuel(self, name, masses, result):
-        self.assertEqual(total_fuel_amount(masses), result, msg="Test {} failed.".format(name))
+        self.assertEqual(required_modules_fuel(masses), result, msg="Test {} failed.".format(name))
+
+    @parameterized.expand([
+        ["zero checker", 0, 0],
+        ["termination checker", 14, 2],
+        ["simple summation", 1969, 966],
+        ["huge mass", 100756, 50346]
+    ])
+    def testFuelForFuel(self, name, mass, total_fuel):
+        self.assertEqual(required_total_module_fuel(mass), total_fuel, msg="Test {} failed".format(name))
+
+    @parameterized.expand([
+        ["easy", [12, 14], 2+2],
+        ["combination", [14, 1969, 100756], 2+966+50346]
+    ])
+    def testModulesFuelForFuel(self, name, masses, total_fuel):
+        self.assertEqual(required_total_modules_fuel(masses), total_fuel, msg="Test {} failed".format(name))
 
 
 if __name__ == '__main__':
-    print(total_fuel_amount(input_data))
+    fuel = required_modules_fuel(input_data)
+    print("1: ", fuel)
+    print("2: ", required_total_modules_fuel(input_data))
