@@ -33,7 +33,7 @@ def find_intersections(wire1, wire2):
     """Find all the intersection points of two wires, excluding (0, 0)"""
     coords1 = set(code_to_coordinates(wire1))
     coords2 = set(code_to_coordinates(wire2))
-    intersections = coords1 & coords2
+    intersections = coords1 & coords2  # find where both sets are equal
     intersections.remove((0, 0))
     return intersections
 
@@ -41,12 +41,15 @@ def find_intersections(wire1, wire2):
 def manhattan_distance(wire1, wire2):
     """Calculate the Manhattan distance from the central port to the intersection of two wires"""
     intersections = find_intersections(wire1, wire2)
-    min_dist = sys.maxsize
-    for x in intersections:
-        dist = abs(x[0]) + abs(x[1])
-        if dist < min_dist:
-            min_dist = dist
-    return min_dist
+    return min(abs(x[0]) + abs(x[1]) for x in intersections)
+
+
+def combined_step_distance(wire1, wire2):
+    """Calculate the combined step distance of two given wires"""
+    coords1 = code_to_coordinates(wire1)
+    coords2 = code_to_coordinates(wire2)
+    intersections = find_intersections(wire1, wire2)
+    return min(coords1.index(intersection) + coords2.index(intersection) for intersection in intersections)
 
 
 class TestIntcode(unittest.TestCase):
@@ -73,6 +76,14 @@ class TestIntcode(unittest.TestCase):
     def test_manhatten_distance(self, wire1, wire2, distance):
         self.assertEqual(manhattan_distance(wire1, wire2), distance)
 
+    @parameterized.expand([
+        [["R75","D30","R83","U83","L12","D49","R71","U7","L72"], ["U62","R66","U55","R34","D71","R55","D58","R83"], 610],
+        [["R98","U47","R26","D63","R33","U87","L62","D20","R33","U53","R51"],["U98","R91","D20","R16","D67","R40","U7","R15","U6","R7"], 410],
+    ])
+    def test_combined_step_distance(self, wire1, wire2, distance):
+        self.assertEqual(combined_step_distance(wire1, wire2), distance)
+
 
 if __name__ == '__main__':
-    print(manhattan_distance(puzzle_input[0], puzzle_input[1]))
+    print("1: ", manhattan_distance(puzzle_input[0], puzzle_input[1]))
+    print("2: ", combined_step_distance(puzzle_input[0], puzzle_input[1]))
