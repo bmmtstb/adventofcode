@@ -41,7 +41,7 @@ puzzle_input = [3, 225, 1, 225, 6, 6, 1100, 1, 238, 225, 104, 0, 1002, 114, 19, 
 
 # opcode: two digit number - rightmost two digits of the first value in an instruction
 
-def read_opcode(instruction):
+def read_opcode(instruction) -> list:
     """
     Split an opcode into the four respective parts
     """
@@ -50,10 +50,14 @@ def read_opcode(instruction):
     return list(map(int, five_digit[:-2])) + [de]
 
 
-def run_intcode_program(intcode):
-    """Calculate final intcode sequence given value"""
-    instruction_pointer = 0
-    while intcode[instruction_pointer] != 99:
+def run_intcode_program(intcode: list, program_input: list, show_output: bool = False, pointer_start: int = 0) -> (list, int, list):
+    """
+    Calculate final intcode sequence given value
+    :return: all the outputs as a list, current instruction pointer or None, current intcode or None
+    """
+    output = []
+    instruction_pointer = pointer_start
+    while intcode[instruction_pointer] != 99 and instruction_pointer < len(intcode):
         a, b, c, op = read_opcode(intcode[instruction_pointer])
         if op == 1:  # add
             first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
@@ -66,11 +70,16 @@ def run_intcode_program(intcode):
             intcode[intcode[instruction_pointer + 3]] = first * second
             instruction_pointer += 4
         elif op == 3:  # save
-            intcode[intcode[instruction_pointer + 1]] = int(input("Please enter a number: "))
+            if len(program_input) == 0:
+                return output, instruction_pointer, intcode.copy()
+            intcode[intcode[instruction_pointer + 1]] = program_input.pop(0)
+            # intcode[intcode[instruction_pointer + 1]] = int(input("Please enter a number: "))
             instruction_pointer += 2
         elif op == 4:  # output
             out = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
-            print("Output is: {}".format(out))
+            if show_output:
+                print("Output is: {}".format(out))
+            output.append(out)
             instruction_pointer += 2
         elif op == 5:  # jump-if-true
             first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
@@ -99,7 +108,7 @@ def run_intcode_program(intcode):
             instruction_pointer += 4
         else:
             raise ValueError("Something went wrong, opcode {} is not expected.".format(op))
-    print("HALT!")
+    return output, None, None
 
 
 class TestSecureContainer(unittest.TestCase):
@@ -111,5 +120,16 @@ class TestSecureContainer(unittest.TestCase):
     def test_opcode_splitter(self, code, result):
         self.assertListEqual(read_opcode(code), result)
 
+    @parameterized.expand([
+        [[1], 15314507],
+        [[5], 652726],
+    ])
+    def test_final_results(self, start_value, result):
+        self.assertEqual(run_intcode_program(puzzle_input.copy(), start_value, show_output=False)[0][-1], result)
 
-run_intcode_program(puzzle_input)
+
+if __name__ == '__main__':
+    print(">>> Start Main 05:")
+    run_intcode_program(puzzle_input.copy(), [1], show_output=True)
+    run_intcode_program(puzzle_input.copy(), [5], show_output=True)
+    print("End Main 05<<<")
