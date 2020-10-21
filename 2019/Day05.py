@@ -1,6 +1,14 @@
 import unittest
 from parameterized import parameterized
 
+############################################################################################
+# INTCODE COMPUTER                                                                         #
+# used regularly throughout different days, and is way more complex than in the beginning  #
+# 5, 7, 9                                                                                  #
+############################################################################################
+
+
+
 puzzle_input = [3, 225, 1, 225, 6, 6, 1100, 1, 238, 225, 104, 0, 1002, 114, 19, 224, 1001, 224, -646, 224, 4, 224, 102,
                 8, 223, 223, 1001, 224, 7, 224, 1, 223, 224, 223, 1101, 40, 62, 225, 1101, 60, 38, 225, 1101, 30, 29,
                 225, 2, 195, 148, 224, 1001, 224, -40, 224, 4, 224, 1002, 223, 8, 223, 101, 2, 224, 224, 1, 224, 223,
@@ -35,19 +43,63 @@ puzzle_input = [3, 225, 1, 225, 6, 6, 1100, 1, 238, 225, 104, 0, 1002, 114, 19, 
                 223, 223, 4, 223, 99, 226]
 
 
-# parameter modes:
-# 0: position mode - current mode, parameter is position of value
-# 1: immediate mode - parameter is value
-
-# opcode: two digit number - rightmost two digits of the first value in an instruction
-
 def read_opcode(instruction) -> list:
     """
-    Split an opcode into the four respective parts
+    opcode: two digit number - rightmost two digits of the first value in an instruction
+    Split an opcode into the four respective parts A,B,C, OP
     """
     five_digit = f"{instruction:05}"
     de = int(five_digit[-2:])
     return list(map(int, five_digit[:-2])) + [de]
+
+
+# parameter modes:
+# 0: position mode - parameter is position of value
+# 1: immediate mode - parameter is value
+# 2: relative basis - value at (basis + next value)
+def get_value_indirect(code, pointer, mode, offset, base):
+    """
+    Get value with parameter mode
+    """
+    # make sure list has the right length
+    for _ in range(len(code), pointer + offset + 1):
+        code.append(0)
+    if mode == 0:
+        for _ in range(len(code), code[pointer + offset] + 1):
+            code.append(0)
+        return code[code[pointer + offset]]  # itself
+    elif mode == 1:
+        return code[pointer + offset]  # parameter is value
+    elif mode == 2:
+        for _ in range(len(code), code[pointer + offset] + 1):
+            code.append(0)
+        for _ in range(len(code), base + code[pointer + offset] + 1):
+            code.append(0)
+        return code[base + code[pointer + offset]]  # itself +  relative base
+    else:
+        raise Exception("invalid parameter mode {}".format(mode))
+
+
+def set_value_indirect(code, pointer, mode, offset, base, value, op):
+    """
+    Set value in all parameter modes
+    """
+
+    if mode == 0:  # position mode
+        # make sure list has the right length
+        for _ in range(len(code), code[pointer + offset] + 1):
+            code.append(0)
+        code[code[pointer + offset]] = value
+    # can't be direct mode
+    elif mode == 2:  # relative base
+        # make sure list has the right length
+        for _ in range(len(code), code[pointer + offset] + 1):
+            code.append(0)
+        for _ in range(len(code), code[pointer + offset] + base + 1):
+            code.append(0)
+        code[code[pointer + offset] + base] = value
+    else:
+        raise Exception("In op mode {} the parameter mode {} is not supported".format(op, mode))
 
 
 def run_intcode_program(intcode: list, program_input: list, show_output: bool = False, pointer_start: int = 0) -> (list, int, list):
@@ -57,55 +109,73 @@ def run_intcode_program(intcode: list, program_input: list, show_output: bool = 
     """
     output = []
     instruction_pointer = pointer_start
+    relative_base = 0
     while intcode[instruction_pointer] != 99 and instruction_pointer < len(intcode):
         a, b, c, op = read_opcode(intcode[instruction_pointer])
         if op == 1:  # add
-            first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
-            second = intcode[intcode[instruction_pointer + 2]] if b == 0 else intcode[instruction_pointer + 2]
-            intcode[intcode[instruction_pointer + 3]] = first + second
+            first = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
+            second = get_value_indirect(intcode, instruction_pointer, b, 2, relative_base)
+            # intcode[intcode[instruction_pointer + 3]] = first + second
+            value = first + second
+            set_value_indirect(intcode, instruction_pointer, a, 3, relative_base, value, op)
             instruction_pointer += 4
         elif op == 2:  # multiply
-            first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
-            second = intcode[intcode[instruction_pointer + 2]] if b == 0 else intcode[instruction_pointer + 2]
-            intcode[intcode[instruction_pointer + 3]] = first * second
+            first = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
+            second = get_value_indirect(intcode, instruction_pointer, b, 2, relative_base)
+            # intcode[intcode[instruction_pointer + 3]] = first * second
+            value = first * second
+            set_value_indirect(intcode, instruction_pointer, a, 3, relative_base, value, op)
             instruction_pointer += 4
-        elif op == 3:  # save
+        elif op == 3:  # input / save
             if len(program_input) == 0:
                 return output, instruction_pointer, intcode.copy()
-            intcode[intcode[instruction_pointer + 1]] = program_input.pop(0)
-            # intcode[intcode[instruction_pointer + 1]] = int(input("Please enter a number: "))
+            value = program_input.pop(0)
+            # if c == 0:
+            #     intcode[intcode[instruction_pointer + 1]] = value
+            # elif c == 2:
+            #     intcode[intcode[instruction_pointer + 1] + relative_base] = value
+            # else:
+            #     raise Exception("In op mode {} the parameter mode {} is not supported".format(op, c))
+            set_value_indirect(intcode, instruction_pointer, c, 1, relative_base, value, op)
             instruction_pointer += 2
         elif op == 4:  # output
-            out = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
+            out = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
             if show_output:
                 print("Output is: {}".format(out))
             output.append(out)
             instruction_pointer += 2
         elif op == 5:  # jump-if-true
-            first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
-            second = intcode[intcode[instruction_pointer + 2]] if b == 0 else intcode[instruction_pointer + 2]
+            first = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
+            second = get_value_indirect(intcode, instruction_pointer, b, 2, relative_base)
             if first != 0:
                 instruction_pointer = second
             else:
                 instruction_pointer += 3
         elif op == 6:  # jump-if-false
-            first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
-            second = intcode[intcode[instruction_pointer + 2]] if b == 0 else intcode[instruction_pointer + 2]
+            first = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
+            second = get_value_indirect(intcode, instruction_pointer, b, 2, relative_base)
             if first == 0:
                 instruction_pointer = second
             else:
                 instruction_pointer += 3
         elif op == 7:  # less than
-            first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
-            second = intcode[intcode[instruction_pointer + 2]] if b == 0 else intcode[instruction_pointer + 2]
-            intcode[intcode[instruction_pointer + 3]] = 1 if first < second else 0
+            first = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
+            second = get_value_indirect(intcode, instruction_pointer, b, 2, relative_base)
+            # intcode[intcode[instruction_pointer + 3]] = 1 if first < second else 0
+            value = 1 if first < second else 0
+            set_value_indirect(intcode, instruction_pointer, a, 3, relative_base, value, op)
             instruction_pointer += 4
-
         elif op == 8:  # equals
-            first = intcode[intcode[instruction_pointer + 1]] if c == 0 else intcode[instruction_pointer + 1]
-            second = intcode[intcode[instruction_pointer + 2]] if b == 0 else intcode[instruction_pointer + 2]
-            intcode[intcode[instruction_pointer + 3]] = 1 if first == second else 0
+            first = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
+            second = get_value_indirect(intcode, instruction_pointer, b, 2, relative_base)
+            # intcode[intcode[instruction_pointer + 3]] = 1 if first == second else 0
+            value = 1 if first == second else 0
+            set_value_indirect(intcode, instruction_pointer, a, 3, relative_base, value, op)
             instruction_pointer += 4
+        elif op == 9:  # adjust relative base
+            first = get_value_indirect(intcode, instruction_pointer, c, 1, relative_base)
+            relative_base += first
+            instruction_pointer += 2
         else:
             raise ValueError("Something went wrong, opcode {} is not expected.".format(op))
     return output, None, None
