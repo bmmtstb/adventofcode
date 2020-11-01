@@ -32,7 +32,7 @@ def get_amplification_score(program, sequence) -> int:
     """
     signal = 0
     for phase_value in sequence:
-        out, _, _ = run_intcode_program(intcode=program.copy(), program_input=[phase_value, signal], show_output=False)
+        out, _, _, _ = run_intcode_program(intcode=program.copy(), program_input=[phase_value, signal], show_output=False)
         signal = out[-1]
     return signal
 
@@ -62,7 +62,7 @@ def get_feedback_loop_score(amp_input: list, sequence: tuple) -> int:
         curr_amp["in"] += last_amp["out"]
         last_amp["out"] = []
         # run next amplifier
-        new_out, new_pointer, new_code = run_intcode_program(
+        new_out, new_pointer, _, new_code = run_intcode_program(
             intcode=curr_amp["code"],
             program_input=curr_amp["in"],
             pointer_start=curr_amp["pointer"]

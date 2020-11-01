@@ -57,7 +57,7 @@ class TestSecureContainer(unittest.TestCase):
         [puzzle_input.copy(), [1], [2316632620]]
     ])
     def test_computer_output(self, code, inp, output):
-        out, pointer, _= run_intcode_program(code, inp)
+        out, pointer, _, _ = run_intcode_program(code, inp)
         self.assertIsNone(pointer)
         self.assertListEqual(out, output)
 

@@ -102,14 +102,14 @@ def set_value_indirect(code, pointer, mode, offset, base, value, op):
         raise Exception("In op mode {} the parameter mode {} is not supported".format(op, mode))
 
 
-def run_intcode_program(intcode: list, program_input: list, show_output: bool = False, pointer_start: int = 0) -> (list, int, list):
+def run_intcode_program(intcode: list, program_input: list, show_output: bool = False, pointer_start: int = 0, relative_base_start: int = 0) -> (list, int, list):
     """
     Calculate final intcode sequence given value
     :return: all the outputs as a list, current instruction pointer or None, current intcode or None
     """
     output = []
     instruction_pointer = pointer_start
-    relative_base = 0
+    relative_base = relative_base_start
     while intcode[instruction_pointer] != 99 and instruction_pointer < len(intcode):
         a, b, c, op = read_opcode(intcode[instruction_pointer])
         if op == 1:  # add
@@ -128,7 +128,7 @@ def run_intcode_program(intcode: list, program_input: list, show_output: bool = 
             instruction_pointer += 4
         elif op == 3:  # input / save
             if len(program_input) == 0:
-                return output, instruction_pointer, intcode.copy()
+                return output, instruction_pointer, relative_base, intcode.copy()
             value = program_input.pop(0)
             # if c == 0:
             #     intcode[intcode[instruction_pointer + 1]] = value
@@ -178,7 +178,7 @@ def run_intcode_program(intcode: list, program_input: list, show_output: bool = 
             instruction_pointer += 2
         else:
             raise ValueError("Something went wrong, opcode {} is not expected.".format(op))
-    return output, None, None
+    return output, None, None, None
 
 
 class TestSecureContainer(unittest.TestCase):
