@@ -1,4 +1,3 @@
-import math
 import unittest
 from parameterized import parameterized
 
@@ -156,5 +155,6 @@ if __name__ == '__main__':
     print("Part 1):")
     print(simulate_t_time_steps(convert_list_of_coordinates_to_tuple(puzzle_input), time_steps=1000)[2])
     print("Part 2):")
+    print("final value: 271442326847376")
     print(find_previously_match(convert_list_of_coordinates_to_tuple(puzzle_input)))
     print("End Main 12<<<")

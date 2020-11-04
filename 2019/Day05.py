@@ -105,7 +105,7 @@ def set_value_indirect(code, pointer, mode, offset, base, value, op):
 def run_intcode_program(intcode: list, program_input: list, show_output: bool = False, pointer_start: int = 0, relative_base_start: int = 0) -> (list, int, list):
     """
     Calculate final intcode sequence given value
-    :return: all the outputs as a list, current instruction pointer or None, current intcode or None
+    :return: all the outputs as a list, current instruction pointer or None, current relative base or None, current intcode or None
     """
     output = []
     instruction_pointer = pointer_start
