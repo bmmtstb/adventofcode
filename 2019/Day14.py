@@ -53,7 +53,6 @@ def find_product_in_graph(dependency_graph, product):
     return solutions
 
 
-
 def solve_graph(dep_graph, goal="FUEL", start="ORE"):
     """Solve the dependecy graph, so goal only depends on start"""
     goal_nodes = find_product_in_graph(dep_graph, goal)
@@ -138,8 +137,6 @@ def max_fuel_for_ore(init_graph, ore_amount=1000000000000, goal="FUEL", start="O
     return goal_amount - 1
 
 
-
-
 class TestSecureContainer(unittest.TestCase):
     @parameterized.expand([
         [["9 ORE => 2 A"], [({"ORE": 9}, {"A": 2})]],
@@ -208,7 +205,6 @@ class TestSecureContainer(unittest.TestCase):
     ])
     def test_trillion_to_fuel_ratio(self, fuel, dependencies):
         self.assertEqual(fuel, max_fuel_for_ore(parse_dep_graph(dependencies)))
-
 
 
 if __name__ == '__main__':
