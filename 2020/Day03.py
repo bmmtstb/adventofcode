@@ -45,10 +45,8 @@ if __name__ == '__main__':
     print("Part 1):")
     print(obstacles_in_path(puzzle_input))
     print("Part 2):")
-    mult = obstacles_in_path(puzzle_input, 1, 1) * \
-    obstacles_in_path(puzzle_input, 3, 1) * \
-    obstacles_in_path(puzzle_input, 5, 1) * \
-    obstacles_in_path(puzzle_input, 7, 1) * \
-    obstacles_in_path(puzzle_input, 1, 2)
+    mult = obstacles_in_path(puzzle_input, 1, 1) * obstacles_in_path(puzzle_input, 3, 1) * \
+           obstacles_in_path(puzzle_input, 5, 1) * obstacles_in_path(puzzle_input, 7, 1) * \
+           obstacles_in_path(puzzle_input, 1, 2)
     print(mult)
     print("End Main 03<<<")
