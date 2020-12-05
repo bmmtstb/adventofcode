@@ -15,7 +15,7 @@ def load_passports_from_file(filepath):
                 current = {}
             # read passport
             else:
-                fields = line.replace("\n", "").split(" ")
+                fields = line.removesuffix("\n").split(" ")
                 for field in fields:
                     field_id, field_value = field.split(":")
                     if field_id in current.keys():

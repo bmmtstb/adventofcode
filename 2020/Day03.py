@@ -11,7 +11,7 @@ def load_data(filepath="/data/03.txt"):
     map = []
     with open(filepath) as file:
         for line in file.readlines():
-            map.append([vegetation_map[c] for c in line.replace("\n", "")])
+            map.append([vegetation_map[c] for c in line.removesuffix("\n")])
     return map
 
 

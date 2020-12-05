@@ -14,7 +14,7 @@ def load_data(filename="data/02.txt"):
                     tuple(map(cast_int, words[0].split("-"))),
                     words[1].replace(":", "")
                 ]),
-                "pw": words[2].replace("\n", ""),
+                "pw": words[2].removesuffix("\n"),
             })
     return data
 
