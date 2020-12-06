@@ -1,14 +1,14 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="2020-Day02" type="PythonConfigurationType" factoryName="Python" singleton="false">
+  <configuration default="false" name="2020-Day02" type="PythonConfigurationType" factoryName="Python" folderName="2020" singleton="false">
     <module name="adventofcode" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
     </envs>
-    <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+    <option name="SDK_HOME" value="" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/2020" />
-    <option name="IS_MODULE_SDK" value="false" />
+    <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
@@ -20,7 +20,7 @@
     <option name="REDIRECT_INPUT" value="false" />
     <option name="INPUT_FILE" value="" />
     <method v="2">
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Unittests for Day02.TestDay02" run_configuration_type="tests" />
+      <option name="RunConfigurationTask" enabled="true" />
     </method>
   </configuration>
 </component>
