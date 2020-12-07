@@ -52,7 +52,7 @@ def combined_step_distance(wire1, wire2):
     return min(coords1.index(intersection) + coords2.index(intersection) for intersection in intersections)
 
 
-class TestIntcode(unittest.TestCase):
+class Test2019Day03(unittest.TestCase):
     @parameterized.expand([
         [["U3"], [(0,0), (0,1), (0,2), (0,3)]],
         [["R1", "D1"], [(0,0), (1,0), (1,-1)]],

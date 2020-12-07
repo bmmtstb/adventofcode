@@ -145,7 +145,7 @@ def get_nth_vaporized(station_arc_values, n):
         i += 1
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day10(unittest.TestCase):
     @parameterized.expand([
         [["."], []],
         [["#"], [(0, 0)]],

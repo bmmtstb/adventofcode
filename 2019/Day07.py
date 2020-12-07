@@ -102,7 +102,7 @@ def find_amplifying_sequence(amp_input, list_of_amps: list, feedback_loop: bool 
     return best_sequence, best
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day07(unittest.TestCase):
     @parameterized.expand([
         [[3, 15, 3, 16, 1002, 16, 10, 16, 1, 16, 15, 15, 4, 15, 99, 0, 0], (4, 3, 2, 1, 0), 43210],
         [[3, 23, 3, 24, 1002, 24, 10, 24, 1002, 23, -1, 23, 101, 5, 23, 23, 1, 24, 23, 23, 4, 23, 99, 0, 0],

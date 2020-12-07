@@ -38,7 +38,7 @@ def required_total_modules_fuel(masses):
     return sum(required_total_module_fuel(mass) for mass in masses)
 
 
-class TestFuel(unittest.TestCase):
+class Test2019Day01(unittest.TestCase):
     @parameterized.expand([
         ["simple math", 12, 2],
         ["basic rounding", 14, 2],

@@ -137,7 +137,7 @@ def max_fuel_for_ore(init_graph, ore_amount=1000000000000, goal="FUEL", start="O
     return goal_amount - 1
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day14(unittest.TestCase):
     @parameterized.expand([
         [["9 ORE => 2 A"], [({"ORE": 9}, {"A": 2})]],
         [["9 ORE, 100 B => 2 A"], [({"ORE": 9, "B": 100}, {"A": 2})]],

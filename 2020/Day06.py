@@ -49,7 +49,7 @@ def count_same_in_group(groups_data: List[Dict[str, List[int]]]) -> int:
     return same_in_gr
 
 
-class TestDay06(unittest.TestCase):
+class Test2020Day06(unittest.TestCase):
 
     @parameterized.expand([
         ["data/06-test.txt", 11],

@@ -207,7 +207,7 @@ def nof_orbital_transfers(orbit_map, start="YOU", goal="SAN"):
     return i - 1
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day06(unittest.TestCase):
     @parameterized.expand([
         [["AAA)BBB"], {"BBB": ["AAA"]}],
         [["AAA)BBB", "CCC)BBB"], {"BBB": ["AAA", "CCC"]}],

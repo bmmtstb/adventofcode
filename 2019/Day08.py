@@ -37,7 +37,7 @@ def get_visible_image(raw: str, width: int = 25, height: int = 6):
     return result
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day08(unittest.TestCase):
     @parameterized.expand([
         ["123456789012", [["123", "456"], ["789", "012"]]],
         ["123456789012345678", [["123", "456"], ["789", "012"], ["345", "678"]]],

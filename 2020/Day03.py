@@ -27,7 +27,7 @@ def obstacles_in_path(data, horizontal=3, vertical=1):
     return obstacles
 
 
-class TestDay03(unittest.TestCase):
+class Test2020Day03(unittest.TestCase):
     @parameterized.expand([
         ["data/03-Test.txt", 1, 1, 2],
         ["data/03-Test.txt", 3, 1, 7],

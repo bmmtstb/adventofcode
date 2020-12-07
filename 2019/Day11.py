@@ -120,12 +120,10 @@ class Robot:
             print(''.join('#' if value == 1 else ' ' for value in row))
 
 
-# class TestSecureContainer(unittest.TestCase):
-#     @parameterized.expand([
-#     ])
-#     def test_(self, code, inp, output):
-#         ...
-# Tests not really feasable
+class Test2019Day11(unittest.TestCase):
+    # Tests not feasible
+    pass
+
 
 if __name__ == '__main__':
     print(">>> Start Main 11:")

@@ -45,7 +45,7 @@ def get_valid_passwords_indexed(dataset):
     return valid
 
 
-class TestDay02(unittest.TestCase):
+class Test2020Day02(unittest.TestCase):
     @parameterized.expand([
         ["data/02-Test.txt", 2]
     ])

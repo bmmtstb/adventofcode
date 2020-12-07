@@ -1,3 +1,5 @@
+import unittest
+
 from Day05 import run_intcode_program
 
 puzzle_input = [1, 380, 379, 385, 1008, 2571, 363613, 381, 1005, 381, 12, 99, 109, 2572, 1101, 0, 0, 383, 1102, 1, 0,
@@ -156,6 +158,10 @@ def play_game(program, initial_code_input, selfplay=False):
             control = list([-1 if ball_pos[0] < paddle_pos[0] else (1 if ball_pos[0] > paddle_pos[0] else 0)])
 
     return score
+
+
+class Test2019Day13(unittest.TestCase):
+    pass
 
 
 if __name__ == '__main__':

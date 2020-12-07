@@ -181,7 +181,7 @@ def run_intcode_program(intcode: list, program_input: list, show_output: bool = 
     return output, None, None, None
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day05(unittest.TestCase):
     @parameterized.expand([
         [3202, [0, 3, 2, 2]],
         [1, [0, 0, 0, 1]],

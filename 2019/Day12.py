@@ -126,7 +126,7 @@ def find_previously_match(init_positions: list, init_velocities=None):
     return least_common_multiple(dim_period)
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day12(unittest.TestCase):
     @parameterized.expand([
         [0,  "pos=<x=-1, y=  0, z= 2>, vel=<x= 0, y= 0, z= 0>pos=<x= 2, y=-10, z=-7>, vel=<x= 0, y= 0, z= 0>pos=<x= 4, y= -8, z= 8>, vel=<x= 0, y= 0, z= 0>pos=<x= 3, y=  5, z=-1>, vel=<x= 0, y= 0, z= 0>"],
         [1,  "pos=<x= 2, y=-1, z= 1>, vel=<x= 3, y=-1, z=-1>pos=<x= 3, y=-7, z=-4>, vel=<x= 1, y= 3, z= 3>pos=<x= 1, y=-7, z= 5>, vel=<x=-3, y= 1, z=-3>pos=<x= 2, y= 2, z= 0>, vel=<x=-1, y=-3, z= 1>"],

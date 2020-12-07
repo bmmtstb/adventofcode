@@ -53,7 +53,7 @@ def how_many_correct_in_puzzle_range(part):
         return sum(1 for num in range(*puzzle_input) if number_meets_criteria_2(num))
 
 
-class TestSecureContainer(unittest.TestCase):
+class Test2019Day04(unittest.TestCase):
     @parameterized.expand([
         [1, False],
         [100000, True],

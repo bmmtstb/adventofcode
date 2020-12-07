@@ -98,7 +98,7 @@ def count_valid_passports(passports: list):
     return valid_keys, valid_values
 
 
-class TestDay04(unittest.TestCase):
+class Test2020Day04(unittest.TestCase):
     @parameterized.expand([
         ["data/04-Test.txt", 2],
         ["data/04.txt", 208],

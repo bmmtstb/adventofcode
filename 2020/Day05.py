@@ -30,7 +30,7 @@ def get_seat_id(s: str):
     return r * 8 + c
 
 
-class TestDay05(unittest.TestCase):
+class Test2020Day05(unittest.TestCase):
 
     @parameterized.expand([
         ["BFFFBBFRRR", 70],

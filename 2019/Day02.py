@@ -63,7 +63,7 @@ def find_intcode_inputs(input_intcode, input_addresses, input_range, wished_outp
         return None
 
 
-class TestIntcode(unittest.TestCase):
+class Test2019Day02(unittest.TestCase):
     @parameterized.expand([
         ["null", [99], [99]],
         ["Addition", [1, 0, 0, 0, 99], [2, 0, 0, 0, 99]],

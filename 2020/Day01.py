@@ -17,7 +17,7 @@ def find_summands(lofnombers, goal, nofsums):
         return None
 
 
-class TestDay01(unittest.TestCase):
+class Test2020Day01(unittest.TestCase):
     @parameterized.expand([
         [[1721, 979, 366, 299, 675, 1456], 2020, 2, 514579],
         [[1721, 979, 366, 299, 675, 1456], 2020, 3, 241861950],
