@@ -1,0 +1,21 @@
+import unittest
+from parameterized import parameterized
+from typing import Dict, List, Tuple, Set
+
+
+puzzle_input = []
+
+
+class TestDayXXX(unittest.TestCase):
+    @parameterized.expand([
+        [],
+    ])
+    def test(self, ...):
+        self.assertEqual(..., ...)
+
+
+if __name__ == '__main__':
+    print(">>> Start Main XXX:")
+    print("Part 1):")
+    print("Part 2):")
+    print("End Main XXX<<<")
