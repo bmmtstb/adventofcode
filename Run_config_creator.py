@@ -2,7 +2,8 @@ import os
 
 
 years = [2019, 2020]
-dir_base = os.path.join("D:\Martin\Programmable\GitProjects\\adventofcode\.idea\\runConfigurations")
+dir_base = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+run_base = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".idea/runConfigurations")
 for year in years:
     for day_num in range(1, 25):
         day = "0" + str(day_num) if day_num < 10 else str(day_num)
@@ -15,7 +16,7 @@ for year in years:
                 <envs>\
                   <env name="PYTHONUNBUFFERED" value="1" />\
                 </envs>\
-                <option name="SDK_HOME" value="D:\Martin\Programmable\GitProjects\\adventofcode\\venv\Scripts\python.exe" />\
+                <option name="SDK_HOME" value="$PROJECT_DIR$/venv/Scripts/python.exe" />\
                 <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/{year}" />\
                 <option name="IS_MODULE_SDK" value="false" />\
                 <option name="ADD_CONTENT_ROOTS" value="true" />\
@@ -33,7 +34,7 @@ for year in years:
                 </method>\
               </configuration>\
             </component>'.format(day=day, year=year)
-        filepath = os.path.join(dir_base, str(year) + "_Day" + day + ".xml")
+        filepath = os.path.join(run_base, str(year) + "_Day" + day + ".xml")
         if os.path.exists(filepath):
             with open(filepath, "w") as file:
                 file.write(text)
