@@ -62,7 +62,7 @@ class Test2020Day05(unittest.TestCase):
 
 if __name__ == '__main__':
     print(">>> Start Main 05:")
-    puzzle_input = read_file("data/Day05.txt")
+    puzzle_input = read_file("data/05.txt")
     print("Part 1):")
     sids = []
     for seat in puzzle_input:
