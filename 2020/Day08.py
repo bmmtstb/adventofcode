@@ -58,7 +58,7 @@ def repair_instructions(instructions: List[Tuple[str, int]]) -> int:
     return acc
 
 
-class TestDay08(unittest.TestCase):
+class Test2020Day08(unittest.TestCase):
     @parameterized.expand([
         ["data/08-test.txt", 5],
     ])

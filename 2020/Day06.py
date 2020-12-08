@@ -64,7 +64,6 @@ class Test2020Day06(unittest.TestCase):
         self.assertEqual(count_same_in_group(read_file_in_groups(fname)), q_sum)
 
 
-
 if __name__ == '__main__':
     print(">>> Start Main 06:")
     puzzle_input = read_file_in_groups("data/06.txt")

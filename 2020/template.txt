@@ -6,11 +6,11 @@ from typing import Dict, List, Tuple, Set
 puzzle_input = []
 
 
-class TestDayXXX(unittest.TestCase):
+class Test2020DayXXX(unittest.TestCase):
     @parameterized.expand([
         [],
     ])
-    def test(self, ...):
+    def test_(self, ...):
         self.assertEqual(..., ...)
 
 
