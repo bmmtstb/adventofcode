@@ -4,6 +4,8 @@ from typing import Dict, List, Tuple, Set
 from copy import deepcopy
 import math
 
+from tuple_helper import tuple_add_tuple
+
 mapping = {
     ".": -1,
     "L": 0,
@@ -35,20 +37,17 @@ def change_seats_states(data: List[List[int]], seeing: bool = False) -> List[Lis
 
     def get_seen_in_direction(pos: Tuple[int, int], direction: Tuple[int, int]) -> int:
         """get the first seen seat in the direction"""
-        i = pos[0] + direction[0]
-        j = pos[1] + direction[1]
+        i, j = tuple_add_tuple(pos, direction)
         while 0 <= i < len(data) and 0 <= j < len(data[i]):
             if data[i][j] >= 0:
                 break
             else:
-                i += direction[0]
-                j += direction[1]
+                i, j = tuple_add_tuple((i, j), direction)
         return data[i][j] if 0 <= i < len(data) and 0 <= j < len(data[i]) else None
 
     def get_neighbor_in_direction(pos: Tuple[int, int], direction: Tuple[int, int]) -> int:
         """get the neighboring element in the direction"""
-        i = pos[0] + direction[0]
-        j = pos[1] + direction[1]
+        i, j = tuple_add_tuple(pos, direction)
         return data[i][j] if 0 <= i < len(data) and 0 <= j < len(data[i]) else None
 
     # (a) If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
