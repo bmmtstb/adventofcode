@@ -80,11 +80,8 @@ def run_variant2(code: List[tuple]) -> Dict[int, int]:
 
 
 class Test2020Day14(unittest.TestCase):
-    @parameterized.expand([
-        ["data/14-test.txt", {7: "0b000000000000000000000000000001100101", 8: "0b000000000000000000000000000001000000"}],
-    ])
-    def test_v1(self, fname, state):
-        self.assertEqual(run_init_program(load_data(fname)), state)
+    def test_v1(self):
+        self.assertEqual(run_init_program(load_data("data/14-test.txt")), {7: "0b000000000000000000000000000001100101", 8: "0b000000000000000000000000000001000000"})
 
     def test_v2(self):
         d = run_variant2(load_data("data/14-test2.txt"))
