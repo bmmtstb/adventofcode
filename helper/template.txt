@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple, Set
 # def ...
 
 
-class Test2019DayXXX(unittest.TestCase):
+class TestYYYYDayXX(unittest.TestCase):
     @parameterized.expand([
         [],
     ])
@@ -15,8 +15,8 @@ class Test2019DayXXX(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    print(">>> Start Main XXX:")
+    print(">>> Start Main XX:")
     puzzle_input = []
     print("Part 1):")
     print("Part 2):")
-    print("End Main XXX<<<")
+    print("End Main XX<<<")

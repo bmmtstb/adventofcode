@@ -2,9 +2,9 @@ import unittest
 from copy import deepcopy
 
 from parameterized import parameterized
-from typing import Dict, List, Tuple, Set, Union
+from typing import List, Tuple, Union
 
-from tuple_helper import tuple_add_tuple
+from tuple import tuple_add_tuple
 
 nof_dimensions = 3
 directions_3d = [(l, k, j) for j in range(-1, 2) for k in range(-1, 2) for l in range(-1, 2) if not (l == k == j == 0)]

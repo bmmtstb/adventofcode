@@ -3,7 +3,7 @@ import os
 
 years = [2019, 2020]
 dir_base = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-run_base = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".idea/runConfigurations")
+run_base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.idea/runConfigurations")
 for year in years:
     for day_num in range(1, 26):
         day = "0" + str(day_num) if day_num < 10 else str(day_num)
