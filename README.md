@@ -18,7 +18,7 @@ In 2020 I even started using the typing module to increase code readability and 
 
 ## 2019
 I stumbled upon the AOC in the late days of advent in 2019, but the intcode computer gave me trouble and I couldn't
-finish all of the days on time.
+finish all of the days on time. But I'm planning to do so someday!
 
 ## 2020
 This was the first year, I participated live. For the first ~20 days this worked great.
