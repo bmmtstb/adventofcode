@@ -1,10 +1,9 @@
 import unittest
 from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import List, Tuple
 from copy import deepcopy
-import math
 
-from tuple_helper import tuple_add_tuple
+from helper.tuple_helper import tuple_add_tuple
 
 mapping = {
     ".": -1,
