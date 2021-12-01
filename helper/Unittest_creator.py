@@ -3,19 +3,19 @@ import os
 
 years = [2021]
 dir_base = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-run_base = os.path.join(dir_base, ".idea/runConfigurations")
+run_base = os.path.join(dir_base, "../.idea/runConfigurations")
 for year in years:
-    for day_num in range(1, 25):
+    for day_num in range(1, 26):
         day = "0" + str(day_num) if day_num < 10 else str(day_num)
         text = \
             '<component name="ProjectRunConfigurationManager">\
-              <configuration default="false" name="Unittests in {year} Day{day}.py" type="tests" factoryName="Unittests" folderName="{year}" nameIsGenerated="false">\
+              <configuration name="Unittests in {year} Day{day}.py" default="false" type="tests" factoryName="Unittests" folderName="{year}" nameIsGenerated="false">\
                 <module name="adventofcode" />\
                 <option name="INTERPRETER_OPTIONS" value="" />\
                 <option name="PARENT_ENVS" value="true" />\
                 <option name="SDK_HOME" value="" />\
-                <option name="WORKING_DIRECTORY" value="" />\
-                <option name="IS_MODULE_SDK" value="false" />\
+                <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/{year}" />\
+                <option name="IS_MODULE_SDK" value="true" />\
                 <option name="ADD_CONTENT_ROOTS" value="true" />\
                 <option name="ADD_SOURCE_ROOTS" value="true" />\
                 <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />\

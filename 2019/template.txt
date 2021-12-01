@@ -3,19 +3,20 @@ from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 
-puzzle_input = []
+# def ...
 
 
 class Test2019DayXXX(unittest.TestCase):
     @parameterized.expand([
         [],
     ])
-    def test_(self, ...):
+    def test_(self):
         self.assertEqual(..., ...)
 
 
 if __name__ == '__main__':
     print(">>> Start Main XXX:")
+    puzzle_input = []
     print("Part 1):")
     print("Part 2):")
     print("End Main XXX<<<")
