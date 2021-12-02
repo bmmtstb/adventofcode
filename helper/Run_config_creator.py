@@ -1,7 +1,7 @@
 import os
 
 
-years = [2021]
+years = [2015, 2016, 2017, 2018]
 dir_base = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 run_base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.idea/runConfigurations")
 for year in years:
