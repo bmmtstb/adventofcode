@@ -9,7 +9,7 @@ class Test2021DayXXX(unittest.TestCase):
     @parameterized.expand([
         [],
     ])
-    def test_(self, ...):
+    def test_(self):
         self.assertEqual(..., ...)
 
 
