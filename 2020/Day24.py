@@ -7,6 +7,7 @@ from typing import Dict, List, Tuple
 # s pos
 # e pos
 from helper.tuple import tuple_add_tuple
+from helper.file import read_lines_as_list
 
 directions = {
     "e": (1, 0),
@@ -16,12 +17,6 @@ directions = {
     "ne": (0.5, -1),
     "nw": (-0.5, -1),
 }
-
-
-def load_file(filepath: str) -> List[str]:
-    with open(filepath) as file:
-        lines = file.read().split("\n")
-    return lines
 
 
 def follow_direction(dirs: str) -> Tuple[int, int]:
@@ -140,7 +135,7 @@ class Test2020Day24(unittest.TestCase):
 
 if __name__ == '__main__':
     print(">>> Start Main 24:")
-    puzzle_input = load_file("data/24.txt")
+    puzzle_input = read_lines_as_list("data/24.txt")
     print("Part 1):")
     puzzle_dirs = follow_directions(deepcopy(puzzle_input))
     print(count_active(puzzle_dirs))
