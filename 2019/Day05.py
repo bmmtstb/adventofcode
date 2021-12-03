@@ -102,10 +102,19 @@ def set_value_indirect(code, pointer, mode, offset, base, value, op):
         raise Exception("In op mode {} the parameter mode {} is not supported".format(op, mode))
 
 
-def run_intcode_program(intcode: list, program_input: list, show_output: bool = False, pointer_start: int = 0, relative_base_start: int = 0) -> (list, int, list):
+def run_intcode_program(intcode: list, program_input: list, show_output: bool = False, pointer_start: int = 0, relative_base_start: int = 0) -> (list, int, int, list):
     """
     Calculate final intcode sequence given value
-    :return: all the outputs as a list, current instruction pointer or None, current relative base or None, current intcode or None
+    :param intcode:
+    :param program_input:
+    :param show_output:
+    :param pointer_start:
+    :param relative_base_start:
+    :return:
+     - list: all the outputs as a list
+     - int:  current instruction pointer or None
+     - int:  current relative base or None
+     - list: current intcode or None
     """
     output = []
     instruction_pointer = pointer_start

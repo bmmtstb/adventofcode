@@ -1,7 +1,7 @@
 import unittest
 from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
-from helper.data_helper import read_lines_as_list
+from helper.file import read_lines_as_list
 
 
 def find_increasing(l: List[int]) -> int:

@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 
 # s pos
 # e pos
-from tuple import tuple_add_tuple
+from helper.tuple import tuple_add_tuple
 
 directions = {
     "e": (1, 0),

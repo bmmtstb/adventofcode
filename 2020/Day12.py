@@ -1,7 +1,7 @@
 import unittest
 from parameterized import parameterized
 from typing import List, Tuple
-from helper.tuple_helper import tuple_mult_scalar, tuple_add_tuple
+from helper.tuple import tuple_mult_scalar, tuple_add_tuple
 
 puzzle_input = []
 

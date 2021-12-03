@@ -2,8 +2,8 @@ import unittest
 from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
-from helper.tuple_helper import tuple_add_tuple
-from helper.data_helper import read_lines_as_list
+from helper.tuple import tuple_add_tuple
+from helper.file import read_lines_as_list
 
 
 def follow_directions(dirs: List[List[str]]) -> Tuple[int, int]:

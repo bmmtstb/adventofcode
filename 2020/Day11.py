@@ -3,7 +3,7 @@ from parameterized import parameterized
 from typing import List, Tuple
 from copy import deepcopy
 
-from helper.tuple_helper import tuple_add_tuple
+from helper.tuple import tuple_add_tuple
 
 mapping = {
     ".": -1,

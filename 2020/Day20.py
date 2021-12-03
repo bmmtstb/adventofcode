@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from typing import Dict, List, Tuple
 
-from tuple import tuple_add_tuple
+from helper.tuple import tuple_add_tuple
 
 sea_monster = [
     "                  # ",
