@@ -2,12 +2,12 @@ import unittest
 from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
-from helper.file import load_file_split
+from helper.file import load_file_and_split
 
 
 def parse_data(filepath: str) -> (List[int], List[List[int]]):
     """load the random Numbers and boards from the file"""
-    parts = load_file_split(filepath, "\n\n")
+    parts = load_file_and_split(filepath, "\n\n")
     numbers = [int(num) for num in parts[0].split(",")]
     boards = []
     for board in parts[1:]:
