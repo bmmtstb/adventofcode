@@ -1,10 +1,10 @@
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List, Tuple, Set, Union
 
 
-def load_file_and_split(filepath: str, sep: str = "\n") -> List[str]:
+def load_file_and_split(filepath: str, sep: str = "\n", t: type = str) -> List[Union[int, str, float]]:
     """read a file and split it at every occurrence of sep"""
     with open(filepath) as file:
-        lines = file.read().split(sep)
+        lines = [t(val) for val in file.read().split(sep)]
     return lines
 
 
