@@ -83,16 +83,16 @@ def find_mapping_for_lhs(inp: List[str]) -> Dict[int, Set[str]]:
     # [0, 6, 9] -> length 6
     six_digit = [set(val) for val in inp if len(val) == 6]
     for val in six_digit:
-        if not char_map[1].issubset(val):   # 6 iff not subset 1
+        if not char_map[1].issubset(val):  # 6 iff not subset 1
             char_map[6] = val
-        elif char_map[4].issubset(val):     # 9 if 4 is subset
+        elif char_map[4].issubset(val):  # 9 if 4 is subset
             char_map[9] = val
-        else:                               # else 0
+        else:  # else 0
             char_map[0] = val
     # [2, 3, 5] -> length 5
     five_digit = [set(val) for val in inp if len(val) == 5]
     for val in five_digit:
-        if char_map[1].issubset(val):       # only 3 has subset 1
+        if char_map[1].issubset(val):  # only 3 has subset 1
             char_map[3] = val
             continue
         # set(5) - set(9) has to be empty
@@ -136,6 +136,25 @@ class Test2021Day08(unittest.TestCase):
     ])
     def test_find_unique(self, outp, res):
         self.assertListEqual(find_unique(outp), res)
+
+    def check_first_test_line(self):
+        test_lhs, test_rhs = load_data("data/08-test.txt")
+        lhs = test_lhs[0], rhs = test_rhs[0]
+        number_mapping = find_mapping_for_lhs(lhs)
+        sol = {
+            8: "acedgfb",
+            5: "cdfbe",
+            2: "gcdfa",
+            3: "fbcad",
+            7: "dab",
+            9: "cefabd",
+            6: "cdfgeb",
+            4: "eafb",
+            0: "cagedb",
+            1: "ab",
+        }
+        self.assertDictEqual(number_mapping, sol)
+        self.assertEqual(map_line(lhs, rhs), 5353)
 
     def test_solve_example(self):
         test_lhs, test_rhs = load_data("data/08-test.txt")
