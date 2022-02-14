@@ -11,12 +11,13 @@ def load_file_and_split(filepath: str, sep: str = "\n", t: type = str) -> List[U
 def read_lines_as_list(filepath, t: type = str, split: str = None):
     """reads the file at filepath, split a line into substrings if provided, casts to type"""
     data = []
-    if split and t != str:
-        raise Exception("Bad parameters")
     with open(filepath) as file:
         for line in file.readlines():
-            if split:
-                data.append([t(val) for val in line.replace("\n", "").split(split)])
+            line = line.replace("\n", "")
+            if split == "every":
+                data.append([t(val) for val in line])
+            elif split:
+                data.append([t(val) for val in line.split(split)])
             else:
-                data.append(t(line.replace("\n", "")))
+                data.append(t(line))
     return data
