@@ -1,7 +1,8 @@
 import math
-from typing import Dict, List, Tuple, Set, Union
+from typing import Tuple, Union
 
-BaseVector = Tuple[int, ...]
+Number = Union[int, float]
+BaseVector = Tuple[Number, ...]
 
 
 def tuple_add_tuple(a: BaseVector, b: BaseVector) -> BaseVector:
@@ -11,12 +12,12 @@ def tuple_add_tuple(a: BaseVector, b: BaseVector) -> BaseVector:
     return tuple(map(lambda i, j: i + j, a, b))
 
 
-def tuple_add_scalar(a: BaseVector, b: Union[int, float]) -> BaseVector:
+def tuple_add_scalar(a: BaseVector, b: Number) -> BaseVector:
     """add constant to every val of tuple"""
     return tuple(map(lambda i: i + b, a))
 
 
-def tuple_dot_tuple(a: BaseVector, b: BaseVector) -> Union[int, float]:
+def tuple_dot_tuple(a: BaseVector, b: BaseVector) -> Number:
     """scalar product between two equal length tuples"""
     if len(a) != len(b):
         raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
@@ -30,12 +31,12 @@ def tuple_mult_tuple(a: BaseVector, b: BaseVector) -> BaseVector:
     return tuple(map(lambda i, j: i * j, a, b))
 
 
-def tuple_mult_scalar(a: BaseVector, b: Union[int, float]) -> BaseVector:
+def tuple_mult_scalar(a: BaseVector, b: Number) -> BaseVector:
     """multiply every value of tuple with scalar"""
     return tuple(map(lambda i: i * b, a))
 
 
-def tuple_mod_number(a: BaseVector, b: Union[int, float]) -> BaseVector:
+def tuple_mod_number(a: BaseVector, b: Number) -> BaseVector:
     """modulo of every value in tuple"""
     return tuple(map(lambda i: i % b, a))
 
