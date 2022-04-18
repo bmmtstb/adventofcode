@@ -36,7 +36,7 @@ def bin_to_int(s: str) -> int:
 def decode_packet(bin_s: str) -> (int, int, int):
     """
     decode current packet,
-    :returns current value, pointer index, version_sum
+    :returns current value [Task2], current pointer index, current version sum [Task1]
     """
 
     def sub_call(type_id: int, loc_p, loc_val_sum, loc_vers_sum) -> (int, int, int):
@@ -81,30 +81,35 @@ def decode_packet(bin_s: str) -> (int, int, int):
     # case no nested subpackages
     if type_id == 4:
         # literal value, encode single bin number
-        p = 6  # pointer
+        p = 6  # set curr pointer
         loop_exit = False
         bin_val = ""
-        while not loop_exit:
+        while not loop_exit:  # find all sub-values until one starts with a "0"
             if bin_s[p] == "0":
                 loop_exit = True
             bin_val += bin_s[p+1:p+5]
-            p += 5
+            p += 5  # move pointer
         return bin_to_int(bin_val), p, version
     else:  # operator contains one or more packets
         p = 6  # pointer
-        len_type_id = bin_s[p]
-        p += 1
-        # total package value (set dependant of type id)
+
+        # ########
+        # initialize sub-loop
+        # ########
+
+        # set total package value dependant of current package type id
         # prod  - don't multiply with zero
         # >,<,= - set to first value -> None
         # min   - set start to max int
         # sum   - set start to 0
         # max   - set start to 0
         val_sum = 1 if type_id == 1 else None if type_id in [5, 6, 7] else maxsize if type_id == 2 else 0
-
+        # set version sum to own version, sub-packages will be added later
         version_sum = version  # total version sum value
 
-
+        # get the "length type ID"
+        len_type_id = bin_s[p]
+        p += 1
 
         if len_type_id == "0":
             # next 15 bits are a number that represents the total length in bits of the sub-packets contained by this packet
