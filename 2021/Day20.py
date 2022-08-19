@@ -50,8 +50,8 @@ def image_enhancement(algo: Algorithm, img: Image, n: int = 2) -> Image:
     """
     for i in range(n):
         img = [[algo[
-                      get_neighboring_value(img, (x, y), filler=(1 if algo[0] == 1 and algo[-1] == 0 and not i % 2 else 0))
-                  ] for x in range(-1, len(img[0]) + 2)] for y in range(-1, len(img) + 2)]
+                      get_neighboring_value(img, (x, y), filler=(i % 2 if algo[0] == 1 and algo[-1] == 0 and not i % 2 else 0))
+                  ] for x in range(-1, len(img[0]) + 1)] for y in range(-1, len(img) + 1)]
     return img
 
 
