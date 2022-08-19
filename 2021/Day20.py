@@ -50,7 +50,7 @@ def image_enhancement(algo: Algorithm, img: Image, n: int = 2) -> Image:
     """
     for i in range(n):
         img = [[algo[
-                      get_neighboring_value(img, (x, y), filler=(i % 2 if algo[0] == 1 and algo[-1] == 0 and not i % 2 else 0))
+                      get_neighboring_value(img, (x, y), filler=(i % 2 if algo[0] == 1 and algo[-1] == 0 else 0))
                   ] for x in range(-1, len(img[0]) + 1)] for y in range(-1, len(img) + 1)]
     return img
 
@@ -84,6 +84,6 @@ class Test2021Day20(unittest.TestCase):
 if __name__ == '__main__':
     print(">>> Start Main 20:")
     puzzle_algo, puzzle_image = load("data/20.txt")
-    print("Part 1): ", count_lit(image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=2)))  # should be 5203
-    print("Part 2): ", count_lit(image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=50)))  # should be 18806
+    print("Part 1): ", count_lit(image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=2)))
+    print("Part 2): ", count_lit(image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=50)))
     print("End Main 20<<<")
