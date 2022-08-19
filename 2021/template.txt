@@ -7,7 +7,7 @@ from typing import Dict, List, Tuple, Set
 class Test2021DayXXX(unittest.TestCase):
     def test_(self):
         for x, y in [
-            ..., ...
+            (..., ...),
         ]:
             with self.subTest(msg=""):
                 self.assertEqual(..., ...)
