@@ -31,7 +31,7 @@ But still multiple solutions had to have some optimization in them, to run for b
 For me it seemed like most of the earlier tasks are simple regex tasks, but I still managed to write Unittests for all of them.
 
 ## 2021
-Challenge went well so far. Am I getting better or are the challenges getting easier ;)
+Challenge went well so far. Most of the challenges were "pretty easy", but I was getting stuck on multiple of the later ones, because I just diddn't get the right ideas. I hope this gets better in 2022.
 
 ## pre 2019
 Due to me starting in 2019, all prior challenges were done in my spare time.
