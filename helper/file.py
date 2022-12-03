@@ -8,16 +8,16 @@ def load_file_and_split(filepath: str, separator: str = "\n", instance_type: typ
     return lines
 
 
-def read_lines_as_list(filepath, t: type = str, split: str = None):
+def read_lines_as_list(filepath, instance_type: type = str, split: str = None):
     """reads the file at filepath, split a line into substrings if provided, casts to type"""
     data = []
     with open(filepath) as file:
         for line in file.readlines():
             line = line.replace("\n", "")
             if split == "every":
-                data.append([t(val) for val in line])
+                data.append([instance_type(val) for val in line])
             elif split:
-                data.append([t(val) for val in line.split(split)])
+                data.append([instance_type(val) for val in line.split(split)])
             else:
-                data.append(t(line))
+                data.append(instance_type(line))
     return data
