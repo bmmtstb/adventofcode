@@ -9,7 +9,7 @@ def load_file_and_split(filepath: str, separator: str = "\n", instance_type: typ
 
 
 def read_lines_as_list(filepath, instance_type: type = str, split: str = None):
-    """reads the file at filepath, split a line into substrings if provided, casts to type"""
+    """reads the file at filepath, splits every line into substrings if provided, casts to type"""
     data = []
     with open(filepath) as file:
         for line in file.readlines():
