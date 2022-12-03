@@ -1,10 +1,10 @@
 from typing import List, Union
 
 
-def load_file_and_split(filepath: str, sep: str = "\n", t: type = str) -> List[Union[int, str, float]]:
-    """read a file and split it at every occurrence of sep"""
+def load_file_and_split(filepath: str, separator: str = "\n", instance_type: type = str) -> List[Union[int, str, float]]:
+    """read a file and split it at every occurrence of separator, the separated instances will be cast to instanceType"""
     with open(filepath) as file:
-        lines = [t(val) for val in file.read().split(sep)]
+        lines = [instance_type(val) for val in file.read().split(separator)]
     return lines
 
 

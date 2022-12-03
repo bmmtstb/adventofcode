@@ -12,6 +12,13 @@ def tuple_add_tuple(a: BaseVector, b: BaseVector) -> BaseVector:
     return tuple(map(lambda i, j: i + j, a, b))
 
 
+def tuple_subtract_tuple(a: BaseVector, b: BaseVector) -> BaseVector:
+    """difference of first minus second tuple"""
+    if len(a) != len(b):
+        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+    return tuple(map(lambda i, j: i - j, a, b))
+
+
 def tuple_add_scalar(a: BaseVector, b: Number) -> BaseVector:
     """add constant to every val of tuple"""
     return tuple(map(lambda i: i + b, a))
@@ -46,3 +53,9 @@ def euclidean_distance(a: BaseVector, b: BaseVector) -> float:
     if len(a) != len(b):
         raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
     return math.sqrt(sum((b[i] - a[i]) ** 2 for i in range(len(a))))
+
+
+def tuple_euclidean_norm(a: BaseVector) -> float:
+    """calculate euclidean norm of vector"""
+    return math.sqrt(sum(value ** 2 for value in a))
+

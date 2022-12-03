@@ -4,7 +4,7 @@ from typing import Dict, List, Tuple, Set
 
 
 
-class TestYYYYDayXXX(unittest.TestCase):
+class Test2021DayXXX(unittest.TestCase):
     def test_(self):
         for x, y in [
             (..., ...),
