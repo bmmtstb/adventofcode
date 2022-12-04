@@ -10,7 +10,7 @@ def cumulate_frequency_change(l: List[int]) -> int:
 
 
 def find_recurring_frequency(l: List[int]) -> int:
-    """iterate thorugh the list (multiple times) until a frequency is reached twice"""
+    """iterate through the list (multiple times) until a frequency is reached twice"""
     frequencies = []
     val = 0
     curr_l = l.copy()
