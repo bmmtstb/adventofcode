@@ -1,6 +1,5 @@
 import math
 import unittest
-from parameterized import parameterized
 
 puzzle_input = [63455, 147371, 83071, 57460, 74392, 145303, 130181, 53102, 120073, 93111, 144471, 105327, 116466, 67222,
                 122845, 146097, 92014, 114428, 96796, 131140, 101481, 87953, 101415, 75739, 64263, 94257, 140426, 62387,
@@ -39,37 +38,41 @@ def required_total_modules_fuel(masses):
 
 
 class Test2019Day01(unittest.TestCase):
-    @parameterized.expand([
-        ["simple math", 12, 2],
-        ["basic rounding", 14, 2],
-        ["bigger numbers", 1969, 654],
-        ["huge number", 100756, 33583]
-    ])
-    def testModuleFuel(self, name, mass, result):
-        self.assertEqual(required_module_fuel(mass), result, msg="Test {} failed.".format(name))
+    def testModuleFuel(self):
+        for name, mass, result in [
+            ["simple math", 12, 2],
+            ["basic rounding", 14, 2],
+            ["bigger numbers", 1969, 654],
+            ["huge number", 100756, 33583]
+        ]:
+            with self.subTest():
+                self.assertEqual(required_module_fuel(mass), result, msg="Test {} failed.".format(name))
 
-    @parameterized.expand([
-        ["easy", [12, 14], 4],
-        ["medium", [12, 14, 1969, 100756], 2 + 2 + 654 + 33583]
-    ])
-    def testModulesFuel(self, name, masses, result):
-        self.assertEqual(required_modules_fuel(masses), result, msg="Test {} failed.".format(name))
+    def testModulesFuel(self):
+        for name, masses, result in [
+            ["easy", [12, 14], 4],
+            ["medium", [12, 14, 1969, 100756], 2 + 2 + 654 + 33583]
+        ]:
+            with self.subTest():
+                self.assertEqual(required_modules_fuel(masses), result, msg="Test {} failed.".format(name))
 
-    @parameterized.expand([
-        ["zero checker", 0, 0],
-        ["termination checker", 14, 2],
-        ["simple summation", 1969, 966],
-        ["huge mass", 100756, 50346]
-    ])
-    def testFuelForFuel(self, name, mass, total_fuel):
-        self.assertEqual(required_total_module_fuel(mass), total_fuel, msg="Test {} failed".format(name))
+    def testFuelForFuel(self):
+        for name, mass, total_fuel in [
+            ["zero checker", 0, 0],
+            ["termination checker", 14, 2],
+            ["simple summation", 1969, 966],
+            ["huge mass", 100756, 50346]
+        ]:
+            with self.subTest():
+                self.assertEqual(required_total_module_fuel(mass), total_fuel, msg="Test {} failed".format(name))
 
-    @parameterized.expand([
-        ["easy", [12, 14], 2 + 2],
-        ["combination", [14, 1969, 100756], 2 + 966 + 50346]
-    ])
-    def testModulesFuelForFuel(self, name, masses, total_fuel):
-        self.assertEqual(required_total_modules_fuel(masses), total_fuel, msg="Test {} failed".format(name))
+    def testModulesFuelForFuel(self):
+        for name, masses, total_fuel in [
+            ["easy", [12, 14], 2 + 2],
+            ["combination", [14, 1969, 100756], 2 + 966 + 50346]
+        ]:
+            with self.subTest():
+                self.assertEqual(required_total_modules_fuel(masses), total_fuel, msg="Test {} failed".format(name))
 
 
 if __name__ == '__main__':

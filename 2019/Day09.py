@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 
 from Day05 import run_intcode_program
 
@@ -49,22 +48,23 @@ puzzle_input = [1102, 34463338, 34463338, 63, 1007, 63, 34463338, 63, 1005, 63, 
 
 
 class Test2019Day09(unittest.TestCase):
-    @parameterized.expand([
-        [[109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99], [],
-         [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]],
-        [[104, 1125899906842624, 99], [], [1125899906842624]],
-        [[109, 10, 204, -8, 99], [], [204]],
-        [puzzle_input.copy(), [1], [2316632620]]
-    ])
-    def test_computer_output(self, code, inp, output):
-        out, pointer, _, _ = run_intcode_program(code, inp)
-        self.assertIsNone(pointer)
-        self.assertListEqual(out, output)
+    def test_computer_output(self):
+        for code, inp, output in [
+            [[109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99], [],
+             [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]],
+            [[104, 1125899906842624, 99], [], [1125899906842624]],
+            [[109, 10, 204, -8, 99], [], [204]],
+            [puzzle_input.copy(), [1], [2316632620]]
+        ]:
+            with self.subTest():
+                out, pointer, _, _ = run_intcode_program(code, inp)
+                self.assertIsNone(pointer)
+                self.assertListEqual(out, output)
 
-    @parameterized.expand([
-        [[1102, 34915192, 34915192, 7, 4, 7, 99, 0], [], (1e15, 1e16)],
-    ])
-    def test_computer_output_in_range(self, code, inp, value_range):
+    def test_computer_output_in_range(self):
+        code = [1102, 34915192, 34915192, 7, 4, 7, 99, 0]
+        inp = []
+        value_range = (1e15, 1e16)
         out = run_intcode_program(code, inp)[0][0]
         self.assertGreaterEqual(out, value_range[0])
         self.assertLessEqual(out, value_range[1])

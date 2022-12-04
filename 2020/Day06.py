@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List
 
 
@@ -51,17 +50,11 @@ def count_same_in_group(groups_data: List[Dict[str, List[int]]]) -> int:
 
 class Test2020Day06(unittest.TestCase):
 
-    @parameterized.expand([
-        ["data/06-test.txt", 11],
-    ])
-    def test_(self, fname, q_sum):
-        self.assertEqual(sum(count_different_questions(read_file_in_groups(fname))), q_sum)
+    def test_count_different(self):
+        self.assertEqual(sum(count_different_questions(read_file_in_groups("data/06-test.txt"))), 11)
 
-    @parameterized.expand([
-        ["data/06-test.txt", 6],
-    ])
-    def test_(self, fname, q_sum):
-        self.assertEqual(count_same_in_group(read_file_in_groups(fname)), q_sum)
+    def test_count_same_in_group(self):
+        self.assertEqual(count_same_in_group(read_file_in_groups("data/06-test.txt")), 6)
 
 
 if __name__ == '__main__':

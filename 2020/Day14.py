@@ -1,6 +1,5 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List
 
 
 def load_data(filepath: str) -> List[tuple]:

@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import List, Tuple
 from copy import deepcopy
 
@@ -85,22 +84,24 @@ def count_occupied_seats(data: List[List[int]]) -> int:
 
 
 class Test2020Day11(unittest.TestCase):
-    @parameterized.expand([
-        ["data/11-test.txt", "data/11-test1.txt", False],
-        ["data/11-test.txt", "data/11-test1.txt", True],
-        ["data/11-test1.txt", "data/11-testS2.txt", True],
-    ])
-    def test_after_one_iteration(self, f1, f2, seeing):
-        self.assertListEqual(change_seats_states(load(f1), seeing), load(f2))
+    def test_after_one_iteration(self):
+        for f1, f2, seeing in [
+            ["data/11-test.txt", "data/11-test1.txt", False],
+            ["data/11-test.txt", "data/11-test1.txt", True],
+            ["data/11-test1.txt", "data/11-testS2.txt", True],
+        ]:
+            with self.subTest():
+                self.assertListEqual(change_seats_states(load(f1), seeing), load(f2))
 
-    @parameterized.expand([
-        ["data/11-test.txt", "data/11-testFin1.txt", 37, False],
-        ["data/11-test.txt", "data/11-testFin2.txt", 26, True],
-    ])
-    def test_end_state(self, f1, f2, occ, see):
-        end = run_until_no_changes(load(f1), see)
-        self.assertListEqual(end, load(f2))
-        self.assertEqual(count_occupied_seats(end), occ)
+    def test_end_state(self):
+        for f1, f2, occ, see in [
+            ["data/11-test.txt", "data/11-testFin1.txt", 37, False],
+            ["data/11-test.txt", "data/11-testFin2.txt", 26, True],
+        ]:
+            with self.subTest():
+                end = run_until_no_changes(load(f1), see)
+                self.assertListEqual(end, load(f2))
+                self.assertEqual(count_occupied_seats(end), occ)
 
 
 if __name__ == '__main__':

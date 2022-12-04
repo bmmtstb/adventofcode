@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 from helper.file import read_lines_as_list
 
@@ -17,17 +16,16 @@ def create_sliding_window_list(l: List[int], size: int = 3) -> List[int]:
 class Test2021Day01(unittest.TestCase):
     draft = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
 
-    @parameterized.expand([
-        [draft, 7],
-        [[607, 618, 618, 617, 647, 716, 769, 792], 5]
-    ])
-    def test_increasing(self, data, incr):
-        self.assertEqual(find_increasing(data), incr)
+    def test_increasing(self):
+        for data, incr in [
+            [self.draft, 7],
+            [[607, 618, 618, 617, 647, 716, 769, 792], 5]
+        ]:
+            with self.subTest():
+                self.assertEqual(find_increasing(data), incr)
 
-    @parameterized.expand([
-        [draft, [607, 618, 618, 617, 647, 716, 769, 792]]])
-    def test_sliding_list(self, data, newl):
-        self.assertEqual(create_sliding_window_list(data), newl)
+    def test_sliding_list(self):
+        self.assertEqual(create_sliding_window_list(self.draft), [607, 618, 618, 617, 647, 716, 769, 792])
 
 
 if __name__ == '__main__':

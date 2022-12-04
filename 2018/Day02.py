@@ -1,6 +1,5 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List
 
 from helper.file import read_lines_as_list
 
@@ -49,32 +48,34 @@ def find_closely_matching_strings(l: List[str]) -> (str, str):
 
 
 class Test2021Day02(unittest.TestCase):
-    @parameterized.expand([
-        ["abcdef", {"a": 1, "b": 1}],
-        ["aabcdd", {"a": 2, "d": 2}],
-        ["abcdee", {"e": 2}],
-        ["ababab", {"a": 3, "b": 3}],
-    ])
-    def test_char_multiples(self, s, d):
-        self.assertDictContainsSubset(d, get_letter_multiples(s))
+    def test_char_multiples(self):
+        for s, d in [
+            ["abcdef", {"a": 1, "b": 1}],
+            ["aabcdd", {"a": 2, "d": 2}],
+            ["abcdee", {"e": 2}],
+            ["ababab", {"a": 3, "b": 3}],
+        ]:
+            with self.subTest():
+                m = get_letter_multiples(s)
+                for key, value in d.items():
+                    self.assertTrue(key in m)
+                    self.assertEqual(value, m[key])
 
-    @parameterized.expand([
-        [["abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab"], 12],
-    ])
-    def test_checksum(self, l, check):
-        self.assertEqual(calculate_checksum(l), check)
+    def test_checksum(self):
+        list_ = ["abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab"]
+        self.assertEqual(calculate_checksum(list_), 12)
 
-    @parameterized.expand([
-        ["abcde", "axcye", False],
-        ["fghij", "fguij", True],
-    ])
-    def test_difference(self, s1, s2, b):
-        self.assertEqual(check_difference(s1, s2), b)
+    def test_difference(self):
+        for s1, s2, b in [
+            ["abcde", "axcye", False],
+            ["fghij", "fguij", True],
+        ]:
+            with self.subTest():
+                self.assertEqual(check_difference(s1, s2), b)
 
-    @parameterized.expand([
-        [["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"], ("fghij", "fguij")],
-    ])
-    def test_difference(self, l, t):
+    def test_find_closing_matching_string(self):
+        l = ["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"]
+        t = ("fghij", "fguij")
         self.assertTupleEqual(find_closely_matching_strings(l), t)
 
 

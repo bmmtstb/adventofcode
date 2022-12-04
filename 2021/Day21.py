@@ -1,7 +1,6 @@
 import unittest
 from copy import deepcopy
 
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.tuple import tuple_add_tuple, tuple_mod_number, tuple_mult_scalar

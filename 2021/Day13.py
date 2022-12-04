@@ -1,6 +1,5 @@
 import unittest
 from copy import deepcopy
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import load_file_and_split
@@ -64,12 +63,13 @@ class Test2021Day13(unittest.TestCase):
     test_dots = {(6, 10), (0, 14), (9, 10), (0, 3), (10, 4), (4, 11), (6, 0), (6, 12), (4, 1), (0, 13), (10, 12),
                  (3, 4), (3, 0), (8, 4), (1, 10), (2, 14), (8, 10), (9, 0)}
 
-    @parameterized.expand([
-        [["y=7"], 17],
-        [["y=7", "x=5"], 16],
-    ])
-    def test_fold_nof_points(self, folds, nof_points):
-        self.assertEqual(len(fold_paper(deepcopy(self.test_dots), folds)), nof_points)
+    def test_fold_nof_points(self):
+        for folds, nof_points in [
+            [["y=7"], 17],
+            [["y=7", "x=5"], 16],
+        ]:
+            with self.subTest():
+                self.assertEqual(len(fold_paper(deepcopy(self.test_dots), folds)), nof_points)
 
     def test_fold_result_visually(self):
         new_positions = fold_paper(deepcopy(self.test_dots), ["y=7", "x=5"])
@@ -86,7 +86,7 @@ class Test2021Day13(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    d = load_file_and_split("data/13.txt", sep="\n\n")
+    d = load_file_and_split("data/13.txt", separator="\n\n")
     puzzle_positions: Positions = {(int(line.split(",")[0]), int(line.split(",")[1])) for line in d[0].split("\n")}
     puzzle_instructions = [s[11:] for s in d[1].split("\n") if len(s) > 0]
     print(">>> Start Main 13:")

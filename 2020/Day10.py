@@ -1,6 +1,5 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List
 
 
 def load(filepath: str) -> List[int]:
@@ -55,13 +54,14 @@ def get_different_arrangements(adapters: List[int]) -> int:
 
 
 class Test2020Day10(unittest.TestCase):
-    @parameterized.expand([
-        [[16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4], {1: 7, 3: 5}, 8],
-        [load("data/10-test.txt"), {1: 22, 3: 10}, 19208],
-    ])
-    def test_list_differences(self, adapters, differences, arr):
-        self.assertEqual(get_adapter_differences(adapters), differences)
-        self.assertEqual(get_different_arrangements(adapters), arr)
+    def test_list_differences(self):
+        for adapters, differences, arr in [
+            [[16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4], {1: 7, 3: 5}, 8],
+            [load("data/10-test.txt"), {1: 22, 3: 10}, 19208],
+        ]:
+            with self.subTest():
+                self.assertEqual(get_adapter_differences(adapters), differences)
+                self.assertEqual(get_different_arrangements(adapters), arr)
 
 
 if __name__ == '__main__':

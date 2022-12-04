@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 
@@ -68,7 +67,7 @@ def find_unused_products(ingredients: List[Tuple[Set[str], Set[str]]]) -> int:
 
 
 class Test2020Day21(unittest.TestCase):
-    def test_(self):
+    def test_find_ingredients(self):
         ingredients = [
             "mxmxvkd kfcds sqjhc nhms(contains dairy, fish)",
             "trh fvjkl sbzzf mxmxvkd(contains dairy)",

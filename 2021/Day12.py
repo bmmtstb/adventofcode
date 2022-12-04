@@ -1,7 +1,6 @@
 import unittest
 from copy import deepcopy
 
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import read_lines_as_list
@@ -68,18 +67,18 @@ def generate_possible_paths(cave_system: Dict[str, List[str]], start: str = "sta
 
 
 class Test2021Day12(unittest.TestCase):
-    @parameterized.expand([
-        ["data/12-short.txt", 10, False],
-        ["data/12-test.txt", 19, False],
-        ["data/12-larger.txt", 226, False],
-        ["data/12-short.txt", 36, True],
-        ["data/12-test.txt", 103, True],
-        ["data/12-larger.txt", 3509, True],
-
-    ])
-    def test_distinct_length(self, fp, nof, smt):
-        poss_path = load_data(fp)
-        self.assertEqual(len(generate_possible_paths(poss_path, single_multiple_times=smt)), nof)
+    def test_distinct_length(self):
+        for fp, nof, smt in [
+            ["data/12-short.txt", 10, False],
+            ["data/12-test.txt", 19, False],
+            ["data/12-larger.txt", 226, False],
+            ["data/12-short.txt", 36, True],
+            ["data/12-test.txt", 103, True],
+            ["data/12-larger.txt", 3509, True],
+        ]:
+            with self.subTest():
+                poss_path = load_data(fp)
+                self.assertEqual(len(generate_possible_paths(poss_path, single_multiple_times=smt)), nof)
 
 
 if __name__ == '__main__':

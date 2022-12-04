@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 special_value = 20201227
@@ -42,12 +41,13 @@ def handshake(card_pub: int, door_pub: int) -> int:
 
 class Test2020Day25(unittest.TestCase):
 
-    @parameterized.expand([
-        [5764801, 7, 8],
-        [17807724, 7, 11],
-    ])
-    def test_loop_size(self, pub, num, n):
-        self.assertEqual(get_loop_size(num, pub), n)
+    def test_loop_size(self):
+        for pub, num, n in [
+            [5764801, 7, 8],
+            [17807724, 7, 11],
+        ]:
+            with self.subTest():
+                self.assertEqual(get_loop_size(num, pub), n)
 
     def test_handshake(self):
         self.assertEqual(handshake(card_pub=5764801, door_pub=17807724), 14897079)

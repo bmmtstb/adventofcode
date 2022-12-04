@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 
@@ -42,22 +41,20 @@ def find_matching_timestamp(shedule: List) -> int:
 
 
 class Test2020Day13(unittest.TestCase):
-    @parameterized.expand([
-        [939, [7, 13, "x", "x", 59, "x", 31, 19], (59, 5)],
-    ])
-    def test_departure_times(self, curr, shed, bus):
-        self.assertEqual(get_next_departure(curr, shed), bus)
+    def test_departure_times(self):
+        self.assertEqual(get_next_departure(939, [7, 13, "x", "x", 59, "x", 31, 19]), (59, 5))
 
-    @parameterized.expand([
-        [[17, "x", 13, 19], 3417],
-        [[67, 7, 59, 61], 754018],
-        [[67, "x", 7, 59, 61], 779210],
-        [[67, 7, "x", 59, 61], 1261476],
-        [[1789, 37, 47, 1889], 1202161486],
-        [[7, 13, "x", "x", 59, "x", 31, 19], 1068781],
-    ])
-    def test_find_timestemp(self, shed, ts):
-        self.assertEqual(find_matching_timestamp(shed), ts)
+    def test_find_timestemp(self):
+        for shed, ts in [
+            [[17, "x", 13, 19], 3417],
+            [[67, 7, 59, 61], 754018],
+            [[67, "x", 7, 59, 61], 779210],
+            [[67, 7, "x", 59, 61], 1261476],
+            [[1789, 37, 47, 1889], 1202161486],
+            [[7, 13, "x", "x", 59, "x", 31, 19], 1068781],
+        ]:
+            with self.subTest(msg=f''):
+                self.assertEqual(find_matching_timestamp(shed), ts)
 
 
 if __name__ == '__main__':

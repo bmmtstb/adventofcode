@@ -1,6 +1,5 @@
 import unittest
 from typing import Dict, List, Tuple, Set
-from math import prod
 from sys import maxsize
 
 hex_bin_converters = {

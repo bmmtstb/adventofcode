@@ -1,7 +1,5 @@
 import unittest
 
-from parameterized import parameterized
-
 puzzle_input = ["NKB)PZS", "KBG)9JH", "PZS)KZD", "8J1)GT7", "7HT)9ZM", "RV2)14G", "RM1)YG7", "36C)BPH", "BY7)5RG",
                 "PYW)RWT", "VHV)DCN", "8GP)3DJ", "PWQ)KNW", "WRQ)R4M", "PYK)WQ7", "C47)RSZ", "KVF)879", "M8B)TRX",
                 "RL1)N46", "H7D)5CD", "FZM)T6P", "99X)DN8", "1M7)ZWZ", "2XZ)C9G", "K9Q)CLK", "KVF)WGY", "S2F)3XK",
@@ -208,46 +206,52 @@ def nof_orbital_transfers(orbit_map, start="YOU", goal="SAN"):
 
 
 class Test2019Day06(unittest.TestCase):
-    @parameterized.expand([
-        [["AAA)BBB"], {"BBB": ["AAA"]}],
-        [["AAA)BBB", "CCC)BBB"], {"BBB": ["AAA", "CCC"]}],
-        [["AAA)BBB", "BBB)CCC"], {"BBB": ["AAA"], "CCC": ["BBB"]}],
-    ])
-    def test_mapping(self, orbit_map, orbits):
-        self.assertEqual(map_to_dict(orbit_map), orbits)
+    def test_mapping(self):
+        for orbit_map, orbits in [
+            [["AAA)BBB"], {"BBB": ["AAA"]}],
+            [["AAA)BBB", "CCC)BBB"], {"BBB": ["AAA", "CCC"]}],
+            [["AAA)BBB", "BBB)CCC"], {"BBB": ["AAA"], "CCC": ["BBB"]}],
+        ]:
+            with self.subTest():
+                self.assertEqual(map_to_dict(orbit_map), orbits)
 
-    @parameterized.expand([
-        ["BBB", {"BBB": ["AAA"]}, 1],
-        ["AAA", {"BBB": ["AAA"]}, 0],
-        ["CCC", {"BBB": ["AAA"], "CCC": ["BBB"]}, 2],
-    ])
-    def test_recursion_counter(self, orbiting_object, orbits, result):
-        self.assertEqual(recursive_orbits(orbiting_object, orbits), result)
+    def test_recursion_counter(self):
+        for orbiting_object, orbits, result in [
+            ["BBB", {"BBB": ["AAA"]}, 1],
+            ["AAA", {"BBB": ["AAA"]}, 0],
+            ["CCC", {"BBB": ["AAA"], "CCC": ["BBB"]}, 2],
+        ]:
+            with self.subTest():
+                self.assertEqual(recursive_orbits(orbiting_object, orbits), result)
 
-    @parameterized.expand([
-        [["AAA)BBB"], 1],
-        [["AAA)BBB", "BBB)CCC"], 3],
-        [["COM)B", "B)C", "C)D", "D)E", "E)F", "B)G", "G)H", "D)I", "E)J", "J)K", "K)L"], 42]
-    ])
-    def test_nof_orbits(self, orbit_map, result):
-        self.assertEqual(nof_orbits(orbit_map), result)
+    def test_nof_orbits(self):
+        for orbit_map, result in [
+            [["AAA)BBB"], 1],
+            [["AAA)BBB", "BBB)CCC"], 3],
+            [["COM)B", "B)C", "C)D", "D)E", "E)F", "B)G", "G)H", "D)I", "E)J", "J)K", "K)L"], 42]
+        ]:
+            with self.subTest():
+                self.assertEqual(nof_orbits(orbit_map), result)
 
-    @parameterized.expand([
-        ["AAA", {"BBB": ["AAA"]}, ["BBB"]],
-        ["BBB", {"BBB": ["AAA"], "CCC": ["BBB"]}, ["AAA", "CCC"]],
-        ["D",
-         {'B': ['COM'], 'C': ['B'], 'D': ['C'], 'E': ['D'], 'F': ['E'], 'G': ['B'], 'H': ['G'], 'I': ['D'], 'J': ['E'],
-          'K': ['J'], 'L': ['K']}, ["C", "E", "I"]]
-    ])
-    def test_neighboring_orbits(self, obj, orbit_map, neighbours):
-        self.assertEqual(neighboring_orbits(obj, orbit_map), neighbours)
+    def test_neighboring_orbits(self):
+        for obj, orbit_map, neighbours in [
+            ["AAA", {"BBB": ["AAA"]}, ["BBB"]],
+            ["BBB", {"BBB": ["AAA"], "CCC": ["BBB"]}, ["AAA", "CCC"]],
+            ["D",
+             {'B': ['COM'], 'C': ['B'], 'D': ['C'], 'E': ['D'], 'F': ['E'], 'G': ['B'], 'H': ['G'], 'I': ['D'],
+              'J': ['E'],
+              'K': ['J'], 'L': ['K']}, ["C", "E", "I"]]
+        ]:
+            with self.subTest():
+                self.assertEqual(neighboring_orbits(obj, orbit_map), neighbours)
 
-    @parameterized.expand([
-        [["I)SAN", "I)YOU"], 0],
-        [["COM)B", "B)C", "C)D", "D)E", "E)F", "B)G", "G)H", "D)I", "E)J", "J)K", "K)L", "K)YOU", "I)SAN"], 4],
-    ])
-    def test_nof_steps(self, o_map, result):
-        self.assertEqual(nof_orbital_transfers(o_map), result)
+    def test_nof_steps(self):
+        for o_map, result in [
+            [["I)SAN", "I)YOU"], 0],
+            [["COM)B", "B)C", "C)D", "D)E", "E)F", "B)G", "G)H", "D)I", "E)J", "J)K", "K)L", "K)YOU", "I)SAN"], 4],
+        ]:
+            with self.subTest():
+                self.assertEqual(nof_orbital_transfers(o_map), result)
 
 
 if __name__ == '__main__':

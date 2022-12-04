@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import load_file_and_split
@@ -35,36 +34,39 @@ def fish_lifecycle_faster(init: List[int], nof_days: int, reproduction: int = 7,
 
 
 class Test2021Day06(unittest.TestCase):
-    @parameterized.expand([
-        [1, [2, 3, 2, 0, 1]],
-        [2, [1, 2, 1, 6, 0, 8]],
-        [3, [0, 1, 0, 5, 6, 7, 8]],
-        [5, [5, 6, 5, 3, 4, 5, 6, 7, 7, 8]],
-        [10, [0, 1, 0, 5, 6, 0, 1, 2, 2, 3, 7, 8]],
-        [15, [2, 3, 2, 0, 1, 2, 3, 4, 4, 5, 2, 3, 4, 4, 4, 5, 5, 6, 6, 7]],
-        [18, [6, 0, 6, 4, 5, 6, 0, 1, 1, 2, 6, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7, 8, 8, 8, 8]],
-    ])
-    def test_numbers(self, days, l):
-        init_test = [3, 4, 3, 1, 2]
-        self.assertListEqual(fish_lifecycle_list(init_test, days), l)
+    def test_numbers(self):
+        for days, l in [
+            [1, [2, 3, 2, 0, 1]],
+            [2, [1, 2, 1, 6, 0, 8]],
+            [3, [0, 1, 0, 5, 6, 7, 8]],
+            [5, [5, 6, 5, 3, 4, 5, 6, 7, 7, 8]],
+            [10, [0, 1, 0, 5, 6, 0, 1, 2, 2, 3, 7, 8]],
+            [15, [2, 3, 2, 0, 1, 2, 3, 4, 4, 5, 2, 3, 4, 4, 4, 5, 5, 6, 6, 7]],
+            [18, [6, 0, 6, 4, 5, 6, 0, 1, 1, 2, 6, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7, 8, 8, 8, 8]],
+        ]:
+            with self.subTest():
+                init_test = [3, 4, 3, 1, 2]
+                self.assertListEqual(fish_lifecycle_list(init_test, days), l)
 
-    @parameterized.expand([
-        [1, 5],
-        [18, 26],
-        [80, 5934],
-    ])
-    def test_numbers(self, days, nof):
-        init_test = [3, 4, 3, 1, 2]
-        self.assertEqual(len(fish_lifecycle_list(init_test, days)), nof)
+    def test_len(self):
+        for days, nof in [
+            [1, 5],
+            [18, 26],
+            [80, 5934],
+        ]:
+            with self.subTest():
+                init_test = [3, 4, 3, 1, 2]
+                self.assertEqual(len(fish_lifecycle_list(init_test, days)), nof)
 
-    @parameterized.expand([
-        [18, 26],
-        [80, 5934],
-        [256, 26984457539]
-    ])
-    def test_faster_numbers(self, days, nof):
-        init_test = [3, 4, 3, 1, 2]
-        self.assertEqual(fish_lifecycle_faster(init_test, days), nof)
+    def test_faster_numbers(self):
+        for days, nof in [
+            [18, 26],
+            [80, 5934],
+            [256, 26984457539]
+        ]:
+            with self.subTest():
+                init_test = [3, 4, 3, 1, 2]
+                self.assertEqual(fish_lifecycle_faster(init_test, days), nof)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import load_file_and_split
@@ -75,34 +74,37 @@ class Test2021Day14(unittest.TestCase):
         "NC": "B", "NB": "B", "BN": "B", "BB": "N", "BC": "B", "CC": "N", "CN": "C"
     }
 
-    @parameterized.expand([
-        [1, "NCNBCHB"],
-        [2, "NBCCNBBBCBHCB"],
-        [3, "NBBBCNCCNBBNBNBBCHBHHBCHB"],
-        [4, "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"],
-    ])
-    def test_after_n_steps(self, n, res_str):
-        self.assertEqual(perform_pair_insertion(self.polymer_start, self.pair_insertion_rule.copy(), n), res_str)
+    def test_after_n_steps(self):
+        for n, res_str in [
+            [1, "NCNBCHB"],
+            [2, "NBCCNBBBCBHCB"],
+            [3, "NBBBCNCCNBBNBNBBCHBHHBCHB"],
+            [4, "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"],
+        ]:
+            with self.subTest():
+                self.assertEqual(perform_pair_insertion(self.polymer_start, self.pair_insertion_rule.copy(), n), res_str)
 
-    @parameterized.expand([
-        [5, 97],
-        [10, 3073],
-    ])
-    def test_polymer_length(self, steps, length):
-        self.assertEqual(len(perform_pair_insertion(self.polymer_start, self.pair_insertion_rule.copy(), steps)), length)
+    def test_polymer_length(self):
+        for steps, length in [
+            [5, 97],
+            [10, 3073],
+        ]:
+            with self.subTest():
+                self.assertEqual(len(perform_pair_insertion(self.polymer_start, self.pair_insertion_rule.copy(), steps)), length)
 
-    @parameterized.expand([
-        [10, 1588],
-        [40, 2188189693529],
-    ])
-    def test_polymer_length(self, steps, score):
-        self.assertEqual(perform_pair_insertion_faster(self.polymer_start, self.pair_insertion_rule.copy(), steps), score)
+    def test_score(self):
+        for steps, score in [
+            [10, 1588],
+            [40, 2188189693529],
+        ]:
+            with self.subTest():
+                self.assertEqual(perform_pair_insertion_faster(self.polymer_start, self.pair_insertion_rule.copy(), steps), score)
 
 
 
 if __name__ == '__main__':
     print(">>> Start Main 14:")
-    puzzle_input = load_file_and_split("data/14.txt", sep="\n\n")
+    puzzle_input = load_file_and_split("data/14.txt", separator="\n\n")
     puzzle_template = str(puzzle_input[0])
     puzzle_rules = {line[:2]: line[-1] for line in puzzle_input[1].split("\n")[:-1]}
     puzzle_polymerase = perform_pair_insertion(puzzle_template, puzzle_rules.copy(), 10)

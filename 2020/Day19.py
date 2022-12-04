@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set, Union
 import itertools
 from copy import deepcopy
@@ -81,6 +80,19 @@ def check_rules_on_single_messages(messages: List[str], rules: Dict[int, Union[s
 
 
 class Test2020Day19(unittest.TestCase):
+    rules = ['42: 9 14 | 10 1', '9: 14 27 | 1 26', '10: 23 14 | 28 1', '1: "a"', '11: 42 31', '5: 1 14 | 15 1',
+                 '19: 14 1 | 14 14', '12: 24 14 | 19 1', '16: 15 1 | 14 14', '31: 14 17 | 1 13', '6: 14 14 | 1 14',
+                 '2: 1 24 | 14 4', '0: 8 11', '13: 14 3 | 1 12', '15: 1 | 14', '17: 14 2 | 1 7', '23: 25 1 | 22 14',
+                 '28: 16 1', '4: 1 1', '20: 14 14 | 1 15', '3: 5 14 | 16 1', '27: 1 6 | 14 18', '14: "b"',
+                 '21: 14 1 | 1 14', '25: 1 1 | 1 14', '22: 14 14', '8: 42', '26: 14 22 | 1 20', '18: 15 15',
+                 '7: 14 5 | 1 21', '24: 14 1']
+    msgs = ["abbbbbabbbaaaababbaabbbbabababbbabbbbbbabaaaa", "bbabbbbaabaabba", "babbbbaabbbbbabbbbbbaabaaabaaa",
+                "aaabbbbbbaaaabaababaabababbabaaabbababababaaa", "bbbbbbbaaaabbbbaaabbabaaa",
+                "bbbababbbbaaaaaaaabbababaaababaabab", "ababaaaaaabaaab", "ababaaaaabbbaba",
+                "baabbaaaabbaaaababbaababb", "abbbbabbbbaaaababbbbbbaaaababb", "aaaaabbaabaaaaababaa",
+                "aaaabbaaaabbaaa", "aaaabbaabbaaaaaaabbbabbbaaabbaabaaa", "babaaabbbaaabaababbaabababaaab",
+                "aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"]
+
     def test_valid_messages(self):
         rules = ['0: 4 1 5', '1: 2 3 | 3 2', '2: 4 4 | 5 5', '3: 4 5 | 5 4', '4: "a"', '5: "b"']
         msgs = ["ababbb", "bababa", "abbbab", "aaabbb", "aaaabbb"]
@@ -91,36 +103,16 @@ class Test2020Day19(unittest.TestCase):
 
 
     def test_valid_messages_wo_loop(self):
-        rules = ['42: 9 14 | 10 1', '9: 14 27 | 1 26', '10: 23 14 | 28 1', '1: "a"', '11: 42 31', '5: 1 14 | 15 1',
-                 '19: 14 1 | 14 14', '12: 24 14 | 19 1', '16: 15 1 | 14 14', '31: 14 17 | 1 13', '6: 14 14 | 1 14',
-                 '2: 1 24 | 14 4', '0: 8 11', '13: 14 3 | 1 12', '15: 1 | 14', '17: 14 2 | 1 7', '23: 25 1 | 22 14',
-                 '28: 16 1', '4: 1 1', '20: 14 14 | 1 15', '3: 5 14 | 16 1', '27: 1 6 | 14 18', '14: "b"',
-                 '21: 14 1 | 1 14', '25: 1 1 | 1 14', '22: 14 14', '8: 42', '26: 14 22 | 1 20', '18: 15 15',
-                 '7: 14 5 | 1 21', '24: 14 1']
-        msgs = ["abbbbbabbbaaaababbaabbbbabababbbabbbbbbabaaaa", "bbabbbbaabaabba", "babbbbaabbbbbabbbbbbaabaaabaaa",
-                "aaabbbbbbaaaabaababaabababbabaaabbababababaaa", "bbbbbbbaaaabbbbaaabbabaaa",
-                "bbbababbbbaaaaaaaabbababaaababaabab", "ababaaaaaabaaab", "ababaaaaabbbaba",
-                "baabbaaaabbaaaababbaababb", "abbbbabbbbaaaababbbbbbaaaababb", "aaaaabbaabaaaaababaa",
-                "aaaabbaaaabbaaa", "aaaabbaabbaaaaaaabbbabbbaaabbaabaaa", "babaaabbbaaabaababbaabababaaab",
-                "aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"]
+        rules = deepcopy(self.rules)
+        msgs = deepcopy(self.msgs)
         clean_rules = read_rules(rules)
         res = check_rule_on_messages(msgs, clean_rules, max_rec=max(len(msg) for msg in msgs))
         self.assertEqual(sum(res), 3)
 
 
     def test_valid_messages_with_loop(self):
-        rules = ['42: 9 14 | 10 1', '9: 14 27 | 1 26', '10: 23 14 | 28 1', '1: "a"', '11: 42 31', '5: 1 14 | 15 1',
-                 '19: 14 1 | 14 14', '12: 24 14 | 19 1', '16: 15 1 | 14 14', '31: 14 17 | 1 13', '6: 14 14 | 1 14',
-                 '2: 1 24 | 14 4', '0: 8 11', '13: 14 3 | 1 12', '15: 1 | 14', '17: 14 2 | 1 7', '23: 25 1 | 22 14',
-                 '28: 16 1', '4: 1 1', '20: 14 14 | 1 15', '3: 5 14 | 16 1', '27: 1 6 | 14 18', '14: "b"',
-                 '21: 14 1 | 1 14', '25: 1 1 | 1 14', '22: 14 14', '8: 42', '26: 14 22 | 1 20', '18: 15 15',
-                 '7: 14 5 | 1 21', '24: 14 1']
-        msgs = ["abbbbbabbbaaaababbaabbbbabababbbabbbbbbabaaaa", "bbabbbbaabaabba", "babbbbaabbbbbabbbbbbaabaaabaaa",
-                "aaabbbbbbaaaabaababaabababbabaaabbababababaaa", "bbbbbbbaaaabbbbaaabbabaaa",
-                "bbbababbbbaaaaaaaabbababaaababaabab", "ababaaaaaabaaab", "ababaaaaabbbaba",
-                "baabbaaaabbaaaababbaababb", "abbbbabbbbaaaababbbbbbaaaababb", "aaaaabbaabaaaaababaa",
-                "aaaabbaaaabbaaa", "aaaabbaabbaaaaaaabbbabbbaaabbaabaaa", "babaaabbbaaabaababbaabababaaab",
-                "aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"]
+        rules = deepcopy(self.rules)
+        msgs = deepcopy(self.msgs)
         rules.remove("8: 42")
         rules.append("8: 42 | 42 8")
         rules.remove("11: 42 31")
@@ -131,18 +123,8 @@ class Test2020Day19(unittest.TestCase):
 
 
     def test_valid_messages_with_loop_v2(self):
-        rules = ['42: 9 14 | 10 1', '9: 14 27 | 1 26', '10: 23 14 | 28 1', '1: "a"', '11: 42 31', '5: 1 14 | 15 1',
-                 '19: 14 1 | 14 14', '12: 24 14 | 19 1', '16: 15 1 | 14 14', '31: 14 17 | 1 13', '6: 14 14 | 1 14',
-                 '2: 1 24 | 14 4', '0: 8 11', '13: 14 3 | 1 12', '15: 1 | 14', '17: 14 2 | 1 7', '23: 25 1 | 22 14',
-                 '28: 16 1', '4: 1 1', '20: 14 14 | 1 15', '3: 5 14 | 16 1', '27: 1 6 | 14 18', '14: "b"',
-                 '21: 14 1 | 1 14', '25: 1 1 | 1 14', '22: 14 14', '8: 42', '26: 14 22 | 1 20', '18: 15 15',
-                 '7: 14 5 | 1 21', '24: 14 1']
-        msgs = ["abbbbbabbbaaaababbaabbbbabababbbabbbbbbabaaaa", "bbabbbbaabaabba", "babbbbaabbbbbabbbbbbaabaaabaaa",
-                "aaabbbbbbaaaabaababaabababbabaaabbababababaaa", "bbbbbbbaaaabbbbaaabbabaaa",
-                "bbbababbbbaaaaaaaabbababaaababaabab", "ababaaaaaabaaab", "ababaaaaabbbaba",
-                "baabbaaaabbaaaababbaababb", "abbbbabbbbaaaababbbbbbaaaababb", "aaaaabbaabaaaaababaa",
-                "aaaabbaaaabbaaa", "aaaabbaabbaaaaaaabbbabbbaaabbaabaaa", "babaaabbbaaabaababbaabababaaab",
-                "aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"]
+        rules = deepcopy(self.rules)
+        msgs = deepcopy(self.msgs)
         rules.remove("8: 42")
         rules.append("8: 42 | 42 8")
         rules.remove("11: 42 31")

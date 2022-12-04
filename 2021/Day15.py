@@ -109,19 +109,19 @@ def a_star(risk_map: Map, start: Node, goal: Node) -> Path:
 
 class Test2021Day15(unittest.TestCase):
     def test_astar_example(self):
-        test_field: Map = read_lines_as_list("data/15-test.txt", t=int, split="every")
+        test_field: Map = read_lines_as_list("data/15-test.txt", instance_type=int, split="every")
         start: Node = (0, 0, int(test_field[0][0]))
         goal: Node = (len(test_field[0]) - 1, len(test_field) - 1, int(test_field[-1][-1]))
         final_path = a_star(test_field, start, goal)
         self.assertEqual(risk_of_path(final_path), 40)
 
     def test_repeat(self):
-        test_field: Map = read_lines_as_list("data/15-test.txt", t=int, split="every")
-        repeated: Map = read_lines_as_list("data/15-test-repeated.txt", t=int, split="every")
+        test_field: Map = read_lines_as_list("data/15-test.txt", instance_type=int, split="every")
+        repeated: Map = read_lines_as_list("data/15-test-repeated.txt", instance_type=int, split="every")
         self.assertListEqual(repeated, repeat_risk_map(test_field))
 
     def test_astar_repeated_example(self):
-        test_field: Map = read_lines_as_list("data/15-test-repeated.txt", t=int, split="every")
+        test_field: Map = read_lines_as_list("data/15-test-repeated.txt", instance_type=int, split="every")
         start: Node = (0, 0, int(test_field[0][0]))
         goal: Node = (len(test_field[0]) - 1, len(test_field) - 1, int(test_field[-1][-1]))
         final_path = a_star(test_field, start, goal)
@@ -130,7 +130,7 @@ class Test2021Day15(unittest.TestCase):
 
 if __name__ == '__main__':
     print(">>> Start Main 15:")
-    puzzle_input: Map = read_lines_as_list("data/15.txt", t=int, split="every")
+    puzzle_input: Map = read_lines_as_list("data/15.txt", instance_type=int, split="every")
     start: Node = (0, 0, int(puzzle_input[0][0]))
     goal: Node = (len(puzzle_input[0]) - 1, len(puzzle_input) - 1, int(puzzle_input[-1][-1]))
     final_path = a_star(puzzle_input, start, goal)

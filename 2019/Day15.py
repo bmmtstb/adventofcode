@@ -1,9 +1,7 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import read_lines_as_list
-from helper.tuple import tuple_add_tuple
 from Day05 import run_intcode_program
 
 
@@ -40,12 +38,7 @@ def find_shortest_path(
 
 
 class Test2019Day15(unittest.TestCase):
-    # @parameterized.expand([
-    #     [],
-    # ])
-    def test_(self):
-        pass
-        # self.assertEqual(..., ...)
+    pass
 
 
 if __name__ == '__main__':

@@ -1,7 +1,6 @@
 import unittest
 from copy import deepcopy
 
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set, Union, Iterable
 
 from helper.file import read_lines_as_list
@@ -234,111 +233,121 @@ class Test2021Day18(unittest.TestCase):
         b: SnailFishNumber = (7, (((3, 7), (4, 3)), ((6, 3), (8, 8))))
         self.assertEqual(add_numbers(a, b), ((((4, 0), (5, 4)), ((7, 7), (6, 0))), ((8, (7, 7)), ((7, 9), (5, 0)))))
 
-    @parameterized.expand([
-        [(((((9, 8), 1), 2), 3), 4), [0, 0, 0, 0, 0], None],
-        [(((((9, 8), 1), 2), 3), 4), [1], [0, 1]],
-        [(((((9, 8), 1), 2), 3), 4), [0, 1], [0, 0, 1]],
-        [(4, ((((9, 8), 1), 2), 3)), [1, 0, 0, 0, 0], [0]],
-        [(4, (1, 2)), [1, 0], [0]],
-        [(4, (1, 2)), [1], [0]],
-        [(4, (1, (3, 5))), [1, 1, 0], [1, 0]],
-        [(((((9, 8), 1), 2), 3), 4), [0, 0, 0, 0], None],
-        [[0, [[[4, 5], [2, 6]], [9, 5]]], [1, 1, 0], [1, 0, 1, 1]],
-    ])
-    def test_find_left(self, num, pos, new_pos):
-        self.assertEqual(find_first_left_number(num, pos), new_pos)
+    def test_find_left(self):
+        for num, pos, new_pos in [
+            [(((((9, 8), 1), 2), 3), 4), [0, 0, 0, 0, 0], None],
+            [(((((9, 8), 1), 2), 3), 4), [1], [0, 1]],
+            [(((((9, 8), 1), 2), 3), 4), [0, 1], [0, 0, 1]],
+            [(4, ((((9, 8), 1), 2), 3)), [1, 0, 0, 0, 0], [0]],
+            [(4, (1, 2)), [1, 0], [0]],
+            [(4, (1, 2)), [1], [0]],
+            [(4, (1, (3, 5))), [1, 1, 0], [1, 0]],
+            [(((((9, 8), 1), 2), 3), 4), [0, 0, 0, 0], None],
+            [[0, [[[4, 5], [2, 6]], [9, 5]]], [1, 1, 0], [1, 0, 1, 1]],
+        ]:
+            with self.subTest():
+                self.assertEqual(find_first_left_number(num, pos), new_pos)
 
-    @parameterized.expand([
-        [(((((9, 8), 1), 2), 3), 4), [0, 0, 0, 0, 0], [0, 0, 0, 0, 1]],
-        [(4, ((((9, 8), 1), 2), 3)), [0], [1, 0, 0, 0, 0]],
-        [(4, ((((9, 8), 1), 2), 3)), [1, 1], None],
-        [(4, ((((9, 8), 1), 2), (5, 6))), [1, 0, 1], [1, 1, 0]],
-        [(4, (1, (3, 5))), [1, 1, 1], None],
-        [(4, (1, (3, 5))), [1, 1, 0], [1, 1, 1]],
-        [(4, (1, (3, 5))), [1, 1], None],
-        [(4, (1, (3, 5))), [1, 0], [1, 1, 0]],
-        [(4, ((2, 7), (3, 5))), [1, 0], [1, 1, 0]],
-        [((6, (5, (7, (3, 2)))), 1), [0, 1, 1, 1], [1]],
-        [[0, [[[4, 5], [2, 6]], [9, 5]]], [1, 0, 1, 1], [1, 1, 0]],
-    ])
-    def test_find_right(self, num, pos, new_pos):
-        self.assertEqual(find_first_right_number(num, pos), new_pos)
+    def test_find_right(self):
+        for num, pos, new_pos in [
+            [(((((9, 8), 1), 2), 3), 4), [0, 0, 0, 0, 0], [0, 0, 0, 0, 1]],
+            [(4, ((((9, 8), 1), 2), 3)), [0], [1, 0, 0, 0, 0]],
+            [(4, ((((9, 8), 1), 2), 3)), [1, 1], None],
+            [(4, ((((9, 8), 1), 2), (5, 6))), [1, 0, 1], [1, 1, 0]],
+            [(4, (1, (3, 5))), [1, 1, 1], None],
+            [(4, (1, (3, 5))), [1, 1, 0], [1, 1, 1]],
+            [(4, (1, (3, 5))), [1, 1], None],
+            [(4, (1, (3, 5))), [1, 0], [1, 1, 0]],
+            [(4, ((2, 7), (3, 5))), [1, 0], [1, 1, 0]],
+            [((6, (5, (7, (3, 2)))), 1), [0, 1, 1, 1], [1]],
+            [[0, [[[4, 5], [2, 6]], [9, 5]]], [1, 0, 1, 1], [1, 1, 0]],
+        ]:
+            with self.subTest():
+                self.assertEqual(find_first_right_number(num, pos), new_pos)
 
-    @parameterized.expand([
-        [(((((9, 8), 1), 2), 3), 4), ((((0, 9), 2), 3), 4)],
-        [(7, (6, (5, (4, (3, 2))))), (7, (6, (5, (7, 0))))],
-        [((6, (5, (4, (3, 2)))), 1), ((6, (5, (7, 0))), 3)],
-        [((3, (2, (8, 0))), (9, (5, (4, (3, 2))))), ((3, (2, (8, 0))), (9, (5, (7, 0))))],
-        [(((((1, (2, 3)), 4), 5), 6), 7), ((((0, 7), 5), 6), 7)],
-        [((((((5, 6), (2, 3)), 4), 5), 6), 7), ((((0, 7), 5), 6), 7)],
-    ])
-    def test_explode(self, num, new_num):
-        self.assertEqual(reduce_number(num), reduce_number(new_num))
+    def test_explode(self):
+        for num, new_num in [
+            [(((((9, 8), 1), 2), 3), 4), ((((0, 9), 2), 3), 4)],
+            [(7, (6, (5, (4, (3, 2))))), (7, (6, (5, (7, 0))))],
+            [((6, (5, (4, (3, 2)))), 1), ((6, (5, (7, 0))), 3)],
+            [((3, (2, (8, 0))), (9, (5, (4, (3, 2))))), ((3, (2, (8, 0))), (9, (5, (7, 0))))],
+            [(((((1, (2, 3)), 4), 5), 6), 7), ((((0, 7), 5), 6), 7)],
+            [((((((5, 6), (2, 3)), 4), 5), 6), 7), ((((0, 7), 5), 6), 7)],
+        ]:
+            with self.subTest():
+                self.assertEqual(reduce_number(num), reduce_number(new_num))
 
-    @parameterized.expand([
-        [((7, 8), 1), [0, 0], 7],
-        [((7, 8), 1), [0, 1], 8],
-        [(1, ((4, 7), 8)), [1, 0, 1], 7],
-        [(1, ((8, 8), 2)), [0], 1],
-        [(1, ((8, 8), 2)), [1], ((8, 8), 2)],
-    ])
-    def test_get(self, sfn, path, res):
-        self.assertEqual(get_sfn(sfn, path), res)
+    def test_get(self):
+        for sfn, path, res in [
+            [((7, 8), 1), [0, 0], 7],
+            [((7, 8), 1), [0, 1], 8],
+            [(1, ((4, 7), 8)), [1, 0, 1], 7],
+            [(1, ((8, 8), 2)), [0], 1],
+            [(1, ((8, 8), 2)), [1], ((8, 8), 2)],
+        ]:
+            with self.subTest():
+                self.assertEqual(get_sfn(sfn, path), res)
 
-    @parameterized.expand([
-        [(7, 8), [1], 9, (7, 9)],
-        [(7, 8), [1], (1, 2), (7, (1, 2))],
-        [((7, 8), 1), [1], 9, ((7, 8), 9)],
-        [((7, 8), 1), [0, 1], (0, 2), ((7, (0, 2)), 1)],
-        [((7, 8), 1), [0, 1], (0, (2, 3)), ((7, (0, (2, 3))), 1)],
-        [(1, (8, 8)), [1, 1], (2, 3), (1, (8, (2, 3)))],
-        [(1, ((8, 8), 2)), [1, 0, 1], (3, 3), (1, ((8, (3, 3)), 2))],
-    ])
-    def test_set_final(self, sfn, path, new_num, new_sfn):
-        self.assertEqual(set_sfn(sfn, path, new_num), new_sfn)
+    def test_set_final(self):
+        for sfn, path, new_num, new_sfn in [
+            [(7, 8), [1], 9, (7, 9)],
+            [(7, 8), [1], (1, 2), (7, (1, 2))],
+            [((7, 8), 1), [1], 9, ((7, 8), 9)],
+            [((7, 8), 1), [0, 1], (0, 2), ((7, (0, 2)), 1)],
+            [((7, 8), 1), [0, 1], (0, (2, 3)), ((7, (0, (2, 3))), 1)],
+            [(1, (8, 8)), [1, 1], (2, 3), (1, (8, (2, 3)))],
+            [(1, ((8, 8), 2)), [1, 0, 1], (3, 3), (1, ((8, (3, 3)), 2))],
+        ]:
+            with self.subTest():
+                self.assertEqual(set_sfn(sfn, path, new_num), new_sfn)
 
-    @parameterized.expand([
-        [((7, 8), 1), [0], 9, (9, 1)],
-        [(1, (8, 8)), [1], (2, 3), (1, (2, 3))],
-        [((1, 1), ((8, 8), 2)), [1], (1, 1), ((1, 1), (1, 1))],
-    ])
-    def test_set_non_leaf(self, sfn, path, new_num, new_sfn):
-        self.assertEqual(set_sfn(sfn, path, new_num), new_sfn)
+    def test_set_non_leaf(self):
+        for sfn, path, new_num, new_sfn in [
+            [((7, 8), 1), [0], 9, (9, 1)],
+            [(1, (8, 8)), [1], (2, 3), (1, (2, 3))],
+            [((1, 1), ((8, 8), 2)), [1], (1, 1), ((1, 1), (1, 1))],
+        ]:
+            with self.subTest():
+                self.assertEqual(set_sfn(sfn, path, new_num), new_sfn)
 
-    @parameterized.expand([
-        [((1, 2), ((3, 4), 5)), 143],
-        [((((0, 7), 4), ((7, 8), (6, 0))), (8, 1)), 1384],
-        [((((1, 1), (2, 2)), (3, 3)), (4, 4)), 445],
-        [((((3, 0), (5, 3)), (4, 4)), (5, 5)), 791],
-        [((((5, 0), (7, 4)), (5, 5)), (6, 6)), 1137],
-        [((((8, 7), (7, 7)), ((8, 6), (7, 7))), (((0, 7), (6, 6)), (8, 7))), 3488],
-        [((((6, 6), (7, 6)), ((7, 7), (7, 0))), (((7, 7), (7, 7)), ((7, 8), (9, 9)))), 4140],
-    ])
-    def test_magnitude(self, number, magn):
-        self.assertEqual(calculate_magnitude(number), magn)
+    def test_magnitude(self):
+        for number, magn in [
+            [((1, 2), ((3, 4), 5)), 143],
+            [((((0, 7), 4), ((7, 8), (6, 0))), (8, 1)), 1384],
+            [((((1, 1), (2, 2)), (3, 3)), (4, 4)), 445],
+            [((((3, 0), (5, 3)), (4, 4)), (5, 5)), 791],
+            [((((5, 0), (7, 4)), (5, 5)), (6, 6)), 1137],
+            [((((8, 7), (7, 7)), ((8, 6), (7, 7))), (((0, 7), (6, 6)), (8, 7))), 3488],
+            [((((6, 6), (7, 6)), ((7, 7), (7, 0))), (((7, 7), (7, 7)), ((7, 8), (9, 9)))), 4140],
+        ]:
+            with self.subTest():
+                self.assertEqual(calculate_magnitude(number), magn)
 
-    @parameterized.expand([
-        [[(1, 1), (2, 2), (3, 3), (4, 4)], ((((1, 1), (2, 2)), (3, 3)), (4, 4))],
-        [[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], ((((3, 0), (5, 3)), (4, 4)), (5, 5))],
-        [[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)], ((((5, 0), (7, 4)), (5, 5)), (6, 6))],
-        [deepcopy(homework_assignment), ((((6, 6), (7, 6)), ((7, 7), (7, 0))), (((7, 7), (7, 7)), ((7, 8), (9, 9))))],
-    ])
-    def test_sum_of_list_of_nums(self, nums, res_num):
-        self.assertEqual(add_list_of_numbers(nums), res_num)
+    def test_sum_of_list_of_nums(self):
+        for nums, res_num in [
+            [[(1, 1), (2, 2), (3, 3), (4, 4)], ((((1, 1), (2, 2)), (3, 3)), (4, 4))],
+            [[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], ((((3, 0), (5, 3)), (4, 4)), (5, 5))],
+            [[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)], ((((5, 0), (7, 4)), (5, 5)), (6, 6))],
+            [deepcopy(self.homework_assignment),
+             ((((6, 6), (7, 6)), ((7, 7), (7, 0))), (((7, 7), (7, 7)), ((7, 8), (9, 9))))],
+        ]:
+            with self.subTest():
+                self.assertEqual(add_list_of_numbers(nums), res_num)
 
     def test_sum_of_list_of_nums_larger_example_stepwise(self):
         for i in range(2, len(self.larger_example)):
             curr_res = add_list_of_numbers(self.larger_example[:i])
             self.assertEqual(curr_res, self.larger_example_results[i - 2])
 
-    @parameterized.expand([
-        [(15, 1), ((7, 8), 1)],
-        [(1, 16), (1, (8, 8))],
-        [(1, (16, 2)), (1, ((8, 8), 2))],
-        [((16, 2), 1), (((8, 8), 2), 1)],
-    ])
-    def test_split(self, num, new_num):
-        self.assertEqual(reduce_number(num), reduce_number(new_num))
+    def test_split(self):
+        for num, new_num in [
+            [(15, 1), ((7, 8), 1)],
+            [(1, 16), (1, (8, 8))],
+            [(1, (16, 2)), (1, ((8, 8), 2))],
+            [((16, 2), 1), (((8, 8), 2), 1)],
+        ]:
+            with self.subTest():
+                self.assertEqual(reduce_number(num), reduce_number(new_num))
 
     def test_largest_magnitude_for_pair(self):
         self.assertEqual(largest_magnitude_of_two_snf_nums(self.homework_assignment), 3993)

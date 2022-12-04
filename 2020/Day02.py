@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 
 
 def load_data(filename="data/02.txt"):
@@ -46,17 +45,11 @@ def get_valid_passwords_indexed(dataset):
 
 
 class Test2020Day02(unittest.TestCase):
-    @parameterized.expand([
-        ["data/02-Test.txt", 2]
-    ])
-    def test(self, fname, valid):
-        self.assertEqual(get_valid_passwords_counting(load_data(fname)), valid)
+    def test_counting(self):
+        self.assertEqual(get_valid_passwords_counting(load_data("data/02-Test.txt")), 2)
 
-    @parameterized.expand([
-        ["data/02-Test.txt", 1]
-    ])
-    def test(self, fname, valid):
-        self.assertEqual(get_valid_passwords_indexed(load_data(fname)), valid)
+    def test_indexed(self):
+        self.assertEqual(get_valid_passwords_indexed(load_data("data/02-Test.txt")), 1)
 
 
 if __name__ == '__main__':

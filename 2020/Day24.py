@@ -1,7 +1,6 @@
 import unittest
 from copy import deepcopy
 
-from parameterized import parameterized
 from typing import Dict, List, Tuple
 
 # s pos
@@ -110,27 +109,29 @@ class Test2020Day24(unittest.TestCase):
     ]
     colors = follow_directions(deepcopy(test_dirs))
 
-    @parameterized.expand([
-        ["esew", {(0.5, 1): True}],
-        ["nwwswee", {(0, 0): True}]
-    ])
-    def test_changed_tiles(self, direction, res):
-        self.assertEqual(follow_directions([direction]), res)
+    def test_changed_tiles(self):
+        for direction, res in [
+            ["esew", {(0.5, 1): True}],
+            ["nwwswee", {(0, 0): True}]
+        ]:
+            with self.subTest():
+                self.assertEqual(follow_directions([direction]), res)
 
     def test_count(self):
         dirs = follow_directions(deepcopy(self.test_dirs))
         self.assertEqual(count_active(dirs), 10)
 
-    @parameterized.expand([
-        [1, 15],
-        [2, 12],
-        [5, 23],
-        [10, 37],
-        [100, 2208],
-    ])
-    def test_after_n_days(self, n, count):
-        colors = tile_colors_after_n_days(deepcopy(self.colors), n)
-        self.assertEqual(count_active(colors), count)
+    def test_after_n_days(self):
+        for n, count in [
+            [1, 15],
+            [2, 12],
+            [5, 23],
+            [10, 37],
+            [100, 2208],
+        ]:
+            with self.subTest():
+                colors = tile_colors_after_n_days(deepcopy(self.colors), n)
+                self.assertEqual(count_active(colors), count)
 
 
 if __name__ == '__main__':

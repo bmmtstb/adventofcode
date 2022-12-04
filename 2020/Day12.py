@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import List, Tuple
 from helper.tuple import tuple_mult_scalar, tuple_add_tuple
 
@@ -108,32 +107,35 @@ class Ship:
 
 
 class Test2020Day12(unittest.TestCase):
-    @parameterized.expand([
-        [[("F", 10)], (10, 0), 10],
-        [[("F", 10), ("N", 3)], (10, 3), 13],
-        [[("F", 10), ("N", 3), ("F", 7)], (17, 3), 20],
-        [[("F", 10), ("N", 3), ("F", 7), ("R", 90)], (17, 3), 20],
-        [[("F", 10), ("N", 3), ("F", 7), ("R", 90), ("F", 11)], (17, -8), 25],
-    ])
-    def test_ship(self, directs, fin_pos, man_dist):
-        test_ship = Ship()
-        test_ship.follow_directions(directs)
-        self.assertTupleEqual(test_ship.pos, fin_pos)
-        self.assertEqual(test_ship.get_manhatten_distance(), man_dist)
+    def test_ship(self):
+        for directs, fin_pos, man_dist in [
+            [[("F", 10)], (10, 0), 10],
+            [[("F", 10), ("N", 3)], (10, 3), 13],
+            [[("F", 10), ("N", 3), ("F", 7)], (17, 3), 20],
+            [[("F", 10), ("N", 3), ("F", 7), ("R", 90)], (17, 3), 20],
+            [[("F", 10), ("N", 3), ("F", 7), ("R", 90), ("F", 11)], (17, -8), 25],
 
-    @parameterized.expand([
-        [[("F", 10)], (100, 10), (10, 1), 110],
-        [[("F", 10), ("N", 3)], (100, 10), (10, 4), 110],
-        [[("F", 10), ("N", 3), ("F", 7)], (170, 38), (10, 4), 208],
-        [[("F", 10), ("N", 3), ("F", 7), ("R", 90)], (170, 38), (4, -10), 208],
-        [[("F", 10), ("N", 3), ("F", 7), ("R", 90), ("F", 11)], (214, -72), (4, -10), 286],
-    ])
-    def test_waypoint(self, directs, fin_pos, wp_pos, man_dist):
-        test_ship = Ship(waypoint_exists=True)
-        test_ship.follow_directions(directs)
-        self.assertTupleEqual(test_ship.pos, fin_pos)
-        self.assertTupleEqual(test_ship.wp, wp_pos)
-        self.assertEqual(test_ship.get_manhatten_distance(), man_dist)
+        ]:
+            with self.subTest():
+                test_ship = Ship()
+                test_ship.follow_directions(directs)
+                self.assertTupleEqual(test_ship.pos, fin_pos)
+                self.assertEqual(test_ship.get_manhatten_distance(), man_dist)
+
+    def test_waypoint(self):
+        for directs, fin_pos, wp_pos, man_dist in [
+            [[("F", 10)], (100, 10), (10, 1), 110],
+            [[("F", 10), ("N", 3)], (100, 10), (10, 4), 110],
+            [[("F", 10), ("N", 3), ("F", 7)], (170, 38), (10, 4), 208],
+            [[("F", 10), ("N", 3), ("F", 7), ("R", 90)], (170, 38), (4, -10), 208],
+            [[("F", 10), ("N", 3), ("F", 7), ("R", 90), ("F", 11)], (214, -72), (4, -10), 286],
+        ]:
+            with self.subTest():
+                test_ship = Ship(waypoint_exists=True)
+                test_ship.follow_directions(directs)
+                self.assertTupleEqual(test_ship.pos, fin_pos)
+                self.assertTupleEqual(test_ship.wp, wp_pos)
+                self.assertEqual(test_ship.get_manhatten_distance(), man_dist)
 
 
 if __name__ == '__main__':

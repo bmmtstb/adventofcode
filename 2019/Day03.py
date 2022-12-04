@@ -1,7 +1,4 @@
-import sys
 import unittest
-
-from parameterized import parameterized
 
 puzzle_input = [
     ["R1008","D256","L88","U390","R429","D828","R2","D452","L644","D942","R387","U221","L274","D837","R437","U664","R952","U126","L840","U425","L749","D199","L48","U394","L623","D562","L760","D856","L648","U666","R756","U396","L588","U217","R208","D492","L230","U60","L178","D211","L806","U423","L399","D159","L176","D555","R173","D946","L360","U415","L734","D441","L146","D332","R135","D529","L364","U742","L862","D790","L399","D392","R706","D740","L839","D950","R822","D27","R108","D873","L492","D465","L635","U771","L586","U66","R703","U943","R141","U396","R641","D339","R460","U295","L397","U799","R479","U963","L211","U933","R158","U248","R443","U807","R115","U885","R670","U116","L24","D980","R349","U363","L413","U444","L453","D497","L202","U300","L122","D895","L210","U218","R456","U293","L576","U968","L612","D225","L732","D34","R800","U925","R731","U520","R686","D181","L102","D824","R832","D527","L614","D624","R734","U552","L911","D352","R157","D70","R958","U317","L43","U902","R265","U986","R305","U264","L957","U888","R66","D413","L73","D642","R14","D559","R414","D985","R679","D965","R333","D332","L261","D446","L479","U430","L730","D37","L936","D615","L344","D215","R912","D95","L691","U383","L328","U560","R806","U711","R515","U448","R403","D109","L589","U458","L240","D375","L88","D479","R93","U794","L303","U783","L833","U500","R406","D589","L694","U504","L484","U695","R228","U813","R646","U768","L60","D326","L580","U840","L387","U147","L50","U155","L454","D574","L885","D705","R727","D827","R409","U335","L271","D388","R897","D563","L360","U70","R777","U903","R363","D202","R855","D159","R35","U585","L384","D540","R78","U13","R979","D702","L868","D868","R508","D552","L735","U923","R840","U133","L355","U282","R626","D699","L560","D26","R902","D873","L333","U492","L96","U461","R261","U784","L793","D723","R887","U836","R790","D400","L331","U389","L107","U534","L377","D831","R181","U325","L328","U778","L498","D109","L692","U185","R284","U930","R784","D843","L261","U119","L751","U313","R197","U911","L21","D201","L881","U119","R210","D700","R93","U208","R116"],
@@ -53,35 +50,43 @@ def combined_step_distance(wire1, wire2):
 
 
 class Test2019Day03(unittest.TestCase):
-    @parameterized.expand([
-        [["U3"], [(0,0), (0,1), (0,2), (0,3)]],
-        [["R1", "D1"], [(0,0), (1,0), (1,-1)]],
-        [["D1", "U2"], [(0,0), (0,-1), (0,0), (0,1)]],
-        [["L1", "R1", "L1"], [(0,0), (-1,0), (0,0), (-1,0)]],
-    ])
-    def test_code_to_coordinates_transform(self, wire, coordinates):
-        self.assertEqual(code_to_coordinates(wire), coordinates)
+    def test_code_to_coordinates_transform(self):
+        for wire, coordinates in [
+            [["U3"], [(0, 0), (0, 1), (0, 2), (0, 3)]],
+            [["R1", "D1"], [(0, 0), (1, 0), (1, -1)]],
+            [["D1", "U2"], [(0, 0), (0, -1), (0, 0), (0, 1)]],
+            [["L1", "R1", "L1"], [(0, 0), (-1, 0), (0, 0), (-1, 0)]],
+        ]:
+            with self.subTest():
+                self.assertEqual(code_to_coordinates(wire), coordinates)
 
-    @parameterized.expand([
-        [["U3"], ["D3"], set()],
-        [["U3"], ["U3"], {(0,1), (0,2), (0,3)}],
-    ])
-    def test_intersection_finder(self, wire1, wire2, intersections):
-        self.assertSetEqual(find_intersections(wire1, wire2), intersections)
+    def test_intersection_finder(self):
+        for wire1, wire2, intersections in [
+            [["U3"], ["D3"], set()],
+            [["U3"], ["U3"], {(0, 1), (0, 2), (0, 3)}],
+        ]:
+            with self.subTest():
+                self.assertSetEqual(find_intersections(wire1, wire2), intersections)
 
-    @parameterized.expand([
-        [["R75","D30","R83","U83","L12","D49","R71","U7","L72"], ["U62","R66","U55","R34","D71","R55","D58","R83"], 159],
-        [["R98","U47","R26","D63","R33","U87","L62","D20","R33","U53","R51"], ["U98","R91","D20","R16","D67","R40","U7","R15","U6","R7"], 135],
-    ])
-    def test_manhatten_distance(self, wire1, wire2, distance):
-        self.assertEqual(manhattan_distance(wire1, wire2), distance)
+    def test_manhatten_distance(self):
+        for wire1, wire2, distance in [
+            [["R75", "D30", "R83", "U83", "L12", "D49", "R71", "U7", "L72"],
+             ["U62", "R66", "U55", "R34", "D71", "R55", "D58", "R83"], 159],
+            [["R98", "U47", "R26", "D63", "R33", "U87", "L62", "D20", "R33", "U53", "R51"],
+             ["U98", "R91", "D20", "R16", "D67", "R40", "U7", "R15", "U6", "R7"], 135],
+        ]:
+            with self.subTest():
+                self.assertEqual(manhattan_distance(wire1, wire2), distance)
 
-    @parameterized.expand([
-        [["R75","D30","R83","U83","L12","D49","R71","U7","L72"], ["U62","R66","U55","R34","D71","R55","D58","R83"], 610],
-        [["R98","U47","R26","D63","R33","U87","L62","D20","R33","U53","R51"],["U98","R91","D20","R16","D67","R40","U7","R15","U6","R7"], 410],
-    ])
-    def test_combined_step_distance(self, wire1, wire2, distance):
-        self.assertEqual(combined_step_distance(wire1, wire2), distance)
+    def test_combined_step_distance(self):
+        for wire1, wire2, distance in [
+            [["R75", "D30", "R83", "U83", "L12", "D49", "R71", "U7", "L72"],
+             ["U62", "R66", "U55", "R34", "D71", "R55", "D58", "R83"], 610],
+            [["R98", "U47", "R26", "D63", "R33", "U87", "L62", "D20", "R33", "U53", "R51"],
+             ["U98", "R91", "D20", "R16", "D67", "R40", "U7", "R15", "U6", "R7"], 410],
+        ]:
+            with self.subTest():
+                self.assertEqual(combined_step_distance(wire1, wire2), distance)
 
 
 if __name__ == '__main__':

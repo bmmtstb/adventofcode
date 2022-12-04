@@ -5,8 +5,6 @@
 
 import unittest
 
-from parameterized import parameterized
-
 puzzle_intcode = [1, 0, 0, 3, 1, 1, 2, 3, 1, 3, 4, 3, 1, 5, 0, 3, 2, 1, 10, 19, 1, 19, 6, 23, 2, 23, 13, 27, 1, 27, 5,
                   31, 2, 31, 10, 35, 1, 9, 35, 39, 1, 39, 9, 43, 2, 9, 43, 47, 1, 5, 47, 51, 2, 13, 51, 55, 1, 55, 9, 59,
                   2, 6, 59, 63, 1, 63, 5, 67, 1, 10, 67, 71, 1, 71, 10, 75, 2, 75, 13, 79, 2, 79, 13, 83, 1, 5, 83, 87,
@@ -64,24 +62,26 @@ def find_intcode_inputs(input_intcode, input_addresses, input_range, wished_outp
 
 
 class Test2019Day02(unittest.TestCase):
-    @parameterized.expand([
-        ["null", [99], [99]],
-        ["Addition", [1, 0, 0, 0, 99], [2, 0, 0, 0, 99]],
-        ["Multiplication", [2, 3, 0, 3, 99], [2, 3, 0, 6, 99]],
-        ["Trailing 0", [2, 4, 4, 5, 99, 0], [2, 4, 4, 5, 99, 9801]],
-        ["removed 99", [1, 1, 1, 4, 99, 5, 6, 0, 99], [30, 1, 1, 4, 2, 5, 6, 0, 99]],
-        ["multistep", [1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50], [3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50]],
-    ])
-    def testBasicIntcode(self, name, code, result):
-        code_result, _ = run_intcode_program(code)
-        self.assertEqual(code_result, result, msg="Test {} failed.".format(name))
+    def testBasicIntcode(self):
+        for name, code, result in [
+            ["null", [99], [99]],
+            ["Addition", [1, 0, 0, 0, 99], [2, 0, 0, 0, 99]],
+            ["Multiplication", [2, 3, 0, 3, 99], [2, 3, 0, 6, 99]],
+            ["Trailing 0", [2, 4, 4, 5, 99, 0], [2, 4, 4, 5, 99, 9801]],
+            ["removed 99", [1, 1, 1, 4, 99, 5, 6, 0, 99], [30, 1, 1, 4, 2, 5, 6, 0, 99]],
+            ["multistep", [1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50], [3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50]],
+        ]:
+            with self.subTest(msg=f'name={name}'):
+                code_result, _ = run_intcode_program(code)
+                self.assertEqual(code_result, result, msg="Test {} failed.".format(name))
 
-    @parameterized.expand([
-        [[1, 0, 0, 0, 99], [1, 2], [(0, 99), (0, 99)], 2, [0, 0]],
-        [[1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50], [1, 2], [(0, 99), (0, 99)], 3500, [9, 10]],
-    ])
-    def testFindOutput(self, i_code, i_addresses, i_range, output, result):
-        self.assertEqual(find_intcode_inputs(i_code, i_addresses, i_range, output), result)
+    def testFindOutput(self, ):
+        for i_code, i_addresses, i_range, output, result in [
+            [[1, 0, 0, 0, 99], [1, 2], [(0, 99), (0, 99)], 2, [0, 0]],
+            [[1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50], [1, 2], [(0, 99), (0, 99)], 3500, [9, 10]],
+        ]:
+            with self.subTest():
+                self.assertEqual(find_intcode_inputs(i_code, i_addresses, i_range, output), result)
 
 
 if __name__ == '__main__':

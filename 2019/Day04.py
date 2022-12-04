@@ -1,6 +1,5 @@
 import unittest
 
-from parameterized import parameterized
 from itertools import groupby
 
 puzzle_input = (136818, 685979)
@@ -54,50 +53,55 @@ def how_many_correct_in_puzzle_range(part):
 
 
 class Test2019Day04(unittest.TestCase):
-    @parameterized.expand([
-        [1, False],
-        [100000, True],
-        [-100000, False],
-    ])
-    def test_criteria_digits(self, number, meets):
-        self.assertEqual(criteria_six_digit(number), meets)
+    def test_criteria_digits(self):
+        for number, meets in [
+            [1, False],
+            [100000, True],
+            [-100000, False],
+        ]:
+            with self.subTest():
+                self.assertEqual(criteria_six_digit(number), meets)
 
-    @parameterized.expand([
-        [136818, True],
-        [100000, False],
-        [685979, False],
-    ])
-    def test_criteria_range(self, number, meets):
-        self.assertEqual(criteria_within_puzzle_input(number), meets)
+    def test_criteria_range(self):
+        for number, meets in [
+            [136818, True],
+            [100000, False],
+            [685979, False],
+        ]:
+            with self.subTest():
+                self.assertEqual(criteria_within_puzzle_input(number), meets)
 
-    @parameterized.expand([
-        [100000, True],
-        [101010, False],
-        [122345, True],
-        [123789, False],
-    ])
-    def test_criteria_adjacent(self, number, meets):
-        self.assertEqual(criteria_two_adjacent_digits(number), meets)
+    def test_criteria_adjacent(self):
+        for number, meets in [
+            [100000, True],
+            [101010, False],
+            [122345, True],
+            [123789, False],
+        ]:
+            with self.subTest():
+                self.assertEqual(criteria_two_adjacent_digits(number), meets)
 
-    @parameterized.expand([
-        [100000, False],
-        [111123, True],
-        [135679, True],
-        [223450, False],
-    ])
-    def test_criteria_non_decreasing(self, number, meets):
-        self.assertEqual(criteria_non_decreasing_sequence(number), meets)
+    def test_criteria_non_decreasing(self):
+        for number, meets in [
+            [100000, False],
+            [111123, True],
+            [135679, True],
+            [223450, False],
+        ]:
+            with self.subTest():
+                self.assertEqual(criteria_non_decreasing_sequence(number), meets)
 
-    @parameterized.expand([
-        [100000, False],
-        [101010, False],
-        [122345, True],
-        [122245, False],
-        [111122, True],
-        [122325, True],
-    ])
-    def test_criteria_no_larger_group(self, num, meets):
-        self.assertEqual(criteria_no_larger_group(num), meets)
+    def test_criteria_no_larger_group(self):
+        for number, meets in [
+            [100000, False],
+            [101010, False],
+            [122345, True],
+            [122245, False],
+            [111122, True],
+            [122325, True],
+        ]:
+            with self.subTest():
+                self.assertEqual(criteria_no_larger_group(number), meets)
 
 
 if __name__ == '__main__':

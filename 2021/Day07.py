@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import load_file_and_split
@@ -27,22 +26,23 @@ def get_fuel_efficient_level(pos: List[int], steps: str = "lin") -> int:
 
 
 class Test2021Day07(unittest.TestCase):
-    @parameterized.expand([
-        [[16, 1, 2, 0, 4, 2, 7, 1, 2, 14], 37, "lin"],
-        [[16, 1, 2, 0, 4, 2, 7, 1, 2, 14], 168, "exp"],
-        [[1, 2, 3], 2, "lin"],
-        [[1, 2, 3], 2, "exp"],
-        [list(range(1, 12, 1)), 30, "lin"],
-        [list(range(1, 6, 1)), 6, "lin"],
-        [list(range(1, 6, 1)), 8, "exp"],
-    ])
-    def test_find_optima(self, l, opt, step):
-        self.assertEqual(get_fuel_efficient_level(l, step), opt)
+    def test_find_optima(self):
+        for l, opt, step in [
+            [[16, 1, 2, 0, 4, 2, 7, 1, 2, 14], 37, "lin"],
+            [[16, 1, 2, 0, 4, 2, 7, 1, 2, 14], 168, "exp"],
+            [[1, 2, 3], 2, "lin"],
+            [[1, 2, 3], 2, "exp"],
+            [list(range(1, 12, 1)), 30, "lin"],
+            [list(range(1, 6, 1)), 6, "lin"],
+            [list(range(1, 6, 1)), 8, "exp"],
+        ]:
+            with self.subTest():
+                self.assertEqual(get_fuel_efficient_level(l, step), opt)
 
 
 if __name__ == '__main__':
     print(">>> Start Main 07:")
-    puzzle_input = load_file_and_split("data/07.txt", sep=",", t=int)
+    puzzle_input = load_file_and_split("data/07.txt", separator=",", instance_type=int)
     print("Part 1): ", get_fuel_efficient_level(puzzle_input.copy(), "lin"))
     print("Part 2): ", get_fuel_efficient_level(puzzle_input.copy(), "exp"))
     print("End Main 07<<<")

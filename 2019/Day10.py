@@ -1,6 +1,7 @@
 import unittest
-from parameterized import parameterized
 import math
+
+from helper.tuple import tuple_dot_tuple, tuple_euclidean_norm, tuple_subtract_tuple
 
 puzzle_input = [".###..#######..####..##...#",
                 "########.#.###...###.#....#",
@@ -37,25 +38,6 @@ test_input = [".#..##.###...#######", "##.############..##.", ".#.######.#######
               "....##.##.###..#####", ".#.#.###########.###", "#.#.#.#####.####.###", "###.##.####.##.#..##"]
 
 
-def get_euclidean_distance(x, y):
-    """return euclidean distance of two tuples"""
-    if len(x) != len(y):
-        raise Exception("Sizes of tuples do not match.")
-    return tuple(a - b for a, b in zip(x, y))
-
-
-def get_euclidean_norm(x):
-    """return euclidean norm of given tuple"""
-    return math.sqrt(sum(value ** 2 for value in x))
-
-
-def get_scalar_product(x, y):
-    """return scalar product of two tuples"""
-    if len(x) != len(y):
-        raise Exception("Sizes of tuples do not match.")
-    return sum(float(a * b) for a, b in zip(x, y))
-
-
 def two_d_cross_product(x, y):
     """calculate cross-product in 2D"""
     return x[0] * y[1] - y[0] * x[1]
@@ -65,8 +47,8 @@ def get_arc_value(x, y):
     """get arc between two vectors"""
     if len(x) != len(y):
         raise Exception("Sizes of tuples do not match.")
-    norm = get_euclidean_norm(x) * get_euclidean_norm(y)
-    scalar_prod = get_scalar_product(x, y)
+    norm = tuple_euclidean_norm(x) * tuple_euclidean_norm(y)
+    scalar_prod = tuple_dot_tuple(x, y)
     return format(math.degrees(math.acos(scalar_prod / norm)), '.9f')
 
 
@@ -96,8 +78,8 @@ def get_location_value(star_map):
         for other in asteroid_list:
             if other != asteroid:
                 # get distance and calculate arc in degrees relative to (0, -1) [up] in 360 degrees
-                distance_vec = get_euclidean_distance(other, asteroid)
-                distance = get_euclidean_norm(distance_vec)
+                distance_vec = tuple_subtract_tuple(other, asteroid)
+                distance = tuple_euclidean_norm(distance_vec)
                 arc = get_two_d_arc_tan_value(distance_vec, (0, -1))
                 if arc in arc_dict.keys():
                     # save them with their distance into the list
@@ -139,44 +121,47 @@ def get_nth_vaporized(station_arc_values, n):
             # return if end
             if i == n:
                 return station_arc_values_tuple[index][1][-1][1]
-            # remove closest item from list (last)
+            # remove the closest item from list (last)
             station_arc_values_tuple[index][1].pop(-1)
         index += 1 % (len(station_arc_values_tuple) - 1)
         i += 1
 
 
 class Test2019Day10(unittest.TestCase):
-    @parameterized.expand([
-        [["."], []],
-        [["#"], [(0, 0)]],
-        [[".#", ".#", ".#"], [(1, 0), (1, 1), (1, 2)]],
-    ])
-    def test_get_asteroid_coordinates(self, star_map, coord_list):
-        self.assertListEqual(get_asteroid_coordinates(star_map), coord_list)
+    def test_get_asteroid_coordinates(self):
+        for star_map, coord_list in [
+            [["."], []],
+            [["#"], [(0, 0)]],
+            [[".#", ".#", ".#"], [(1, 0), (1, 1), (1, 2)]],
+        ]:
+            with self.subTest():
+                self.assertListEqual(get_asteroid_coordinates(star_map), coord_list)
 
-    @parameterized.expand([
-        [[".#", ".#", ".#"], [". 1", ". 2", ". 1"]],
-        [["...", "###"], [". . .", "1 2 1"]],
-        [[".#..#", ".....", "#####", "....#", "...##"],
-         [". 7 . . 7", ". . . . .", "6 7 7 7 5", ". . . . 7", ". . . 8 7"]]
-    ])
-    def test_detections(self, inp, best):
-        self.assertListEqual(get_location_value(inp)[0], best)
+    def test_detections(self):
+        for inp, best in [
+            [[".#", ".#", ".#"], [". 1", ". 2", ". 1"]],
+            [["...", "###"], [". . .", "1 2 1"]],
+            [[".#..#", ".....", "#####", "....#", "...##"],
+             [". 7 . . 7", ". . . . .", "6 7 7 7 5", ". . . . 7", ". . . 8 7"]]
+        ]:
+            with self.subTest():
+                self.assertListEqual(get_location_value(inp)[0], best)
 
-    @parameterized.expand([
-        [[".#", ".#", ".#"], ((1, 1), 2)],
-        [[".#..#", ".....", "#####", "....#", "...##"], ((3, 4), 8)],
-        [["......#.#.", "#..#.#....", "..#######.", ".#.#.###..", ".#..#.....", "..#....#.#", "#..#....#.",
-          ".##.#..###", "##...#..#.", ".#....####"], ((5, 8), 33)],
-        [["#.#...#.#.", ".###....#.", ".#....#...", "##.#.#.#.#", "....#.#.#.", ".##..###.#", "..#...##..",
-          "..##....##", "......#...", ".####.###."], ((1, 2), 35)],
-        [[".#..#..###", "####.###.#", "....###.#.", "..###.##.#", "##.##.#.#.", "....###..#", "..#.#..#.#",
-          "#..#.#.###", ".##...##.#", ".....#.#.."], ((6, 3), 41)],
-        [test_input.copy(), ((11, 13), 210)],
-        [puzzle_input.copy(), ((17, 23), 296)]
-    ])
-    def test_output_best_position(self, inp, best):
-        self.assertTupleEqual(get_best_location(inp)[:-1], best)
+    def test_output_best_position(self):
+        for inp, best in [
+            [[".#", ".#", ".#"], ((1, 1), 2)],
+            [[".#..#", ".....", "#####", "....#", "...##"], ((3, 4), 8)],
+            [["......#.#.", "#..#.#....", "..#######.", ".#.#.###..", ".#..#.....", "..#....#.#", "#..#....#.",
+              ".##.#..###", "##...#..#.", ".#....####"], ((5, 8), 33)],
+            [["#.#...#.#.", ".###....#.", ".#....#...", "##.#.#.#.#", "....#.#.#.", ".##..###.#", "..#...##..",
+              "..##....##", "......#...", ".####.###."], ((1, 2), 35)],
+            [[".#..#..###", "####.###.#", "....###.#.", "..###.##.#", "##.##.#.#.", "....###..#", "..#.#..#.#",
+              "#..#.#.###", ".##...##.#", ".....#.#.."], ((6, 3), 41)],
+            [test_input.copy(), ((11, 13), 210)],
+            [puzzle_input.copy(), ((17, 23), 296)]
+        ]:
+            with self.subTest():
+                self.assertTupleEqual(get_best_location(inp)[:-1], best)
 
     def test_nth_kill(self):
         best_stations_arcs = get_best_location(test_input.copy())[2]

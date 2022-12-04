@@ -1,6 +1,5 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import List, Set
 
 
 def load(filepath: str) -> List[int]:
@@ -46,26 +45,23 @@ def find_continuous_sum(data: List[int], goal: int) -> List[int]:
 
 
 class Test2020Day09(unittest.TestCase):
-    @parameterized.expand([
-        [[1, 2, 3], 2, {3, 4, 5}],
-        [[1, 2, 3], 3, {6}],
-        [[1, 2, 3, 4], 3, {6, 7, 8, 9}],
-    ])
-    def test_sum_of_n(self, d, n, res):
-        self.assertEqual(sum_of_different_n(d, n), res)
+    def test_sum_of_n(self):
+        for d, n, res in [
+            [[1, 2, 3], 2, {3, 4, 5}],
+            [[1, 2, 3], 3, {6}],
+            [[1, 2, 3, 4], 3, {6, 7, 8, 9}],
+        ]:
+            with self.subTest():
+                self.assertEqual(sum_of_different_n(d, n), res)
 
-    @parameterized.expand([
-        [[35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576], 5, 127],
-    ])
-    def test_find_not_matching(self, data, n, error):
-        self.assertEqual(find_not_matching(data, n), error)
+    def test_find_not_matching(self):
+        data = [35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576]
+        self.assertEqual(find_not_matching(data, 5), 127)
 
-    @parameterized.expand([
-        [[35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576], 127,
-         [15, 25, 47, 40]],
-    ])
-    def test_find_continuous_sum(self, data, n, cont):
-        self.assertEqual(find_continuous_sum(data, n), cont)
+    def test_find_continuous_sum(self):
+        data = [35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576]
+        cont = [15, 25, 47, 40]
+        self.assertEqual(find_continuous_sum(data, 127), cont)
 
 
 if __name__ == '__main__':

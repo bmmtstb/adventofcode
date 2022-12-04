@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.tuple import tuple_add_tuple
@@ -83,17 +82,18 @@ class Test2021Day17(unittest.TestCase):
     test_area: TargetAreaBorders = ((20, 30), (-10, -5))
     puzzle_area: TargetAreaBorders = ((150, 193), (-136, -86))
 
-    @parameterized.expand([
-        [(7, 2), True, 3],
-        [(6, 3), True, 6],
-        [(9, 0), True, 0],
-        [(17, -4), False, 0],
-        [(6, 9), True, 45],
-    ])
-    def test_hits_target(self, vel, hits, highest):
-        c_hit, c_highest = probe_hits_target(vel, self.test_area)
-        self.assertEqual(c_hit, hits)
-        self.assertEqual(c_highest, highest)
+    def test_hits_target(self):
+        for vel, hits, highest in [
+            [(7, 2), True, 3],
+            [(6, 3), True, 6],
+            [(9, 0), True, 0],
+            [(17, -4), False, 0],
+            [(6, 9), True, 45],
+        ]:
+            with self.subTest():
+                c_hit, c_highest = probe_hits_target(vel, self.test_area)
+                self.assertEqual(c_hit, hits)
+                self.assertEqual(c_highest, highest)
 
     def test_find_max_height(self):
         perfect_vel = (6, 9)

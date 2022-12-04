@@ -18,7 +18,7 @@ class NoMatchingBeacons(Exception):
 
 def load_from_file(filepath: str) -> Scanners:
     """load configuration from filepath"""
-    scanners = load_file_and_split(filepath=filepath, sep="\n\n", t=str)
+    scanners = load_file_and_split(filepath=filepath, separator="\n\n", instance_type=str)
     return [[
         tuple(int(val) for val in loc.strip().split(",")) for loc in scanner.split("\n")[1:]
     ] for scanner in scanners]

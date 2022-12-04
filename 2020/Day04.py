@@ -1,6 +1,4 @@
 import unittest
-from parameterized import parameterized
-import string
 
 
 def load_passports_from_file(filepath):
@@ -99,20 +97,22 @@ def count_valid_passports(passports: list):
 
 
 class Test2020Day04(unittest.TestCase):
-    @parameterized.expand([
-        ["data/04-Test.txt", 2],
-        ["data/04.txt", 208],
-    ])
-    def test_count_valid(self, fname, valid):
-        self.assertEqual(count_valid_passports(load_passports_from_file(fname))[0], valid)
+    def test_count_valid(self):
+        for fname, valid in [
+            ["data/04-Test.txt", 2],
+            ["data/04.txt", 208],
+        ]:
+            with self.subTest():
+                self.assertEqual(count_valid_passports(load_passports_from_file(fname))[0], valid)
 
-    @parameterized.expand([
-        ["data/04-valid.txt", 4],
-        ["data/04-invalid.txt", 0],
-        ["data/04.txt", 167],
-    ])
-    def test_count_valid_advanced(self, fname, valid):
-        self.assertEqual(count_valid_passports(load_passports_from_file(fname))[1], valid)
+    def test_count_valid_advanced(self):
+        for fname, valid in [
+            ["data/04-valid.txt", 4],
+            ["data/04-invalid.txt", 0],
+            ["data/04.txt", 167],
+        ]:
+            with self.subTest():
+                self.assertEqual(count_valid_passports(load_passports_from_file(fname))[1], valid)
 
 
 if __name__ == '__main__':

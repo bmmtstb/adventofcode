@@ -1,6 +1,5 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import List, Tuple
 
 from helper.tuple import tuple_add_tuple
 from helper.file import read_lines_as_list
@@ -38,17 +37,16 @@ def follow_directions_2(dirs: List[List[str]]) -> Tuple[int, int]:
 
 
 class Test2021Day02(unittest.TestCase):
-    @parameterized.expand([
-        [[["forward", "5"], ["down", "5"], ["forward", "8"], ["up", "3"], ["down", "8"], ["forward", "2"]], (15, 10)],
-    ])
-    def test_follow_dirs(self, dirs, fin):
+    def test_follow_dirs(self):
+        dirs = [["forward", "5"], ["down", "5"], ["forward", "8"], ["up", "3"], ["down", "8"], ["forward", "2"]]
+        fin = (15, 10)
+
         self.assertTupleEqual(follow_directions(dirs), fin)
 
-    @parameterized.expand([
-        [[["forward", "5"], ["down", "5"], ["forward", "8"], ["up", "3"], ["down", "8"], ["forward", "2"]], (15, 80)],
-    ])
-    def test_follow_dirs_2(self, dirs, fin):
-        self.assertTupleEqual(follow_directions(dirs), fin)
+    def test_follow_dirs_2(self):
+        dirs = [["forward", "5"], ["down", "5"], ["forward", "8"], ["up", "3"], ["down", "8"], ["forward", "2"]]
+        fin = (15, 60)
+        self.assertTupleEqual(follow_directions_2(dirs), fin)
 
 
 if __name__ == '__main__':

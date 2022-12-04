@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set, Union
 
 from helper.file import read_lines_as_list
@@ -89,31 +88,33 @@ class Test2021Day10(unittest.TestCase):
     test_missing = ["}}]])})]", ")}>]})", False, "}}>}>))))", False, False, "]]}}]}]}>", False, False, "])}>"]
     test_missing_cost = [288957, 5566, False, 1480781, False, False, 995444, False, False, 294]
 
-    @parameterized.expand([
-        ["]", "]"],
-        ["[]]", "]"],
-        ["[]]}", "]"],
-        ["[]]}", "]"],
-        ["{[]}", None],
-        ["[[]]}", "}"],
-    ])
-    def test_custom_corrupted(self, test_line, corruption):
-        self.assertEqual(is_line_corrupted(test_line), corruption)
+    def test_custom_corrupted(self):
+        for test_line, corruption in [
+            ["]", "]"],
+            ["[]]", "]"],
+            ["[]]}", "]"],
+            ["[]]}", "]"],
+            ["{[]}", None],
+            ["[[]]}", "}"],
+        ]:
+            with self.subTest():
+                self.assertEqual(is_line_corrupted(test_line), corruption)
 
     def test_corrupted_examples(self):
         for i, line in enumerate(self.test_data):
             self.assertEqual(is_line_corrupted(line), self.test_corruption[i])
 
-    @parameterized.expand([
-        ["[", "]"],
-        ["[][", "]"],
-        ["[]}", False],
-        ["(<[{", "}]>)"],
-        ["{[]}", None],
-        ["<{[[]]{}", "}>"],
-    ])
-    def test_custom_missing(self, test_line, missing):
-        self.assertEqual(calculate_line_missing(test_line), missing)
+    def test_custom_missing(self):
+        for test_line, missing in [
+            ["[", "]"],
+            ["[][", "]"],
+            ["[]}", False],
+            ["(<[{", "}]>)"],
+            ["{[]}", None],
+            ["<{[[]]{}", "}>"],
+        ]:
+            with self.subTest():
+                self.assertEqual(calculate_line_missing(test_line), missing)
 
     def test_missing_examples(self):
         for i, line in enumerate(self.test_data):

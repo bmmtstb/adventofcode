@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set, Union
 
 from helper.file import read_lines_as_list
@@ -76,20 +75,22 @@ class Test2021Day03(unittest.TestCase):
     def test_row_counts(self):
         self.assertEqual(get_word_row_counts(self.default_data_short.copy()), [{0: 5, 1: 7}, {0: 7, 1: 5}])
 
-    @parameterized.expand([
-        [max, "10110"],
-        [min, "01001"],
-    ])
-    def test_common(self, f, r):
-        c = get_word_row_counts(self.default_data.copy())
-        self.assertEqual(get_row_common(c, f), r)
+    def test_common(self):
+        for f, r in [
+            [max, "10110"],
+            [min, "01001"],
+        ]:
+            with self.subTest():
+                c = get_word_row_counts(self.default_data.copy())
+                self.assertEqual(get_row_common(c, f), r)
 
-    @parameterized.expand([
-        ["O2GEN", "10111"],
-        ["CO2", "01010"],
-    ])
-    def test_filter_data(self, crit, res):
-        self.assertEqual(filter_data(self.default_data.copy(), crit), res)
+    def test_filter_data(self):
+        for crit, res in [
+            ["O2GEN", "10111"],
+            ["CO2", "01010"],
+        ]:
+            with self.subTest():
+                self.assertEqual(filter_data(self.default_data.copy(), crit), res)
 
 
 if __name__ == '__main__':

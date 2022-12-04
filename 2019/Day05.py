@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 
 ############################################################################################
 # INTCODE COMPUTER                                                                         #
@@ -45,7 +44,7 @@ puzzle_input = [3, 225, 1, 225, 6, 6, 1100, 1, 238, 225, 104, 0, 1002, 114, 19, 
 
 def read_opcode(instruction) -> list:
     """
-    opcode: two digit number - rightmost two digits of the first value in an instruction
+    opcode: two-digit number - rightmost two digits of the first value in an instruction
     Split an opcode into the four respective parts A,B,C, OP
     """
     five_digit = f"{instruction:05}"
@@ -191,20 +190,22 @@ def run_intcode_program(intcode: list, program_input: list, show_output: bool = 
 
 
 class Test2019Day05(unittest.TestCase):
-    @parameterized.expand([
-        [3202, [0, 3, 2, 2]],
-        [1, [0, 0, 0, 1]],
-        [12345, [1, 2, 3, 45]],
-    ])
-    def test_opcode_splitter(self, code, result):
-        self.assertListEqual(read_opcode(code), result)
+    def test_opcode_splitter(self):
+        for code, result in [
+            [3202, [0, 3, 2, 2]],
+            [1, [0, 0, 0, 1]],
+            [12345, [1, 2, 3, 45]],
+        ]:
+            with self.subTest():
+                self.assertListEqual(read_opcode(code), result)
 
-    @parameterized.expand([
-        [[1], 15314507],
-        [[5], 652726],
-    ])
-    def test_final_results(self, start_value, result):
-        self.assertEqual(run_intcode_program(puzzle_input.copy(), start_value, show_output=False)[0][-1], result)
+    def test_final_results(self):
+        for start_value, result in [
+            [[1], 15314507],
+            [[5], 652726],
+        ]:
+            with self.subTest():
+                self.assertEqual(run_intcode_program(puzzle_input.copy(), start_value, show_output=False)[0][-1], result)
 
 
 if __name__ == '__main__':

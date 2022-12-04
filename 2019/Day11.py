@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 
 from Day05 import run_intcode_program
 

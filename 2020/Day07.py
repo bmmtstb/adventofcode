@@ -1,6 +1,6 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from copy import deepcopy
+from typing import Dict, Set
 
 own_bag = "shiny gold"
 leaf_node = "no other"
@@ -57,22 +57,20 @@ class Test2020Day07(unittest.TestCase):
     test_input1 = read_file_in_groups("data/07-test.txt")
     test_input2 = read_file_in_groups("data/07-test2.txt")
 
-    @parameterized.expand([
-        [test_input1, 4],
-    ])
-    def test_count_parents(self, data, contain):
-        self.assertEqual(len(can_contain(data)), contain)
+    def test_count_parents(self):
+        self.assertEqual(len(can_contain(deepcopy(self.test_input1))), 4)
 
-    @parameterized.expand([
-        [test_input1, own_bag, 32],
-        [test_input1, "faded blue", 0],
-        [test_input1, "dotted black", 0],
-        [test_input1, "vibrant plum", 11],
-        [test_input1, "dark olive", 7],
-        [test_input2, own_bag, 126],
-    ])
-    def test_number_of_bags(self, data, goal, bags):
-        self.assertEqual(count_child_nodes(data, goal=goal), bags)
+    def test_number_of_bags(self):
+        for data, goal, bags in [
+            [self.test_input1, own_bag, 32],
+            [self.test_input1, "faded blue", 0],
+            [self.test_input1, "dotted black", 0],
+            [self.test_input1, "vibrant plum", 11],
+            [self.test_input1, "dark olive", 7],
+            [self.test_input2, own_bag, 126],
+        ]:
+            with self.subTest():
+                self.assertEqual(count_child_nodes(data, goal=goal), bags)
 
 
 if __name__ == '__main__':

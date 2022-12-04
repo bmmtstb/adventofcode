@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 
 vegetation_map = {
     ".": 0,
@@ -28,15 +27,16 @@ def obstacles_in_path(data, horizontal=3, vertical=1):
 
 
 class Test2020Day03(unittest.TestCase):
-    @parameterized.expand([
-        ["data/03-Test.txt", 1, 1, 2],
-        ["data/03-Test.txt", 3, 1, 7],
-        ["data/03-Test.txt", 5, 1, 3],
-        ["data/03-Test.txt", 7, 1, 4],
-        ["data/03-Test.txt", 1, 2, 2],
-    ])
-    def test_single_slope(self, fname, right, down, obs):
-        self.assertEqual(obstacles_in_path(load_data(fname), horizontal=right, vertical=down), obs)
+    def test_single_slope(self):
+        for fname, right, down, obs in [
+            ["data/03-Test.txt", 1, 1, 2],
+            ["data/03-Test.txt", 3, 1, 7],
+            ["data/03-Test.txt", 5, 1, 3],
+            ["data/03-Test.txt", 7, 1, 4],
+            ["data/03-Test.txt", 1, 2, 2],
+        ]:
+            with self.subTest():
+                self.assertEqual(obstacles_in_path(load_data(fname), horizontal=right, vertical=down), obs)
 
 
 if __name__ == '__main__':

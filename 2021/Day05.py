@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import read_lines_as_list
@@ -61,32 +60,32 @@ def analyze_area(line_data: List[List[coord]], threshold: int, diag: bool = Fals
 
 class Test2021Day05(unittest.TestCase):
 
-    @parameterized.expand([
-        [(0, 9), (5, 9), [(0, 9), (1, 9), (2, 9), (3, 9), (4, 9), (5, 9)]],
-        [(0, 8), (8, 0), []],
-        [(9, 4), (3, 4), [(9, 4), (8, 4), (7, 4), (6, 4), (5, 4), (4, 4), (3, 4)]],
-        [(9, 6), (9, 4), [(9, 6), (9, 5), (9, 4)]]
-    ])
-    def test_horiz_vert_lines(self, s, e, pts):
-        self.assertEqual(generate_line_points(s, e, diag=False), pts)
+    def test_horiz_vert_lines(self):
+        for s, e, pts in [
+            [(0, 9), (5, 9), [(0, 9), (1, 9), (2, 9), (3, 9), (4, 9), (5, 9)]],
+            [(0, 8), (8, 0), []],
+            [(9, 4), (3, 4), [(9, 4), (8, 4), (7, 4), (6, 4), (5, 4), (4, 4), (3, 4)]],
+            [(9, 6), (9, 4), [(9, 6), (9, 5), (9, 4)]]
+        ]:
+            with self.subTest():
+                self.assertEqual(generate_line_points(s, e, diag=False), pts)
 
     def test_test_data_h_v(self):
         self.assertEqual(analyze_area(parse_input("data/05-test.txt"), 2, diag=False), 5)
 
-    @parameterized.expand([
-        [(1, 1), (2, 2), [(1, 1), (2, 2)]],
-        [(1, 2), (3, 4), [(1, 2), (2, 3), (3, 4)]],
-        [(10, 8), (8, 6), [(10, 8), (9, 7), (8, 6)]],
-        [(8, 10), (10, 8), [(8, 10), (9, 9), (10, 8)]],
-        [(5, 5), (8, 2), [(5, 5), (6, 4), (7, 3), (8, 2)]],
-    ])
-    def test_diag_lines(self, s, e, pts):
-        self.assertEqual(generate_line_points(s, e, diag=True), pts)
+    def test_diag_lines(self):
+        for s, e, pts in [
+            [(1, 1), (2, 2), [(1, 1), (2, 2)]],
+            [(1, 2), (3, 4), [(1, 2), (2, 3), (3, 4)]],
+            [(10, 8), (8, 6), [(10, 8), (9, 7), (8, 6)]],
+            [(8, 10), (10, 8), [(8, 10), (9, 9), (10, 8)]],
+            [(5, 5), (8, 2), [(5, 5), (6, 4), (7, 3), (8, 2)]],
+        ]:
+            with self.subTest():
+                self.assertEqual(generate_line_points(s, e, diag=True), pts)
 
     def test_test_data_diag(self):
         self.assertEqual(analyze_area(parse_input("data/05-test.txt"), 2, diag=True), 12)
-
-
 
 
 if __name__ == '__main__':

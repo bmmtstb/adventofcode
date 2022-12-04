@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import read_lines_as_list
@@ -130,12 +129,13 @@ def map_line(lhs: List[str], rhs: List[str]) -> int:
 
 
 class Test2021Day08(unittest.TestCase):
-    @parameterized.expand([
-        [["fdgacbe", "cefdb", "cefbgd", "gcbe"], [True, False, False, True]],
-        [["fcgedb", "cgb", "dgebacf", "gc"], [False, True, True, True]]
-    ])
-    def test_find_unique(self, outp, res):
-        self.assertListEqual(find_unique(outp), res)
+    def test_find_unique(self):
+        for outp, res in [
+            [["fdgacbe", "cefdb", "cefbgd", "gcbe"], [True, False, False, True]],
+            [["fcgedb", "cgb", "dgebacf", "gc"], [False, True, True, True]]
+        ]:
+            with self.subTest():
+                self.assertListEqual(find_unique(outp), res)
 
     def check_first_test_line(self):
         test_lhs, test_rhs = load_data("data/08-test.txt")

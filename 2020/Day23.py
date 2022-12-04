@@ -1,6 +1,5 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import List
 from copy import deepcopy
 
 
@@ -100,25 +99,27 @@ class Test2020Day23(unittest.TestCase):
     def test_create_million(self):
         self.assertEqual(len(self.test_million), 1000000)
 
-    @parameterized.expand([
-        [10, "92658374"],
-        [100, "67384529"],
-    ])
-    def test_n_moves_v1(self, n, result):
-        res_order = perform_n_moves(deepcopy(self.test), n)
-        self.assertEqual(get_one_and_following(res_order), result)
-        if n == 10:
-            self.assertTupleEqual(get_two_following(res_order), (9, 2))
+    def test_n_moves_v1(self):
+        for n, result in [
+            [10, "92658374"],
+            [100, "67384529"],
+        ]:
+            with self.subTest():
+                res_order = perform_n_moves(deepcopy(self.test), n)
+                self.assertEqual(get_one_and_following(res_order), result)
+                if n == 10:
+                    self.assertTupleEqual(get_two_following(res_order), (9, 2))
 
-    @parameterized.expand([
-        [10, "92658374"],
-        [100, "67384529"],
-    ])
-    def test_n_moves_v2(self, n, result):
-        res_order = perform_n_moves_v2(deepcopy(self.test), n)
-        self.assertEqual(get_one_and_following(res_order), result)
-        if n == 10:
-            self.assertTupleEqual(get_two_following(res_order), (9, 2))
+    def test_n_moves_v2(self):
+        for n, result in [
+            [10, "92658374"],
+            [100, "67384529"],
+        ]:
+            with self.subTest():
+                res_order = perform_n_moves_v2(deepcopy(self.test), n)
+                self.assertEqual(get_one_and_following(res_order), result)
+                if n == 10:
+                    self.assertTupleEqual(get_two_following(res_order), (9, 2))
 
     def test_ten_million_moves(self):
         n = 10000000

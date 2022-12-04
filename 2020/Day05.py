@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 
 
 def read_file(filepath):
@@ -32,32 +31,35 @@ def get_seat_id(s: str):
 
 class Test2020Day05(unittest.TestCase):
 
-    @parameterized.expand([
-        ["BFFFBBFRRR", 70],
-        ["FFFBBBFRRR", 14],
-        ["BBFFBBFRLL", 102],
-        ["BBBBBBBRRR", 127],
-    ])
-    def test_row_numbers(self, code, row):
-        self.assertEqual(get_row(code[:-3]), row)
+    def test_row_numbers(self):
+        for code, row in [
+            ["BFFFBBFRRR", 70],
+            ["FFFBBBFRRR", 14],
+            ["BBFFBBFRLL", 102],
+            ["BBBBBBBRRR", 127],
+        ]:
+            with self.subTest():
+                self.assertEqual(get_row(code[:-3]), row)
 
-    @parameterized.expand([
-        ["BFFFBBFRRR", 7],
-        ["FFFBBBFRRR", 7],
-        ["BBFFBBFRLL", 4],
-        ["BBBBBBBLLL", 0],
-    ])
-    def test_col_numbers(self, code, col):
-        self.assertEqual(get_column(code[-3:]), col)
+    def test_col_numbers(self):
+        for code, col in [
+            ["BFFFBBFRRR", 7],
+            ["FFFBBBFRRR", 7],
+            ["BBFFBBFRLL", 4],
+            ["BBBBBBBLLL", 0],
+        ]:
+            with self.subTest():
+                self.assertEqual(get_column(code[-3:]), col)
 
-    @parameterized.expand([
-        ["BFFFBBFRRR", 567],
-        ["FFFBBBFRRR", 119],
-        ["BBFFBBFRLL", 820],
-        ["BBBBBBBRRR", 1023],
-    ])
-    def test_seat_id(self, code, sid):
-        self.assertEqual(get_seat_id(code), sid)
+    def test_seat_id(self):
+        for code, sid in [
+            ["BFFFBBFRRR", 567],
+            ["FFFBBBFRRR", 119],
+            ["BBFFBBFRLL", 820],
+            ["BBBBBBBRRR", 1023],
+        ]:
+            with self.subTest():
+                self.assertEqual(get_seat_id(code), sid)
 
 
 if __name__ == '__main__':

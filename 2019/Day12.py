@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 
 # position of four moons [Io, Europa, Ganymede, Callisto]
 puzzle_input =\
@@ -127,27 +126,33 @@ def find_previously_match(init_positions: list, init_velocities=None):
 
 
 class Test2019Day12(unittest.TestCase):
-    @parameterized.expand([
-        [0,  "pos=<x=-1, y=  0, z= 2>, vel=<x= 0, y= 0, z= 0>pos=<x= 2, y=-10, z=-7>, vel=<x= 0, y= 0, z= 0>pos=<x= 4, y= -8, z= 8>, vel=<x= 0, y= 0, z= 0>pos=<x= 3, y=  5, z=-1>, vel=<x= 0, y= 0, z= 0>"],
-        [1,  "pos=<x= 2, y=-1, z= 1>, vel=<x= 3, y=-1, z=-1>pos=<x= 3, y=-7, z=-4>, vel=<x= 1, y= 3, z= 3>pos=<x= 1, y=-7, z= 5>, vel=<x=-3, y= 1, z=-3>pos=<x= 2, y= 2, z= 0>, vel=<x=-1, y=-3, z= 1>"],
-        [5,  "pos=<x=-1, y=-9, z= 2>, vel=<x=-3, y=-1, z= 2>pos=<x= 4, y= 1, z= 5>, vel=<x= 2, y= 0, z=-2>pos=<x= 2, y= 2, z=-4>, vel=<x= 0, y=-1, z= 2>pos=<x= 3, y=-7, z=-1>, vel=<x= 1, y= 2, z=-2>"],
-        [10, "pos=<x= 2, y= 1, z=-3>, vel=<x=-3, y=-2, z= 1>pos=<x= 1, y=-8, z= 0>, vel=<x=-1, y= 1, z= 3>pos=<x= 3, y=-6, z= 1>, vel=<x= 3, y= 2, z=-3>pos=<x= 2, y= 0, z= 4>, vel=<x= 1, y=-1, z=-1>"],
-    ])
-    def test_pos_vel_after_time_steps(self, time_step, result):
-        example_input = convert_list_of_coordinates_to_tuple("<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>")
-        self.assertEqual(simulate_t_time_steps(example_input, time_steps=time_step)[:2], convert_pos_vel_string_to_tuples(result))
+    def test_pos_vel_after_time_steps(self):
+        for time_step, result in [
+            [0,
+             "pos=<x=-1, y=  0, z= 2>, vel=<x= 0, y= 0, z= 0>pos=<x= 2, y=-10, z=-7>, vel=<x= 0, y= 0, z= 0>pos=<x= 4, y= -8, z= 8>, vel=<x= 0, y= 0, z= 0>pos=<x= 3, y=  5, z=-1>, vel=<x= 0, y= 0, z= 0>"],
+            [1,
+             "pos=<x= 2, y=-1, z= 1>, vel=<x= 3, y=-1, z=-1>pos=<x= 3, y=-7, z=-4>, vel=<x= 1, y= 3, z= 3>pos=<x= 1, y=-7, z= 5>, vel=<x=-3, y= 1, z=-3>pos=<x= 2, y= 2, z= 0>, vel=<x=-1, y=-3, z= 1>"],
+            [5,
+             "pos=<x=-1, y=-9, z= 2>, vel=<x=-3, y=-1, z= 2>pos=<x= 4, y= 1, z= 5>, vel=<x= 2, y= 0, z=-2>pos=<x= 2, y= 2, z=-4>, vel=<x= 0, y=-1, z= 2>pos=<x= 3, y=-7, z=-1>, vel=<x= 1, y= 2, z=-2>"],
+            [10,
+             "pos=<x= 2, y= 1, z=-3>, vel=<x=-3, y=-2, z= 1>pos=<x= 1, y=-8, z= 0>, vel=<x=-1, y= 1, z= 3>pos=<x= 3, y=-6, z= 1>, vel=<x= 3, y= 2, z=-3>pos=<x= 2, y= 0, z= 4>, vel=<x= 1, y=-1, z=-1>"],
+        ]:
+            with self.subTest(msg=f'result: {result}'):
+                example_input = convert_list_of_coordinates_to_tuple("<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>")
+                self.assertEqual(simulate_t_time_steps(example_input, time_steps=time_step)[:2], convert_pos_vel_string_to_tuples(result))
 
     def test_energy_after_time_steps(self):
         example_input = convert_list_of_coordinates_to_tuple("< x = -8, y = -10, z = 0 >< x = 5, y = 5, z = 10 >< x = 2, y = -7, z = 3 >< x = 9, y = -8, z = -3 >")
         self.assertEqual(simulate_t_time_steps(example_input, time_steps=100)[2], 1940)
 
-    @parameterized.expand([
-        ["<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>", 2772],
-        ["<x=-8, y=-10, z=0><x=5, y=5, z=10><x=2, y=-7, z=3><x=9, y=-8, z=-3>", 4686774924],
-    ])
-    def test_find_match(self, string_input, t):
-        example_input = convert_list_of_coordinates_to_tuple(string_input)
-        self.assertEqual(find_previously_match(example_input), t)
+    def test_find_match(self):
+        for string_input, t in [
+            ["<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>", 2772],
+            ["<x=-8, y=-10, z=0><x=5, y=5, z=10><x=2, y=-7, z=3><x=9, y=-8, z=-3>", 4686774924],
+        ]:
+            with self.subTest(msg=f''):
+                example_input = convert_list_of_coordinates_to_tuple(string_input)
+                self.assertEqual(find_previously_match(example_input), t)
 
 
 if __name__ == '__main__':

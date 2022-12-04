@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from typing import Dict, List, Tuple, Set
 
 from helper.file import read_lines_as_list
@@ -58,35 +57,37 @@ def get_basin_size(height_map: Map, x: int, y: int) -> int:
 
 
 class Test2021Day09(unittest.TestCase):
-    @parameterized.expand([
-        [0, 0, 1],
-        [1, 0, 2],
-        [1, 1, 1],
-    ])
-    def test_lowest_adjacent(self, tx, ty, lowest):
-        test_input = [[int(val) for val in line] for line in read_lines_as_list("data/09-test.txt", t=list)]
-        self.assertEqual(get_lowest_adjacent(test_input, tx, ty), lowest)
+    def test_lowest_adjacent(self):
+        for tx, ty, lowest in [
+            [0, 0, 1],
+            [1, 0, 2],
+            [1, 1, 1],
+        ]:
+            with self.subTest():
+                test_input = [[int(val) for val in line] for line in read_lines_as_list("data/09-test.txt", instance_type=list)]
+                self.assertEqual(get_lowest_adjacent(test_input, tx, ty), lowest)
 
     def test_find_optima(self):
-        test_input = [[int(val) for val in line] for line in read_lines_as_list("data/09-test.txt", t=list)]
+        test_input = [[int(val) for val in line] for line in read_lines_as_list("data/09-test.txt", instance_type=list)]
         low_points = find_low_points(test_input)
         self.assertEqual(sum(val[0] + 1 for val in low_points), 15)
         self.assertTupleEqual(low_points[0][1:], (1, 0))
 
-    @parameterized.expand([
-        [1, 0, 3],
-        [9, 0, 9],
-        [2, 2, 14],
-        [6, 4, 9],
-    ])
-    def test_basin_size(self, x, y, size):
-        test_input = [[int(val) for val in line] for line in read_lines_as_list("data/09-test.txt", t=list)]
-        self.assertEqual(get_basin_size(test_input, x, y), size)
+    def test_basin_size(self):
+        for x, y, size in [
+            [1, 0, 3],
+            [9, 0, 9],
+            [2, 2, 14],
+            [6, 4, 9],
+        ]:
+            with self.subTest():
+                test_input = [[int(val) for val in line] for line in read_lines_as_list("data/09-test.txt", instance_type=list)]
+                self.assertEqual(get_basin_size(test_input, x, y), size)
 
 
 if __name__ == '__main__':
     print(">>> Start Main 09:")
-    puzzle_input = [[int(val) for val in line] for line in read_lines_as_list("data/09.txt", t=list)]
+    puzzle_input = [[int(val) for val in line] for line in read_lines_as_list("data/09.txt", instance_type=list)]
     low_points = find_low_points(puzzle_input)
     print("Part 1): ", sum(val[0] + 1 for val in low_points))
 

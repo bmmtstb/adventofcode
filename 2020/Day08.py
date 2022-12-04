@@ -1,6 +1,5 @@
 import unittest
-from parameterized import parameterized
-from typing import Dict, List, Tuple, Set
+from typing import List, Tuple
 from copy import deepcopy
 
 puzzle_input = ...
@@ -59,17 +58,11 @@ def repair_instructions(instructions: List[Tuple[str, int]]) -> int:
 
 
 class Test2020Day08(unittest.TestCase):
-    @parameterized.expand([
-        ["data/08-test.txt", 5],
-    ])
-    def test_loop_terminating(self, fname, error_code):
-        self.assertEqual(run_instructions_till_loop(read_instructions(fname))[1], error_code)
+    def test_loop_terminating(self):
+        self.assertEqual(run_instructions_till_loop(read_instructions("data/08-test.txt"))[1], 5)
 
-    @parameterized.expand([
-        ["data/08-test.txt", 8],
-    ])
-    def test_change_loop(self, fname, acc_code):
-        self.assertEqual(repair_instructions(read_instructions(fname)), acc_code)
+    def test_change_loop(self):
+        self.assertEqual(repair_instructions(read_instructions("data/08-test.txt")), 8)
 
 
 if __name__ == '__main__':
