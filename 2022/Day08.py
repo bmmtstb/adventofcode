@@ -51,6 +51,40 @@ def get_outside_visible_count(forest: np.ndarray) -> int:
     return len(visible_indices)
 
 
+def get_lower_than(tree_line: np.ndarray, height: int) -> int:
+    """given a list of tree heights, check how many of them are lower than height, stop on the border"""
+    lower: int = 0
+    for tree in tree_line:
+        if tree < height:
+            lower += 1
+        else:
+            return lower + 1
+    return lower
+
+
+def get_position_scenic_score(forest: np.ndarray, position: Tuple[int, int]) -> int:
+    """given a position in the forest, calculate the scenic score"""
+    forest_height, forest_width = forest.shape
+    self_height = forest[position]
+    up = get_lower_than(forest[position[0], :position[1]][::-1], height=self_height)
+    down = get_lower_than(forest[position[0], position[1]+1:forest_height], height=self_height)
+    left = get_lower_than(forest[:position[0]:, position[1]][::-1], height=self_height)
+    right = get_lower_than(forest[position[0]+1:forest_width, position[1]], height=self_height)
+    return up * down * left * right
+
+
+def get_max_scenic_score(forest: np.ndarray) -> int:
+    """given a forest calculate the scenic score for all non-border tiles and return the maximum"""
+    max_score = 0
+    height, width = forest.shape
+    # border has 0 - value -> ignore it
+    for w in range(1, width - 1):
+        for h in range(1, height - 1):
+            score = get_position_scenic_score(forest, (h, w))
+            max_score = max(max_score, score)
+    return max_score
+
+
 class Test2021Day08(unittest.TestCase):
     test_area_values = np.array([
         [3, 0, 3, 7, 3],
@@ -93,6 +127,28 @@ class Test2021Day08(unittest.TestCase):
             with self.subTest(msg=f'tree list: {tree_list}'):
                 self.assertEqual(get_visible_indices(tree_list), visible_trees)
 
+    def test_get_lower_than(self):
+        for tree_list, self_height, amount_visible in [
+            (self.test_area_values[0], 5, 4),
+            (self.test_area_values[1], 5, 2),
+            (self.test_area_values[2], 5, 1),
+            (self.test_area_values[3], 5, 3),
+            (self.test_area_values[4], 5, 2),
+            (self.test_area_values[0], 1, 1),
+        ]:
+            with self.subTest(msg=f'tree list: {tree_list}, height: {self_height}'):
+                self.assertEqual(get_lower_than(tree_list, self_height), amount_visible)
+
+    def test_get_position_scenic_score(self):
+        for forest, position, score in [
+            (self.test_area_values, (0, 1), 0),
+            (self.test_area_values, (1, 2), 4),
+            (self.test_area_values, (3, 2), 8),
+            (self.pyramid_trees, (2, 2), 16),
+        ]:
+            with self.subTest(msg=f'pos: {position}, score: {score}'):
+                self.assertEqual(get_position_scenic_score(forest, position), score)
+
     def test_get_outside_visible_count(self):
         for area, count in [
             (self.test_area_values, 21),
@@ -103,10 +159,18 @@ class Test2021Day08(unittest.TestCase):
             with self.subTest(msg=f'count: {count}'):
                 self.assertEqual(get_outside_visible_count(area), count)
 
+    def test_get_max_scenic_score(self):
+        for forest, max_score in [
+            (self.test_area_values, 8),
+            (self.pyramid_trees, 16),
+        ]:
+            with self.subTest(msg=f'max: {max_score}'):
+                self.assertEqual(get_max_scenic_score(forest), max_score)
+
 
 if __name__ == '__main__':
     print(">>> Start Main 08:")
     puzzle_input = np.array(read_lines_as_list(filepath="data/08.txt", instance_type=int, split="every"))
     print("Part 1): ", get_outside_visible_count(puzzle_input))
-    print("Part 2): ")
+    print("Part 2): ", get_max_scenic_score(puzzle_input))
     print("End Main 08<<<")
