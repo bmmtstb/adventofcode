@@ -85,7 +85,7 @@ def get_max_scenic_score(forest: np.ndarray) -> int:
     return max_score
 
 
-class Test2021Day08(unittest.TestCase):
+class Test2022Day08(unittest.TestCase):
     test_area_values = np.array([
         [3, 0, 3, 7, 3],
         [2, 5, 5, 1, 2],

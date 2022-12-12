@@ -65,7 +65,7 @@ def get_correct_symbol(guide: Guide) -> Guide:
 
 
 
-class Test2021Day02(unittest.TestCase):
+class Test2022Day02(unittest.TestCase):
     test_guide: Guide = [("A", "Y"), ("B", "X"), ("C", "Z")]
     test_self_play: Guide = [("A", "X"), ("B", "X"), ("C", "X")]
 

@@ -54,7 +54,7 @@ def follow_motions(motions: Motions, knots: int = 2) -> int:
     return len(np.unique(np.array(tail_visited_positions), axis=0))
 
 
-class Test2021Day09(unittest.TestCase):
+class Test2022Day09(unittest.TestCase):
     test_motions: Motions = [
         ("R", "4"), ("U", "4"), ("L", "3"), ("D", "1"), ("R", "4"), ("D", "1"), ("L", "5"), ("R", "2")
     ]

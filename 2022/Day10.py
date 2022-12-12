@@ -50,7 +50,7 @@ def draw_crt_screen(signals: List[int]) -> str:
     return screen
 
 
-class Test2021Day10(unittest.TestCase):
+class Test2022Day10(unittest.TestCase):
     test_program = read_lines_as_list("data/10-test.txt", split=" ")
     test_signals = execute_program(test_program)
     test_crt_screen = "\n" \

@@ -17,7 +17,7 @@ def get_start_of_packet_marker(datastream: str, length: int = 4) -> int:
 
 
 
-class Test2021Day06(unittest.TestCase):
+class Test2022Day06(unittest.TestCase):
     def test_get_start_of_packet_marker(self):
         for string, length, packet_start in [
             ("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 4, 7),

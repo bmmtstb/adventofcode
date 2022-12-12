@@ -28,7 +28,7 @@ def get_three_most_sum(elves: Elves):
     return sum(elf[1] for elf in get_elves_with_most_calories(elves)[:3])
 
 
-class Test2021Day01(unittest.TestCase):
+class Test2022Day01(unittest.TestCase):
     test_data = load_data("data/01-test.txt")
 
     def test_load_data(self):

@@ -37,7 +37,7 @@ def count_overlapping(ranges: List[RangePair]) -> int:
     return sum(does_range_overlap(range_pair) for range_pair in ranges)
 
 
-class Test2021Day04(unittest.TestCase):
+class Test2022Day04(unittest.TestCase):
     test_data = load_ranges("data/04-test.txt")
 
     def test_does_range_fully_contain_range(self):

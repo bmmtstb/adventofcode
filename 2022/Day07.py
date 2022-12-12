@@ -111,7 +111,7 @@ def find_smallest_directory_larger_than(folder_structure: FolderStructure, neede
 
 
 
-class Test2021Day07(unittest.TestCase):
+class Test2022Day07(unittest.TestCase):
     test_expected_folder_structure = {
         "a":     {
             "e":     {

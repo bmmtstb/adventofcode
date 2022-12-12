@@ -54,7 +54,7 @@ def get_top_of_stack(stacks: Stacks) -> str:
     return "".join(stack[-1] for stack in stacks)
 
 
-class Test2021Day05(unittest.TestCase):
+class Test2022Day05(unittest.TestCase):
     test_config, test_orders = load_data("data/05-test.txt")
     test_start_config_validation = [["Z", "N"], ["M", "C", "D"], ["P"]]
     test_end_config_validation_single = [["C"], ["M"], ["P", "D", "N", "Z"]]

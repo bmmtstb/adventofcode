@@ -40,7 +40,7 @@ def get_group_priority_scores(rucksacks: List[str]) -> int:
     return sum(get_group_item_priority(rucksacks[start_idx:start_idx+3]) for start_idx in range(0, len(rucksacks), 3))
 
 
-class Test2021Day03(unittest.TestCase):
+class Test2022Day03(unittest.TestCase):
     test_rucksacks = [
         "vJrwpWtwJgWrhcsFMMfFFhFp",
         "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
