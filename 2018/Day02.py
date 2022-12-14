@@ -29,7 +29,8 @@ def calculate_checksum(l: List[str]) -> int:
 
 def check_difference(s1: str, s2: str) -> int:
     """given two strings return if the number of uncommon characters is not bigger than one"""
-    assert len(s1) == len(s2)
+    if len(s1) != len(s2):
+        raise Exception(f'Strings should have same length. [{s1}] [{s2}]')
     diff = 0
     for i in range(len(s1)):
         diff += 0 if s1[i] == s2[i] else 1

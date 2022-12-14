@@ -17,7 +17,8 @@ def load_data(filepath: str) -> List[Cuboid]:
         x: Range = tuple(int(i) for i in x[2:].split("..")[:2])
         y: Range = tuple(int(i) for i in y[2:].split("..")[:2])
         z: Range = tuple(int(i) for i in z[2:].split("..")[:2])
-        assert all(r[0] <= r[1] for r in [x, y, z])
+        if any(r[0] <= r[1] for r in [x, y, z]):
+            raise Exception("first value should be smaller than second.")
         ranges_list.append((turn, x, y, z))
     return ranges_list
 
@@ -40,10 +41,12 @@ def split_into_cubes(cub_pos: Cuboid, cub_neg: Cuboid) -> Set[Cuboid]:
     for i in range(1, 4):
         # everything before the current index uses max(lower_pos, lower_neg) and min(upper_pos, upper_neg)
         before = tuple(tuple([max(cub_pos[b][0], cub_neg[b][0]), min(cub_pos[b][1], cub_neg[b][1])]) for b in range(1, i))
-        assert all(tup[0] <= tup[1] for tup in before)
+        if any(tup[0] <= tup[1] for tup in before):
+            raise Exception("first value should be smaller than second")
         # indices after the current always give (lower_pos, upper_pos)
         after = tuple(cub_pos[a] for a in range(i + 1, 4))
-        assert all(tup[0] <= tup[1] for tup in after)
+        if any(tup[0] <= tup[1] for tup in after):
+            raise Exception("first value should be smaller than second")
         # the current index provides two possible new areas, (lower_pos, lower_neg - 1) and (upper_neg + 1, upper_pos)
         curr = []
         if cub_neg[i][0] - 1 >= cub_pos[i][0]:

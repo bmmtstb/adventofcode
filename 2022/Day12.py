@@ -103,8 +103,6 @@ class PathFinder:
                 if pos_value < best_value:
                     current_node = position
                     best_value = pos_value
-            assert best_value != np.inf
-            assert current_node != tuple()
             # remove item from open list
             open_list.remove(current_node)
 
@@ -115,7 +113,8 @@ class PathFinder:
                 prev_node = None
                 while prev_node != self.start_pos:
                     prev_node = self.predecessor_map[path[-1]]
-                    assert prev_node not in path  # dummy check for infinite loops
+                    if prev_node in path:  # dummy check for infinite loops
+                        raise Exception("infinite loop in path")
                     path.append(prev_node)
                 path.reverse()
                 return path  # seemingly the start node does not count in the examples
