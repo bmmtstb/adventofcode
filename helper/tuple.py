@@ -58,4 +58,3 @@ def euclidean_distance(a: BaseVector, b: BaseVector) -> float:
 def tuple_euclidean_norm(a: BaseVector) -> float:
     """calculate euclidean norm of vector"""
     return math.sqrt(sum(value ** 2 for value in a))
-

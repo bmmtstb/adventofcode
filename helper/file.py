@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Callable
 
 
 def load_file_and_split(filepath: str, separator: str = "\n", instance_type: type = str) -> List[Union[int, str, float]]:
@@ -8,7 +8,7 @@ def load_file_and_split(filepath: str, separator: str = "\n", instance_type: typ
     return lines
 
 
-def read_lines_as_list(filepath, instance_type: type = str, split: str = None):
+def read_lines_as_list(filepath, instance_type: Union[type, Callable] = str, split: str = None):
     """reads the file at filepath, splits "every" line into substrings if provided, casts to type"""
     data = []
     with open(filepath) as file:
