@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple, Set
 import numpy as np
 
 from helper.file import read_lines_as_list
-from helper.tuple import tuple_add_tuple
+from helper.tuple import manhattan_distance, tuple_add_tuple
 
 Position = Tuple[int, int]
 
@@ -29,11 +29,6 @@ class PathFinder:
         # replace start and goal value
         self.height_map[self.start_pos] = ord("a")
         self.height_map[self.final_pos] = ord("z")
-
-    @staticmethod
-    def calculate_manhattan_distance(curr_position: Position, goal_position: Position) -> int:
-        """given a start and end position calculate the respective Manhattan distance"""
-        return int(np.ceil(abs(curr_position[0] - goal_position[0]) + abs(curr_position[1] - goal_position[1])))
 
     def find_shortest_path(self) -> List[Position]:
         """
@@ -78,7 +73,7 @@ class PathFinder:
                 # update successor link from previous
                 self.predecessor_map[successor] = current_node
                 # add successor to open list
-                h_successor = self.calculate_manhattan_distance(successor, self.final_pos)
+                h_successor = manhattan_distance(successor, self.final_pos)
                 # early skip if f_value is >= self.skip_at
                 if tentative_g + h_successor >= self.skip_at:
                     continue

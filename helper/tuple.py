@@ -56,6 +56,13 @@ def euclidean_distance(a: BaseVectorLength, b: BaseVectorLength) -> float:
     return math.sqrt(sum((b[i] - a[i]) ** 2 for i in range(len(a))))
 
 
+def manhattan_distance(a: BaseVectorLength, b: BaseVectorLength) -> Number:
+    """given two positions calculate the manhattan distance"""
+    if len(a) != len(b):
+        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+    return sum(map(lambda i, j: abs(i - j), a, b))
+
+
 def tuple_euclidean_norm(a: BaseVector) -> float:
     """calculate euclidean norm of vector"""
     return math.sqrt(sum(value ** 2 for value in a))
