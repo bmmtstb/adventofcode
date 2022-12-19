@@ -8,7 +8,7 @@ The riddles are getting increasingly more difficult in later days.
 For me the challenges started as programming exercises and a way to get more fluent in python. 
 Over the years I became better and faster at understanding what to do and how to do it.
 
-My main goal now is to use no additional libraries, but some problems are rather tedious without proper vector or matrix multiplications. I use numpy only if there is no other way. That was possible every time except once or twice I think. To still have a few basic vector calculations without packages, I added a few helper functions to streamline my code. This increases readability and reduces the amount of code I have to write. Additionally, I created two file loaders that are generic enough to be useful many times.
+My main goal now is to use no additional libraries, but some problems are rather tedious without proper vector or matrix multiplications. I use numpy and or scipy for everything matrix related if I cant think of another way to get the solution. To still have a few basic vector calculations without packages, I added a few helper functions to streamline my code. This increases readability and reduces the amount of code I have to write. Additionally, I created two file loaders that are generic enough to be useful many times.
 
 My side goals are to create clean (humanly readable) code and use modular Unittests, iff applicable.
 Every function should have a docstring, but to the overhead on simple tasks I no longer add docstrings for every variable. Still naming variables should explain them...
