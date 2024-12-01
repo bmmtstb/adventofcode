@@ -1,0 +1,70 @@
+[tool.isort]
+profile = "black"
+line_length = 120  # matching pylint
+
+[tool.pylint.main]
+ignore = ["CVS", "venv"]
+
+ignore-patterns = ["^\\.#"]
+
+ignored-modules = ["numpy", "scipy", "typing"]
+
+py-version = "3.12"
+
+[tool.pylint.basic]
+bad-names = ["foo", "bar", "baz", "toto", "tutu", "tata"]
+
+good-names = ["i", "j", "k", "ex", "Run", "_"]
+
+include-naming-hint = true
+
+module-rgx = "(([a-z_][a-z0-9_]*$)|(^Day\\d\\d\\.py$))"
+
+no-docstring-rgx = "^_"
+
+property-classes = ["abc.abstractproperty"]
+
+[tool.pylint.classes]
+defining-attr-methods = ["__init__", "__new__", "setUp", "asyncSetUp", "__post_init__"]
+
+exclude-protected = ["_asdict", "_fields", "_replace", "_source", "_make", "os._exit"]
+
+valid-classmethod-first-arg = ["cls"]
+
+valid-metaclass-classmethod-first-arg = ["mcs"]
+
+[tool.pylint.exceptions]
+overgeneral-exceptions = ["builtins.BaseException", "builtins.Exception"]
+
+[tool.pylint.format]
+max-line-length = 120  # matching black
+
+[tool.pylint.imports]
+known-third-party = ["enchant"]
+
+[tool.pylint.logging]
+logging-modules = ["logging"]
+
+[tool.pylint."messages control"]
+disable = ["raw-checker-failed", "bad-inline-option", "locally-disabled", "file-ignored", "suppressed-message", "useless-suppression", "deprecated-pragma", "use-symbolic-message-instead", "use-implicit-booleaness-not-comparison-to-string", "use-implicit-booleaness-not-comparison-to-zero"]
+
+[tool.pylint.method_args]
+timeout-methods = ["requests.api.delete", "requests.api.get", "requests.api.head", "requests.api.options", "requests.api.patch", "requests.api.post", "requests.api.put", "requests.api.request"]
+
+[tool.pylint.miscellaneous]
+notes = ["FIXME", "XXX", "TODO"]
+
+[tool.pylint.refactoring]
+never-returning-functions = ["sys.exit", "argparse.parse_error"]
+
+[tool.pylint.typecheck]
+ignored-classes = ["optparse.Values", "thread._local", "_thread._local", "argparse.Namespace"]
+
+[tool.pylint.variables]
+callbacks = ["cb_", "_cb"]
+
+ignored-argument-names = "_.*|^ignored_|^unused_"
+
+redefining-builtins-modules = ["six.moves", "past.builtins", "future.builtins", "builtins", "io"]
+
+

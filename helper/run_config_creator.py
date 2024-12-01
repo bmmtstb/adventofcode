@@ -8,8 +8,9 @@ for year in years:
     for day_num in range(1, 26):
         day = "0" + str(day_num) if day_num < 10 else str(day_num)
         text = \
-            '<component name="ProjectRunConfigurationManager">\
-              <configuration default="false" name="{year}-Day{day}" type="PythonConfigurationType" factoryName="Python" folderName="{year}"  singleton="false">\
+            ('<component name="ProjectRunConfigurationManager">\
+              <configuration default="false" name="{year}-Day{day}" type="PythonConfigurationType" '
+             'factoryName="Python" folderName="{year}"  singleton="false">\
                 <module name="adventofcode" />\
                 <option name="INTERPRETER_OPTIONS" value="" />\
                 <option name="PARENT_ENVS" value="true" />\
@@ -30,10 +31,11 @@ for year in years:
                 <option name="REDIRECT_INPUT" value="false" />\
                 <option name="INPUT_FILE" value="" />\
                 <method v="2">\
-                  <option name="RunConfigurationTask" enabled="true" run_configuration_name="Unittests in {year} Day{day}.py" run_configuration_type="tests" />\
+                  <option name="RunConfigurationTask" enabled="true" '
+                'run_configuration_name="Unittests in {year} Day{day}.py" run_configuration_type="tests" />\
                 </method>\
               </configuration>\
-            </component>'.format(day=day, year=year)
+            </component>').format(day=day, year=year)
         filepath = os.path.join(run_base, str(year) + "_Day" + day + ".xml")
         if os.path.exists(filepath):
             with open(filepath, "w") as file:

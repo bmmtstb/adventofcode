@@ -9,14 +9,14 @@ BaseVectorLength = TypeVar("BaseVectorLength", bound=BaseVector)
 def tuple_add_tuple(a: BaseVectorLength, b: BaseVectorLength) -> BaseVectorLength:
     """sum of two tuples"""
     if len(a) != len(b):
-        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+        raise ValueError(f"Tuples should have same length. {len(a)} != {len(b)}")
     return tuple(map(lambda i, j: i + j, a, b))
 
 
 def tuple_subtract_tuple(a: BaseVectorLength, b: BaseVectorLength) -> BaseVectorLength:
     """difference of first minus second tuple"""
     if len(a) != len(b):
-        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+        raise ValueError(f"Tuples should have same length. {len(a)} != {len(b)}")
     return tuple(map(lambda i, j: i - j, a, b))
 
 
@@ -28,14 +28,14 @@ def tuple_add_scalar(a: BaseVectorLength, b: Number) -> BaseVectorLength:
 def tuple_dot_tuple(a: BaseVectorLength, b: BaseVectorLength) -> Number:
     """scalar product between two equal length tuples"""
     if len(a) != len(b):
-        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+        raise ValueError(f"Tuples should have same length. {len(a)} != {len(b)}")
     return sum(map(lambda i, j: i * j, a, b))
 
 
 def tuple_mult_tuple(a: BaseVectorLength, b: BaseVectorLength) -> BaseVectorLength:
     """multiply values of two equal length tuples"""
     if len(a) != len(b):
-        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+        raise ValueError(f"Tuples should have same length. {len(a)} != {len(b)}")
     return tuple(map(lambda i, j: i * j, a, b))
 
 
@@ -52,14 +52,14 @@ def tuple_mod_number(a: BaseVectorLength, b: Number) -> BaseVectorLength:
 def euclidean_distance(a: BaseVectorLength, b: BaseVectorLength) -> float:
     """calculate euclidean distance between two points"""
     if len(a) != len(b):
-        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+        raise ValueError(f"Tuples should have same length. {len(a)} != {len(b)}")
     return math.sqrt(sum((b[i] - a[i]) ** 2 for i in range(len(a))))
 
 
 def manhattan_distance(a: BaseVectorLength, b: BaseVectorLength) -> Number:
     """given two positions calculate the manhattan distance"""
     if len(a) != len(b):
-        raise ValueError("Tuples should have same length. {} != {}".format(len(a), len(b)))
+        raise ValueError(f"Tuples should have same length. {len(a)} != {len(b)}")
     return sum(map(lambda i, j: abs(i - j), a, b))
 
 
