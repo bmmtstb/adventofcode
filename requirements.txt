@@ -1,4 +1,7 @@
 numpy
 scipy
-pylint
+
 typing
+
+pylint
+black
