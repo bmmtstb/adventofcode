@@ -9,6 +9,7 @@ Program = List[Order]
 
 def execute_program(program: Program) -> List[int]:
     """execute the program and return the signal strength on every cycle as list"""
+
     def process_cycle(count, value) -> int:
         count += 1
         # calculate signal strength
@@ -44,7 +45,11 @@ def draw_crt_screen(signals: List[int]) -> str:
     for pixel_idx, signal in enumerate(signals[1:], start=0):
         # recalculate value by dividing signal by cycle count (here index of the current pixel)
         sprite_center_position = (signal // (pixel_idx + 1)) % width
-        screen += "#" if pixel_idx % width - 1 <= sprite_center_position <= pixel_idx % width + 1 else "."
+        screen += (
+            "#"
+            if pixel_idx % width - 1 <= sprite_center_position <= pixel_idx % width + 1
+            else "."
+        )
         if (pixel_idx + 1) % width == 0:
             screen += "\n"
     return screen
@@ -53,13 +58,15 @@ def draw_crt_screen(signals: List[int]) -> str:
 class Test2022Day10(unittest.TestCase):
     test_program = read_lines_as_list("data/10-test.txt", split=" ")
     test_signals = execute_program(test_program)
-    test_crt_screen = "\n" \
-        "##..##..##..##..##..##..##..##..##..##..\n" \
-        "###...###...###...###...###...###...###.\n" \
-        "####....####....####....####....####....\n" \
-        "#####.....#####.....#####.....#####.....\n" \
-        "######......######......######......####\n" \
+    test_crt_screen = (
+        "\n"
+        "##..##..##..##..##..##..##..##..##..##..\n"
+        "###...###...###...###...###...###...###.\n"
+        "####....####....####....####....####....\n"
+        "#####.....#####.....#####.....#####.....\n"
+        "######......######......######......####\n"
         "#######.......#######.......#######.....\n"
+    )
 
     def test_execute_program(self):
         for i, value in [
@@ -70,7 +77,7 @@ class Test2022Day10(unittest.TestCase):
             (180, 2880),
             (220, 3960),
         ]:
-            with self.subTest(msg=f'iteration: {i}, value: {value}'):
+            with self.subTest(msg=f"iteration: {i}, value: {value}"):
                 self.assertEqual(self.test_signals[i], value)
 
     def test_evaluate_signal_strengths(self):
@@ -80,7 +87,7 @@ class Test2022Day10(unittest.TestCase):
         self.assertEqual(draw_crt_screen(self.test_signals), self.test_crt_screen)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 10:")
     puzzle_input = read_lines_as_list("data/10.txt", split=" ")
     puzzle_signals = execute_program(puzzle_input)

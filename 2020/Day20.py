@@ -5,11 +5,7 @@ from typing import Dict, List, Tuple
 
 from helper.tuple import tuple_add_tuple
 
-sea_monster = [
-    "                  # ",
-    "#    ##    ##    ###",
-    " #  #  #  #  #  #   "
-]
+sea_monster = ["                  # ", "#    ##    ##    ###", " #  #  #  #  #  #   "]
 
 
 def load_tiles_from_file(filepath: str) -> Dict[int, List[str]]:
@@ -33,8 +29,11 @@ def get_tile_sides(tile_content: List[str]) -> Tuple[str, str, str, str]:
     return top, right, bottom, left
 
 
-def find_matching_tiles(tiles: Dict[int, Tuple[str, str, str, str]], curr_tile: Tuple[str, str, str, str],
-                        curr_tile_id: int) -> List[Tuple[int, int, int]]:
+def find_matching_tiles(
+    tiles: Dict[int, Tuple[str, str, str, str]],
+    curr_tile: Tuple[str, str, str, str],
+    curr_tile_id: int,
+) -> List[Tuple[int, int, int]]:
     """
     Find all the matching tiles for a single tile
     returns tile id, curr tile side and found side, the value is negative if the side is reversed
@@ -49,7 +48,9 @@ def find_matching_tiles(tiles: Dict[int, Tuple[str, str, str, str]], curr_tile: 
                     matches.append((tile_key, curr_tile.index(side), i))
                 if side[::-1] in curr_tile:  # may be reversed
                     # -4 == "-0"
-                    matches.append((tile_key, curr_tile.index(side[::-1]), -i if i != 0 else -4))
+                    matches.append(
+                        (tile_key, curr_tile.index(side[::-1]), -i if i != 0 else -4)
+                    )
     return matches
 
 
@@ -69,14 +70,21 @@ def rotate_tile(op: str, tile: List[str]):
     if op == "r180" or op == "h":
         data = [d[::-1] for d in data]
     if op == "r90":
-        data = ["".join(data[len(data) - 1 - j][i] for j in range(len(data))) for i in range(len(data[0]))]
+        data = [
+            "".join(data[len(data) - 1 - j][i] for j in range(len(data)))
+            for i in range(len(data[0]))
+        ]
     elif op == "r270":
-        data = ["".join(data[j][len(data[0]) - 1 - i] for j in range(len(data))) for i in range(len(data[0]))]
+        data = [
+            "".join(data[j][len(data[0]) - 1 - i] for j in range(len(data)))
+            for i in range(len(data[0]))
+        ]
     return data
 
 
-
-def get_puzzle_sides(tiles: Dict[int, List[str]]) -> Dict[int, Tuple[str, str, str, str]]:
+def get_puzzle_sides(
+    tiles: Dict[int, List[str]]
+) -> Dict[int, Tuple[str, str, str, str]]:
     """for every tile get the matching tiles"""
     tile_sides = {}
     for tile_key, tile_val in tiles.items():
@@ -84,7 +92,9 @@ def get_puzzle_sides(tiles: Dict[int, List[str]]) -> Dict[int, Tuple[str, str, s
     return tile_sides
 
 
-def get_puzzle_matching(tile_sides: Dict[int, Tuple[str, str, str, str]]) -> Dict[int, List[Tuple[int, int, int]]]:
+def get_puzzle_matching(
+    tile_sides: Dict[int, Tuple[str, str, str, str]]
+) -> Dict[int, List[Tuple[int, int, int]]]:
     """get the matching tiles for every tile"""
     matching_ids = {}
     for tile_id, tile in tile_sides.items():
@@ -190,7 +200,7 @@ def assemble_puzzle(tiles: Dict[int, List[str]]) -> List[str]:
         tiles[new_tile_id] = deepcopy(new_tile)
         diff_pos = (
             1 if abs(old_side_pos) == 1 else -1 if abs(old_side_pos) == 3 else 0,
-            -1 if abs(old_side_pos) % 4 == 0 else 1 if abs(old_side_pos) == 2 else 0
+            -1 if abs(old_side_pos) % 4 == 0 else 1 if abs(old_side_pos) == 2 else 0,
         )
         #  int id: pos (x,y)
         positions[new_tile_id] = tuple_add_tuple(old_pos, diff_pos)
@@ -210,21 +220,30 @@ def assemble_puzzle(tiles: Dict[int, List[str]]) -> List[str]:
     max_x = max(pos[0] for pos in positions.values())
     max_y = max(pos[1] for pos in positions.values())
     # put every puzzle piece in its place
-    arranged_pieces: List[list] = [[None for __ in range(abs(max_x - min_x + 1))] for _ in range(abs(max_y - min_y + 1))]
+    arranged_pieces: List[list] = [
+        [None for __ in range(abs(max_x - min_x + 1))]
+        for _ in range(abs(max_y - min_y + 1))
+    ]
     for pos_id, pos in positions.items():
-        tile_content = tiles[pos_id]  # don't know why, but I need to invert all the pieces top to bottom once
+        tile_content = tiles[
+            pos_id
+        ]  # don't know why, but I need to invert all the pieces top to bottom once
         tile_content_cut = tile_content[1:-1]
         tile_content_cut = [line[1:-1] for line in tile_content_cut]
         arranged_pieces[pos[1] - min_y][pos[0] - min_x] = tile_content
         # arranged_pieces[pos[1] - min_y][pos[0] - min_x] = tile_content_cut
     # puzzle is assembled -> remove edges from every tile and assemble it to one big list of strings
     height_wo_borders = tile_height - 2
-    assembled = ["" for _ in range(abs(max_y - min_y + 1) * height_wo_borders)]  # init to correct length
+    assembled = [
+        "" for _ in range(abs(max_y - min_y + 1) * height_wo_borders)
+    ]  # init to correct length
     for y in range(min_y, max_y + 1):
         for x in range(min_x, max_x + 1):
             pos = (x, y)
             tile_id = get_key_from_val(positions, pos)
-            tile_content = tiles[tile_id]  # don't know why, but I need to invert all the pieces top to bottom once
+            tile_content = tiles[
+                tile_id
+            ]  # don't know why, but I need to invert all the pieces top to bottom once
             tile_content_cut = tile_content[1:-1]
             tile_content_cut = [line[1:-1] for line in tile_content_cut]
             for i in range(len(tile_content_cut)):
@@ -241,11 +260,12 @@ def search_seamonsters(puzzle: List[str]) -> int:
     for puzzle_i in range(0, len(puzzle) - monster_width):
         for puzzle_j in range(0, len(puzzle[puzzle_i]) - monster_height):
             # check if a sea monster starts here
-            if all(puzzle[puzzle_i + sm_i][puzzle_j + sm_j] == "#"
-                    for sm_j in range(len(sea_monster[0]))
-                        for sm_i in range(len(sea_monster))
-                            if sea_monster[sm_i][sm_j] == "#"
-                   ):
+            if all(
+                puzzle[puzzle_i + sm_i][puzzle_j + sm_j] == "#"
+                for sm_j in range(len(sea_monster[0]))
+                for sm_i in range(len(sea_monster))
+                if sea_monster[sm_i][sm_j] == "#"
+            ):
                 count += 1
     return count
 
@@ -268,7 +288,9 @@ def get_max_seamonsters(puzzle: List[str]) -> int:
 def get_roughness(puzzle: List[str]) -> int:
     """get the water roughness"""
     roughness = sum(sum(1 if c == "#" else 0 for c in line) for line in puzzle)
-    sea_monster_tiles = sum(sum(1 if c == "#" else 0 for c in line) for line in sea_monster)
+    sea_monster_tiles = sum(
+        sum(1 if c == "#" else 0 for c in line) for line in sea_monster
+    )
 
     sea_monster_count = get_max_seamonsters(puzzle)
     return roughness - sea_monster_tiles * sea_monster_count
@@ -276,20 +298,41 @@ def get_roughness(puzzle: List[str]) -> int:
 
 class Test2020Day20(unittest.TestCase):
     test_tiles = load_tiles_from_file("data/20-test.txt")
-    complete = [".#.#..#.##...#.##..#####", "###....#.#....#..#......", "##.##.###.#.#..######...",
-                "###.#####...#.#####.#..#", "##.#....#.##.####...#.##", "...########.#....#####.#",
-                "....#..#...##..#.#.###..", ".####...#..#.....#......", "#..#.##..#..###.#.##....",
-                "#.####..#.####.#.#.###..", "###.#.#...#.######.#..##", "#.####....##..########.#",
-                "##..##.#...#...#.#.#.#..", "...#..#..#.#.##..###.###", ".#.#....#.##.#...###.##.",
-                "###.#...#..#.##.######..", ".#.#.###.##.##.#..#.##..", ".####.###.#...###.#..#.#",
-                "..#.#..#..#.#.#.####.###", "#..####...#.#.#.###.###.", "#####..#####...###....##",
-                "#.##..#..#...#..####...#", ".#.###..##..##..####.##.", "...###...##...#...#..###"]
+    complete = [
+        ".#.#..#.##...#.##..#####",
+        "###....#.#....#..#......",
+        "##.##.###.#.#..######...",
+        "###.#####...#.#####.#..#",
+        "##.#....#.##.####...#.##",
+        "...########.#....#####.#",
+        "....#..#...##..#.#.###..",
+        ".####...#..#.....#......",
+        "#..#.##..#..###.#.##....",
+        "#.####..#.####.#.#.###..",
+        "###.#.#...#.######.#..##",
+        "#.####....##..########.#",
+        "##..##.#...#...#.#.#.#..",
+        "...#..#..#.#.##..###.###",
+        ".#.#....#.##.#...###.##.",
+        "###.#...#..#.##.######..",
+        ".#.#.###.##.##.#..#.##..",
+        ".####.###.#...###.#..#.#",
+        "..#.#..#..#.#.#.####.###",
+        "#..####...#.#.#.###.###.",
+        "#####..#####...###....##",
+        "#.##..#..#...#..####...#",
+        ".#.###..##..##..####.##.",
+        "...###...##...#...#..###",
+    ]
     # tile = ["..##.#..#.", "##..#.....", "#...##..#.", "####.#...#", "##.##.###.", "##...#.###", ".#.#.#..##",
     #         "..#....#..", "###...#.#.", "..###..###"]
     tile = test_tiles[2311]
 
     def test_get_sides(self):
-        self.assertEqual(get_tile_sides(self.tile), ("..##.#..#.", "...#.##..#", "..###..###", ".#####..#."))
+        self.assertEqual(
+            get_tile_sides(self.tile),
+            ("..##.#..#.", "...#.##..#", "..###..###", ".#####..#."),
+        )
 
     def test_puzzle_corners(self):
         self.assertEqual(get_puzzle_corners(self.test_tiles), 20899048083289)
@@ -319,10 +362,12 @@ class Test2020Day20(unittest.TestCase):
         self.assertEqual(get_roughness(self.complete), 273)
 
     def test_complete_puzzle(self):
-        self.assertListEqual(assemble_puzzle(self.test_tiles), rotate_tile("v", self.complete))
+        self.assertListEqual(
+            assemble_puzzle(self.test_tiles), rotate_tile("v", self.complete)
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 20:")
     puzzle_input = load_tiles_from_file("data/20.txt")
     print("Part 1):")

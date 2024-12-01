@@ -11,7 +11,7 @@ def split_input(data: str) -> List[int]:
 def get_one_and_following(cups: List[int], main: int = 1) -> str:
     """get the neighbors of main in clockwise order"""
     idx = cups.index(main)
-    return "".join(str(c) for c in cups[idx + 1:] + cups[:idx])
+    return "".join(str(c) for c in cups[idx + 1 :] + cups[:idx])
 
 
 def get_two_following(cups: List[int], main: int = 1) -> (int, int):
@@ -31,9 +31,9 @@ def perform_n_moves(cups: List[int], n: int = 100) -> List[int]:
         curr_removed: List[int]
         if curr_i + 4 > nof_cups:
             tmp = cups + cups
-            curr_removed = tmp[curr_i + 1:curr_i + 4]
+            curr_removed = tmp[curr_i + 1 : curr_i + 4]
         else:
-            curr_removed = cups[curr_i + 1:curr_i + 4]
+            curr_removed = cups[curr_i + 1 : curr_i + 4]
         # They are removed from the circle; cup spacing is adjusted as necessary to maintain the circle.
         curr_selection = [cup for cup in cups if cup not in curr_removed]
         # The crab selects a destination cup: the cup with a label equal to the current cup's label minus one.
@@ -41,7 +41,11 @@ def perform_n_moves(cups: List[int], n: int = 100) -> List[int]:
         # If at any point in this process the value goes below the lowest value on any cup's label, it wraps around to the highest value on any cup's label instead.
         destination_label = cups[curr_i] - 1
         while destination_label not in curr_selection:
-            destination_label = destination_label - 1 if destination_label > min(curr_selection) else max(curr_selection)
+            destination_label = (
+                destination_label - 1
+                if destination_label > min(curr_selection)
+                else max(curr_selection)
+            )
         destination_id = curr_selection.index(destination_label)
         # The crab places the cups it just picked up so that they are immediately clockwise of the destination cup.
         # They keep the same order as when they were picked up.
@@ -123,10 +127,13 @@ class Test2020Day23(unittest.TestCase):
 
     def test_ten_million_moves(self):
         n = 10000000
-        self.assertTupleEqual(get_two_following(perform_n_moves_v2(deepcopy(self.test_million), n)), (934001, 159792))
+        self.assertTupleEqual(
+            get_two_following(perform_n_moves_v2(deepcopy(self.test_million), n)),
+            (934001, 159792),
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 23:")
     puzzle_input_str = "364297581"
     puzzle_input = split_input(puzzle_input_str)
@@ -134,7 +141,9 @@ if __name__ == '__main__':
     part_1 = perform_n_moves(deepcopy(puzzle_input), 100)
     print(get_one_and_following(part_1))
     print("Part 2):")
-    puzzle_million = deepcopy(puzzle_input) + [i for i in range(len(puzzle_input) + 1, 1000001)]
+    puzzle_million = deepcopy(puzzle_input) + [
+        i for i in range(len(puzzle_input) + 1, 1000001)
+    ]
     part_2 = perform_n_moves_v2(puzzle_million, n=10000000)
     x, y = get_two_following(part_2)
     print(x, y)

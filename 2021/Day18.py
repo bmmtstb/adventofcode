@@ -7,7 +7,11 @@ from helper.file import read_lines_as_list
 
 Pair = Tuple[int, int]
 SnailFishNumber = Union[
-    'Pair', Tuple['SnailFishNumber'], Tuple['Pair', 'SnailFishNumber'], Tuple['SnailFishNumber', 'Pair']]
+    "Pair",
+    Tuple["SnailFishNumber"],
+    Tuple["Pair", "SnailFishNumber"],
+    Tuple["SnailFishNumber", "Pair"],
+]
 Position = Union[None, List[int]]
 
 
@@ -30,14 +34,18 @@ def get_sfn(num: SnailFishNumber, num_pos: Position) -> Union[int, SnailFishNumb
         raise InvalidSFNIndexException
 
 
-def set_sfn(num: SnailFishNumber, num_pos: Position, val: Union[int, SnailFishNumber]) -> SnailFishNumber:
+def set_sfn(
+    num: SnailFishNumber, num_pos: Position, val: Union[int, SnailFishNumber]
+) -> SnailFishNumber:
     """set the position of a given snail-fish number to a given value"""
     try:
         if len(num_pos) == 0:
             return deepcopy(val)
         elif type(num_pos) == list:
             recursive_new = set_sfn(num[num_pos[0]], num_pos[1:], val)
-            return (num[0], recursive_new) if num_pos[0] == 1 else (recursive_new, num[1])
+            return (
+                (num[0], recursive_new) if num_pos[0] == 1 else (recursive_new, num[1])
+            )
     except IndexError:
         raise Exception("invalid position for snail-fish number.")
 
@@ -48,7 +56,7 @@ def find_first_left_number(num: SnailFishNumber, num_pos: Position) -> Position:
     if 1 in curr_pos:  # if there is a 1, get the last one and change it to a 0
         curr_pos.reverse()
         idx = curr_pos.index(1)
-        curr_pos = curr_pos[idx + 1:]
+        curr_pos = curr_pos[idx + 1 :]
         curr_pos.reverse()
         curr_pos.append(0)
         # curr_pos is root of left-next branch, now get rightmost of this branch
@@ -68,7 +76,7 @@ def find_first_right_number(num: SnailFishNumber, num_pos: Position) -> Position
     if 0 in curr_pos:  # if there is a 0, get the last one and change it to a 1
         curr_pos.reverse()
         idx = curr_pos.index(0)
-        curr_pos = curr_pos[idx + 1:]
+        curr_pos = curr_pos[idx + 1 :]
         curr_pos.reverse()
         curr_pos.append(1)
         # curr_pos is root of right-next branch, now get leftmost value of this branch
@@ -82,12 +90,16 @@ def find_first_right_number(num: SnailFishNumber, num_pos: Position) -> Position
     return None
 
 
-def find_leftmost_pair_nested_multiple_times(num: SnailFishNumber, threshold: int = 4, depth: int = 1) -> Position:
+def find_leftmost_pair_nested_multiple_times(
+    num: SnailFishNumber, threshold: int = 4, depth: int = 1
+) -> Position:
     """return the leftmost pair with deeper nesting than threshold"""
     if any(type(val) == tuple for val in num):  # always get deepest nested tuple
         for idx, part in enumerate(num):
             if type(part) == tuple:
-                sub_pos = find_leftmost_pair_nested_multiple_times(part, threshold, depth + 1)
+                sub_pos = find_leftmost_pair_nested_multiple_times(
+                    part, threshold, depth + 1
+                )
                 if sub_pos is not None:
                     sub_pos.insert(0, idx)
                     return sub_pos
@@ -97,7 +109,9 @@ def find_leftmost_pair_nested_multiple_times(num: SnailFishNumber, threshold: in
     return None
 
 
-def find_position_of_big_num(num: SnailFishNumber, threshold: int = 10) -> (Position, int):
+def find_position_of_big_num(
+    num: SnailFishNumber, threshold: int = 10
+) -> (Position, int):
     """return the position of the leftmost number bigger than threshold"""
 
     for idx, part in enumerate(num):
@@ -127,10 +141,18 @@ def reduce_number(a: SnailFishNumber) -> SnailFishNumber:
             exploding_pair = get_sfn(curr_number, explode_pos)
             left_pos = find_first_left_number(curr_number, explode_pos)
             if left_pos is not None:  # if exists, add left value to first left
-                curr_number = set_sfn(curr_number, left_pos, get_sfn(curr_number, left_pos) + exploding_pair[0])
+                curr_number = set_sfn(
+                    curr_number,
+                    left_pos,
+                    get_sfn(curr_number, left_pos) + exploding_pair[0],
+                )
             right_pos = find_first_right_number(curr_number, explode_pos)
             if right_pos is not None:  # if exists, add right value to first right
-                curr_number = set_sfn(curr_number, right_pos, get_sfn(curr_number, right_pos) + exploding_pair[1])
+                curr_number = set_sfn(
+                    curr_number,
+                    right_pos,
+                    get_sfn(curr_number, right_pos) + exploding_pair[1],
+                )
             # replace exploding pair with 0
             curr_number = set_sfn(curr_number, explode_pos, 0)
             continue
@@ -138,7 +160,10 @@ def reduce_number(a: SnailFishNumber) -> SnailFishNumber:
         # second rule
         split_pos, split_num = find_position_of_big_num(curr_number)
         if split_pos is not None:
-            new_tup: SnailFishNumber = (int(split_num / 2), split_num - int(split_num / 2))
+            new_tup: SnailFishNumber = (
+                int(split_num / 2),
+                split_num - int(split_num / 2),
+            )
             curr_number = set_sfn(curr_number, split_pos, new_tup)
             continue
         # if no rule matched, number is reduced
@@ -166,7 +191,9 @@ def largest_magnitude_of_two_snf_nums(list_of_nums: List[SnailFishNumber]) -> in
     magnitudes = []
     for i in range(len(list_of_nums)):
         for j in range(len(list_of_nums)):
-            mag = calculate_magnitude(add_numbers(deepcopy(list_of_nums[i]), deepcopy(list_of_nums[j])))
+            mag = calculate_magnitude(
+                add_numbers(deepcopy(list_of_nums[i]), deepcopy(list_of_nums[j]))
+            )
             magnitudes.append(mag)
     return max(magnitudes)
 
@@ -195,7 +222,7 @@ class Test2021Day18(unittest.TestCase):
         ((((5, 4), (7, 7)), 8), ((8, 3), 8)),
         ((9, 3), ((9, 9), (6, (4, 9)))),
         ((2, ((7, 7), 7)), ((5, 8), ((9, 3), (0, 2)))),
-        ((((5, 2), 5), (8, (3, 7))), ((5, (7, 5)), (4, 4)))
+        ((((5, 2), 5), (8, (3, 7))), ((5, (7, 5)), (4, 4))),
     ]
 
     larger_example = [
@@ -208,7 +235,7 @@ class Test2021Day18(unittest.TestCase):
         (2, 9),
         (1, (((9, 3), 9), ((9, 0), (0, 7)))),
         (((5, (7, 4)), 7), 1),
-        ((((4, 2), 2), 6), (8, 7))
+        ((((4, 2), 2), 6), (8, 7)),
     ]
 
     larger_example_results = [
@@ -220,7 +247,7 @@ class Test2021Day18(unittest.TestCase):
         ((((6, 6), (7, 7)), ((0, 7), (7, 7))), (((5, 5), (5, 6)), 9)),
         ((((7, 8), (6, 7)), ((6, 8), (0, 8))), (((7, 7), (5, 0)), ((5, 5), (5, 6)))),
         ((((7, 7), (7, 7)), ((8, 7), (8, 7))), (((7, 0), (7, 7)), 9)),
-        ((((8, 7), (7, 7)), ((8, 6), (7, 7))), (((0, 7), (6, 6)), (8, 7)))
+        ((((8, 7), (7, 7)), ((8, 6), (7, 7))), (((0, 7), (6, 6)), (8, 7))),
     ]
 
     def test_addition(self):
@@ -231,7 +258,10 @@ class Test2021Day18(unittest.TestCase):
     def test_addition_v2(self):
         a: SnailFishNumber = (((0, (4, 5)), (0, 0)), (((4, 5), (2, 6)), (9, 5)))
         b: SnailFishNumber = (7, (((3, 7), (4, 3)), ((6, 3), (8, 8))))
-        self.assertEqual(add_numbers(a, b), ((((4, 0), (5, 4)), ((7, 7), (6, 0))), ((8, (7, 7)), ((7, 9), (5, 0)))))
+        self.assertEqual(
+            add_numbers(a, b),
+            ((((4, 0), (5, 4)), ((7, 7), (6, 0))), ((8, (7, 7)), ((7, 9), (5, 0)))),
+        )
 
     def test_find_left(self):
         for num, pos, new_pos in [
@@ -270,7 +300,10 @@ class Test2021Day18(unittest.TestCase):
             [(((((9, 8), 1), 2), 3), 4), ((((0, 9), 2), 3), 4)],
             [(7, (6, (5, (4, (3, 2))))), (7, (6, (5, (7, 0))))],
             [((6, (5, (4, (3, 2)))), 1), ((6, (5, (7, 0))), 3)],
-            [((3, (2, (8, 0))), (9, (5, (4, (3, 2))))), ((3, (2, (8, 0))), (9, (5, (7, 0))))],
+            [
+                ((3, (2, (8, 0))), (9, (5, (4, (3, 2))))),
+                ((3, (2, (8, 0))), (9, (5, (7, 0)))),
+            ],
             [(((((1, (2, 3)), 4), 5), 6), 7), ((((0, 7), 5), 6), 7)],
             [((((((5, 6), (2, 3)), 4), 5), 6), 7), ((((0, 7), 5), 6), 7)],
         ]:
@@ -318,7 +351,13 @@ class Test2021Day18(unittest.TestCase):
             [((((3, 0), (5, 3)), (4, 4)), (5, 5)), 791],
             [((((5, 0), (7, 4)), (5, 5)), (6, 6)), 1137],
             [((((8, 7), (7, 7)), ((8, 6), (7, 7))), (((0, 7), (6, 6)), (8, 7))), 3488],
-            [((((6, 6), (7, 6)), ((7, 7), (7, 0))), (((7, 7), (7, 7)), ((7, 8), (9, 9)))), 4140],
+            [
+                (
+                    (((6, 6), (7, 6)), ((7, 7), (7, 0))),
+                    (((7, 7), (7, 7)), ((7, 8), (9, 9))),
+                ),
+                4140,
+            ],
         ]:
             with self.subTest():
                 self.assertEqual(calculate_magnitude(number), magn)
@@ -326,10 +365,21 @@ class Test2021Day18(unittest.TestCase):
     def test_sum_of_list_of_nums(self):
         for nums, res_num in [
             [[(1, 1), (2, 2), (3, 3), (4, 4)], ((((1, 1), (2, 2)), (3, 3)), (4, 4))],
-            [[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], ((((3, 0), (5, 3)), (4, 4)), (5, 5))],
-            [[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)], ((((5, 0), (7, 4)), (5, 5)), (6, 6))],
-            [deepcopy(self.homework_assignment),
-             ((((6, 6), (7, 6)), ((7, 7), (7, 0))), (((7, 7), (7, 7)), ((7, 8), (9, 9))))],
+            [
+                [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+                ((((3, 0), (5, 3)), (4, 4)), (5, 5)),
+            ],
+            [
+                [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)],
+                ((((5, 0), (7, 4)), (5, 5)), (6, 6)),
+            ],
+            [
+                deepcopy(self.homework_assignment),
+                (
+                    (((6, 6), (7, 6)), ((7, 7), (7, 0))),
+                    (((7, 7), (7, 7)), ((7, 8), (9, 9))),
+                ),
+            ],
         ]:
             with self.subTest():
                 self.assertEqual(add_list_of_numbers(nums), res_num)
@@ -350,10 +400,13 @@ class Test2021Day18(unittest.TestCase):
                 self.assertEqual(reduce_number(num), reduce_number(new_num))
 
     def test_largest_magnitude_for_pair(self):
-        self.assertEqual(largest_magnitude_of_two_snf_nums(self.homework_assignment), 3993)
+        self.assertEqual(
+            largest_magnitude_of_two_snf_nums(self.homework_assignment), 3993
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     def str_to_snail_fish_number(string: str) -> SnailFishNumber:
         """convert a string of list of lists to a SFN"""
         try:
@@ -371,6 +424,8 @@ if __name__ == '__main__':
         line = line.replace("[", "(")
         line = line.replace("]", ")")
         puzzle_tuples.append(str_to_snail_fish_number(line))
-    print("Part 1): ", calculate_magnitude(add_list_of_numbers(deepcopy(puzzle_tuples))))
+    print(
+        "Part 1): ", calculate_magnitude(add_list_of_numbers(deepcopy(puzzle_tuples)))
+    )
     print("Part 2): ", largest_magnitude_of_two_snf_nums(deepcopy(puzzle_tuples)))
     print("End Main 18<<<")

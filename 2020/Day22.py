@@ -99,7 +99,7 @@ class Test2020Day22(unittest.TestCase):
         self.assertEqual(get_deck_score(pile), 291)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 22:")
     puzzle_input_str = load_from_file("data/22.txt")
     puzzle_input = load_player_cards(puzzle_input_str)

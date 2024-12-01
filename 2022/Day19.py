@@ -11,27 +11,31 @@ Robots = Dict[str, int]
 Material = Dict[str, int]
 
 
-PRIORITY: Dict[str, int] = {
-    "geode": 1,
-    "obsidian": 2,
-    "clay": 3,
-    "ore": 4
-}
+PRIORITY: Dict[str, int] = {"geode": 1, "obsidian": 2, "clay": 3, "ore": 4}
 
 
-def dict_add_dict(d1: Union[Material, Price], d2: Union[Material, Price], d2_multiplier: int = 1) -> Union[Material, Price]:
+def dict_add_dict(
+    d1: Union[Material, Price], d2: Union[Material, Price], d2_multiplier: int = 1
+) -> Union[Material, Price]:
     """given materials add new ones (new instance)"""
-    return {key: d1.get(key, 0) + d2_multiplier * d2.get(key, 0) for key in set(d1) | set(d2)}
+    return {
+        key: d1.get(key, 0) + d2_multiplier * d2.get(key, 0)
+        for key in set(d1) | set(d2)
+    }
 
 
-def dict_sub_dict(d1: Union[Material, Price], d2: Union[Material, Price]) -> Union[Material, Price]:
+def dict_sub_dict(
+    d1: Union[Material, Price], d2: Union[Material, Price]
+) -> Union[Material, Price]:
     """given materials add new ones (new instance)"""
     return {key: d1.get(key, 0) - d2.get(key, 0) for key in set(d1) | set(d2)}
 
 
 def dict_geq_dict(d1: Union[Material, Price], d2: Union[Material, Price]) -> bool:
     """returns whether there is more or equal in dict 1 than in 2"""
-    return all(d1_value >= d2[d1_key] for d1_key, d1_value in d1.items() if d1_key in d2)
+    return all(
+        d1_value >= d2[d1_key] for d1_key, d1_value in d1.items() if d1_key in d2
+    )
 
 
 class Blueprint:
@@ -60,13 +64,23 @@ class Blueprint:
         # indirectly sets the maximum number of robots
         # at most N of this type are needed for one operation, therefore we will never need more than that robots
         self.max_of_material = {
-            "ore": max(robot["ore"] for robot in self.robot_prices.values() if "ore" in robot),
-            "clay": max(robot["clay"] for robot in self.robot_prices.values() if "clay" in robot),
-            "obsidian": max(robot["obsidian"] for robot in self.robot_prices.values() if "obsidian" in robot),
+            "ore": max(
+                robot["ore"] for robot in self.robot_prices.values() if "ore" in robot
+            ),
+            "clay": max(
+                robot["clay"] for robot in self.robot_prices.values() if "clay" in robot
+            ),
+            "obsidian": max(
+                robot["obsidian"]
+                for robot in self.robot_prices.values()
+                if "obsidian" in robot
+            ),
             "geode": 24,  # or sth like int max
         }
 
-    def get_possible_buys(self, current_robots: Robots, current_materials: Material) -> Dict[str, int]:
+    def get_possible_buys(
+        self, current_robots: Robots, current_materials: Material
+    ) -> Dict[str, int]:
         """get a list of robots that can be bought with the number of rounds it takes to buy that robot"""
         possible_buys: Dict[str, int] = {}
         for robot_type, robot_cost in self.robot_prices.items():
@@ -75,14 +89,26 @@ class Blueprint:
                 if current_robots[robot_type] + 1 > self.max_of_material[robot_type]:
                     continue
                 # (cost - current material) / per_round, but at least 0 rounds, then add the 1 round of producing while building
-                possible_buys[robot_type] = \
-                    max((ceil(max(robot_cost[ore] - current_materials[ore], 0) / current_robots[ore])) for ore in robot_cost.keys()) + 1
+                possible_buys[robot_type] = (
+                    max(
+                        (
+                            ceil(
+                                max(robot_cost[ore] - current_materials[ore], 0)
+                                / current_robots[ore]
+                            )
+                        )
+                        for ore in robot_cost.keys()
+                    )
+                    + 1
+                )
 
         return possible_buys
 
     def collect_maximum_geodes(
-            self,
-            minutes_left: int = 24, materials: Material = None, current_robots: Robots = None,
+        self,
+        minutes_left: int = 24,
+        materials: Material = None,
+        current_robots: Robots = None,
     ) -> int:
         """use this blueprint to get the maximum amount of"""
         if materials is None:
@@ -95,10 +121,11 @@ class Blueprint:
         # calculate maximum amount of geodes in current branch =
         # build one geode robot every step until end + current geodes + one for every minute for every existing robot
         # using formular for sum from 1 to n = n(n+1) / 2
-        theoretical_max_production: int = \
-            materials["geode"] + \
-            minutes_left * current_robots["geode"] + \
-            int((minutes_left * (minutes_left + 1)) / 2)
+        theoretical_max_production: int = (
+            materials["geode"]
+            + minutes_left * current_robots["geode"]
+            + int((minutes_left * (minutes_left + 1)) / 2)
+        )
 
         # get and finally return max produced geode
         max_produced_geodes: int = materials["geode"]
@@ -114,21 +141,30 @@ class Blueprint:
             # not enough time to buy new robot
             if rounds_to_material >= minutes_left:
                 assert minutes_left >= 0
-                return max(materials["geode"] + current_robots["geode"] * minutes_left, max_produced_geodes)
+                return max(
+                    materials["geode"] + current_robots["geode"] * minutes_left,
+                    max_produced_geodes,
+                )
             # only produce geode robots in the end
             if minutes_left < 5 and robot_to_buy != "geode":
                 continue
             # use current robots to produce everything possibly for multiple rounds
             # add produced robot to next iteration and remove materials
             new_materials = dict_sub_dict(
-                dict_add_dict(materials, current_robots, d2_multiplier=rounds_to_material),  # new materials
-                self.robot_prices[robot_to_buy]  # subtract price of current robot from all materials
+                dict_add_dict(
+                    materials, current_robots, d2_multiplier=rounds_to_material
+                ),  # new materials
+                self.robot_prices[
+                    robot_to_buy
+                ],  # subtract price of current robot from all materials
             )
             # recursive call
             sub_produced = self.collect_maximum_geodes(
                 minutes_left=minutes_left - rounds_to_material,
                 materials=new_materials,
-                current_robots=dict_add_dict(current_robots, {robot_to_buy: 1}),  # add planned robot
+                current_robots=dict_add_dict(
+                    current_robots, {robot_to_buy: 1}
+                ),  # add planned robot
             )
             # get max produced
             max_produced_geodes = max(max_produced_geodes, sub_produced)
@@ -141,37 +177,41 @@ class Blueprint:
 
 
 class Test2022Day19(unittest.TestCase):
-    test_blueprints: List[Blueprint] = [Blueprint(line) for line in read_lines_as_list("data/19-test.txt")]
+    test_blueprints: List[Blueprint] = [
+        Blueprint(line) for line in read_lines_as_list("data/19-test.txt")
+    ]
 
     def test_dict_add_dict(self):
         empty = {"ore": 0, "clay": 0, "obsidian": 0, "geode": 0}
-        random = {'obsidian': 2, 'clay': 11, 'geode': 0, 'ore': 4}
+        random = {"obsidian": 2, "clay": 11, "geode": 0, "ore": 4}
         one_value = {"ore": 10}  # does not have to have all values
         for d1, d2, multiplier, result in [
             (empty, random, 1, random),
-            (empty, random, 10, {'obsidian': 20, 'clay': 110, 'geode': 0, 'ore': 40}),
+            (empty, random, 10, {"obsidian": 20, "clay": 110, "geode": 0, "ore": 40}),
             (random, empty, 10, random),
             (empty, one_value, 1, {"ore": 10, "clay": 0, "obsidian": 0, "geode": 0}),
-            (random, one_value, 5, {'obsidian': 2, 'clay': 11, 'geode': 0, 'ore': 54}),
+            (random, one_value, 5, {"obsidian": 2, "clay": 11, "geode": 0, "ore": 54}),
         ]:
-            with self.subTest(msg=f'd1:{d1}, d2: {d2}'):
-                self.assertEqual(dict_add_dict(d1, d2, d2_multiplier=multiplier), result)
+            with self.subTest(msg=f"d1:{d1}, d2: {d2}"):
+                self.assertEqual(
+                    dict_add_dict(d1, d2, d2_multiplier=multiplier), result
+                )
 
     def test_dict_sub_dict(self):
         empty = {"ore": 0, "clay": 0, "obsidian": 0, "geode": 0}
-        random = {'obsidian': 2, 'clay': 11, 'geode': 0, 'ore': 4}
+        random = {"obsidian": 2, "clay": 11, "geode": 0, "ore": 4}
         one_value = {"ore": 1}
         for d1, d2, result in [
             (random, empty, random),
-            (random, one_value, {'obsidian': 2, 'clay': 11, 'geode': 0, 'ore': 3}),
-            (random, random, empty)
+            (random, one_value, {"obsidian": 2, "clay": 11, "geode": 0, "ore": 3}),
+            (random, random, empty),
         ]:
-            with self.subTest(msg=f'd1:{d1}, d2: {d2}'):
+            with self.subTest(msg=f"d1:{d1}, d2: {d2}"):
                 self.assertEqual(dict_sub_dict(d1, d2), result)
 
     def test_dict_geq_dict(self):
         empty = {"ore": 0, "clay": 0, "obsidian": 0, "geode": 0}
-        random = {'obsidian': 2, 'clay': 11, 'geode': 0, 'ore': 4}
+        random = {"obsidian": 2, "clay": 11, "geode": 0, "ore": 4}
         one_value = {"ore": 1}
         one_value_big = {"ore": 5}
         for d1, d2, result in [
@@ -181,12 +221,12 @@ class Test2022Day19(unittest.TestCase):
             (one_value, empty, True),
             (one_value_big, empty, True),
         ]:
-            with self.subTest(msg=f'd1:{d1}, d2: {d2}'):
+            with self.subTest(msg=f"d1:{d1}, d2: {d2}"):
                 self.assertEqual(dict_geq_dict(d1, d2), result)
 
     def test_get_possible_buys(self):
         empty = {"ore": 0, "clay": 0, "obsidian": 0, "geode": 0}
-        random = {'obsidian': 2, 'clay': 11, 'geode': 0, 'ore': 0}
+        random = {"obsidian": 2, "clay": 11, "geode": 0, "ore": 0}
         one_value = {"ore": 1, "clay": 0, "obsidian": 0, "geode": 0}
         one_value_big = {"ore": 5, "clay": 0, "obsidian": 0, "geode": 0}
         two_values = {"ore": 1, "clay": 5, "obsidian": 0, "geode": 0}
@@ -197,7 +237,7 @@ class Test2022Day19(unittest.TestCase):
             (one_value, random, {"ore": 5, "clay": 3}),
             (two_values, random, {"ore": 5, "clay": 3, "obsidian": 4}),
         ]:
-            with self.subTest(msg=f'robots:{robots}, materials: {materials}'):
+            with self.subTest(msg=f"robots:{robots}, materials: {materials}"):
                 bp = deepcopy(self.test_blueprints[0])
                 self.assertEqual(bp.get_possible_buys(robots, materials), buys)
 
@@ -208,15 +248,27 @@ class Test2022Day19(unittest.TestCase):
             # (1, 56, 32),
             # (2, 62, 32),
         ]:
-            with self.subTest(msg=f'id: {bp_id}, minutes: {minutes}'):
-                self.assertEqual(deepcopy(self.test_blueprints[bp_id - 1]).collect_maximum_geodes(minutes_left=minutes), max_geodes)
+            with self.subTest(msg=f"id: {bp_id}, minutes: {minutes}"):
+                self.assertEqual(
+                    deepcopy(self.test_blueprints[bp_id - 1]).collect_maximum_geodes(
+                        minutes_left=minutes
+                    ),
+                    max_geodes,
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 19:")
-    puzzle_input: List[Blueprint] = [Blueprint(line) for line in read_lines_as_list("data/19.txt")]
-    print("Part 1): ", sum(blueprint.get_quality_label() for blueprint in deepcopy(puzzle_input)))
-    factors = [bp.collect_maximum_geodes(minutes_left=32) for bp in deepcopy(puzzle_input)[:3]]
+    puzzle_input: List[Blueprint] = [
+        Blueprint(line) for line in read_lines_as_list("data/19.txt")
+    ]
+    print(
+        "Part 1): ",
+        sum(blueprint.get_quality_label() for blueprint in deepcopy(puzzle_input)),
+    )
+    factors = [
+        bp.collect_maximum_geodes(minutes_left=32) for bp in deepcopy(puzzle_input)[:3]
+    ]
     # 37367
     print("Part 2): ", factors, " multiply these")
     print("End Main 19<<<")

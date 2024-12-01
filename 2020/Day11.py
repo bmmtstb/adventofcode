@@ -26,9 +26,15 @@ def change_seats_states(data: List[List[int]], seeing: bool = False) -> List[Lis
     def adjacent_neighbors(r, c):
         """calculate the types of adjacent seats"""
         seeing_types = {-1: 0, 0: 0, 1: 0}
-        directions = [(l, k) for k in range(-1, 2) for l in range(-1, 2) if not(l == k == 0)]
+        directions = [
+            (l, k) for k in range(-1, 2) for l in range(-1, 2) if not (l == k == 0)
+        ]
         for dire in directions:
-            neigh_val = get_seen_in_direction((r, c), dire) if seeing else get_neighbor_in_direction((r, c), dire)
+            neigh_val = (
+                get_seen_in_direction((r, c), dire)
+                if seeing
+                else get_neighbor_in_direction((r, c), dire)
+            )
             if neigh_val:
                 seeing_types[neigh_val] += 1
         return seeing_types
@@ -43,7 +49,9 @@ def change_seats_states(data: List[List[int]], seeing: bool = False) -> List[Lis
                 i, j = tuple_add_tuple((i, j), direction)
         return data[i][j] if 0 <= i < len(data) and 0 <= j < len(data[i]) else None
 
-    def get_neighbor_in_direction(pos: Tuple[int, int], direction: Tuple[int, int]) -> int:
+    def get_neighbor_in_direction(
+        pos: Tuple[int, int], direction: Tuple[int, int]
+    ) -> int:
         """get the neighboring element in the direction"""
         i, j = tuple_add_tuple(pos, direction)
         return data[i][j] if 0 <= i < len(data) and 0 <= j < len(data[i]) else None
@@ -67,13 +75,18 @@ def change_seats_states(data: List[List[int]], seeing: bool = False) -> List[Lis
     return new_data
 
 
-def run_until_no_changes(data: List[List[int]], seeing: bool = False) -> List[List[int]]:
+def run_until_no_changes(
+    data: List[List[int]], seeing: bool = False
+) -> List[List[int]]:
     """Change all the seats until the same state appears twice"""
     old_state = deepcopy(data)
     while True:
         state = change_seats_states(old_state, seeing)
         # if both states are equal
-        if all(all(state[i][j] == old_state[i][j] for j in range(len(state[i]))) for i in range(len(data))):
+        if all(
+            all(state[i][j] == old_state[i][j] for j in range(len(state[i])))
+            for i in range(len(data))
+        ):
             return old_state
         old_state = deepcopy(state)
 
@@ -104,7 +117,7 @@ class Test2020Day11(unittest.TestCase):
                 self.assertEqual(count_occupied_seats(end), occ)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 11:")
     puzzle_input = load("data/11.txt")
     print("Part 1):")

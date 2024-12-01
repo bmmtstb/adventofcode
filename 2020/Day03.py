@@ -36,17 +36,26 @@ class Test2020Day03(unittest.TestCase):
             ["data/03-Test.txt", 1, 2, 2],
         ]:
             with self.subTest():
-                self.assertEqual(obstacles_in_path(load_data(fname), horizontal=right, vertical=down), obs)
+                self.assertEqual(
+                    obstacles_in_path(
+                        load_data(fname), horizontal=right, vertical=down
+                    ),
+                    obs,
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 03:")
     puzzle_input = load_data("data/03.txt")
     print("Part 1):")
     print(obstacles_in_path(puzzle_input))
     print("Part 2):")
-    mult = obstacles_in_path(puzzle_input, 1, 1) * obstacles_in_path(puzzle_input, 3, 1) * \
-           obstacles_in_path(puzzle_input, 5, 1) * obstacles_in_path(puzzle_input, 7, 1) * \
-           obstacles_in_path(puzzle_input, 1, 2)
+    mult = (
+        obstacles_in_path(puzzle_input, 1, 1)
+        * obstacles_in_path(puzzle_input, 3, 1)
+        * obstacles_in_path(puzzle_input, 5, 1)
+        * obstacles_in_path(puzzle_input, 7, 1)
+        * obstacles_in_path(puzzle_input, 1, 2)
+    )
     print(mult)
     print("End Main 03<<<")

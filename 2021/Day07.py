@@ -17,7 +17,9 @@ def get_fuel_efficient_level(pos: List[int], steps: str = "lin") -> int:
         else:
             raise Exception("Invalid step-function")
 
-        if curr >= best:  # only one minimum -> if value goes up minimum was already found
+        if (
+            curr >= best
+        ):  # only one minimum -> if value goes up minimum was already found
             return best
         else:
             best = curr
@@ -40,7 +42,7 @@ class Test2021Day07(unittest.TestCase):
                 self.assertEqual(get_fuel_efficient_level(l, step), opt)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 07:")
     puzzle_input = load_file_and_split("data/07.txt", separator=",", instance_type=int)
     print("Part 1): ", get_fuel_efficient_level(puzzle_input.copy(), "lin"))

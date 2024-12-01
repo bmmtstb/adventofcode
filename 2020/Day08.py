@@ -15,9 +15,11 @@ def read_instructions(filepath: str) -> List[Tuple[str, int]]:
     return instructions
 
 
-def run_instructions_till_loop(instructions: List[Tuple[str, int]], acc: int = 0, pointer: int = 0) -> Tuple[bool, int]:
+def run_instructions_till_loop(
+    instructions: List[Tuple[str, int]], acc: int = 0, pointer: int = 0
+) -> Tuple[bool, int]:
     """Run instructions until an instruction is run a second time. Returns whether or not completed successfully and
-    the current acc stack """
+    the current acc stack"""
     visited = []
     while 0 <= pointer < len(instructions):
         if pointer in visited:
@@ -59,13 +61,15 @@ def repair_instructions(instructions: List[Tuple[str, int]]) -> int:
 
 class Test2020Day08(unittest.TestCase):
     def test_loop_terminating(self):
-        self.assertEqual(run_instructions_till_loop(read_instructions("data/08-test.txt"))[1], 5)
+        self.assertEqual(
+            run_instructions_till_loop(read_instructions("data/08-test.txt"))[1], 5
+        )
 
     def test_change_loop(self):
         self.assertEqual(repair_instructions(read_instructions("data/08-test.txt")), 8)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 08:")
     puzzle_input = read_instructions("data/08.txt")
     print("Part 1):")

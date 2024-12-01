@@ -28,11 +28,9 @@ def solve(lines, nums, prefix=0, alu=None):
         if op == "inp":
             for x in nums:
                 setattr(alu, lhs, x)
-                if skip_range(lines[i + 1:], alu.w, alu.x, alu.y, alu.z):
+                if skip_range(lines[i + 1 :], alu.w, alu.x, alu.y, alu.z):
                     continue
-                r = solve(
-                    lines[i + 1:], nums, prefix=10 * prefix + x, alu=alu.copy()
-                )
+                r = solve(lines[i + 1 :], nums, prefix=10 * prefix + x, alu=alu.copy())
                 if r is not None:
                     return r
             return None
@@ -40,31 +38,39 @@ def solve(lines, nums, prefix=0, alu=None):
             setattr(
                 alu,
                 lhs,
-                getattr(alu, lhs) + (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
+                getattr(alu, lhs)
+                + (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
             )
         elif op == "mul":
             setattr(
                 alu,
                 lhs,
-                getattr(alu, lhs) * (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
+                getattr(alu, lhs)
+                * (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
             )
         elif op == "div":
             setattr(
                 alu,
                 lhs,
-                getattr(alu, lhs) // (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
+                getattr(alu, lhs)
+                // (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
             )
         elif op == "mod":
             setattr(
                 alu,
                 lhs,
-                getattr(alu, lhs) % (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
+                getattr(alu, lhs)
+                % (int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
             )
         elif op == "eql":
             setattr(
                 alu,
                 lhs,
-                int(getattr(alu, lhs) == int(rhs) if rhs.lstrip("-").isnumeric() else getattr(alu, rhs)),
+                int(
+                    getattr(alu, lhs) == int(rhs)
+                    if rhs.lstrip("-").isnumeric()
+                    else getattr(alu, rhs)
+                ),
             )
     return None if alu.z else prefix
 
@@ -160,7 +166,7 @@ class Test2021Day24(unittest.TestCase):
         pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 24:")
     puzzle_input = []
     print("Part 1): ", solve(load_file_and_split("data/24.txt"), range(9, 0, -1)))

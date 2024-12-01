@@ -3,7 +3,9 @@ from typing import Dict, List, Tuple, Set
 from copy import deepcopy
 
 
-def load_dataset(filepath: str) -> (Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]], List[int], List[List[int]]):
+def load_dataset(
+    filepath: str,
+) -> (Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]], List[int], List[List[int]]):
     """load single document dataset"""
     step = 0
     rules = {}
@@ -33,26 +35,39 @@ def load_dataset(filepath: str) -> (Dict[str, Tuple[Tuple[int, int], Tuple[int, 
     return rules, own, tickets
 
 
-def get_is_ticket_valid(ticket: List[int], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]) -> bool:
+def get_is_ticket_valid(
+    ticket: List[int], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]
+) -> bool:
     """returns true if a ticket is valid"""
     for val in ticket:
-        if not any(rule_tup[0][0] <= val <= rule_tup[0][1] or rule_tup[1][0] <= val <= rule_tup[1][1] for rule_tup in
-                   rules.values()):
+        if not any(
+            rule_tup[0][0] <= val <= rule_tup[0][1]
+            or rule_tup[1][0] <= val <= rule_tup[1][1]
+            for rule_tup in rules.values()
+        ):
             return False
     return True
 
 
-def get_ticket_scanning_error_rate(tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]) -> int:
+def get_ticket_scanning_error_rate(
+    tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]
+) -> int:
     """Calculate value sum of tickets with wrong values"""
     error = 0
     for ticket in tickets:
         for num in ticket:
-            if not any(rule_tup[0][0] <= num <= rule_tup[0][1] or rule_tup[1][0] <= num <= rule_tup[1][1] for rule_tup in rules.values()):
+            if not any(
+                rule_tup[0][0] <= num <= rule_tup[0][1]
+                or rule_tup[1][0] <= num <= rule_tup[1][1]
+                for rule_tup in rules.values()
+            ):
                 error += num
     return error
 
 
-def get_correct_tickets(tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]) -> List[List[int]]:
+def get_correct_tickets(
+    tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]
+) -> List[List[int]]:
     """get the list of correct tickets"""
     correct = []
     for ticket in tickets:
@@ -61,7 +76,9 @@ def get_correct_tickets(tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[i
     return correct
 
 
-def get_matching_rules(tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]) -> Dict[str, int]:
+def get_matching_rules(
+    tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[int, int], Tuple[int, int]]]
+) -> Dict[str, int]:
     """Match every rule with one row of values"""
     # if len(tickets) > len(rules):
     #     raise Exception("There are to many rules, please double check")
@@ -69,7 +86,11 @@ def get_matching_rules(tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[in
     matches: Dict[str, List[int, ...]] = {}
     for rule_name, rule_tup in rules.items():
         for i in range(len(tickets[0])):
-            if all(rule_tup[0][0] <= t[i] <= rule_tup[0][1] or rule_tup[1][0] <= t[i] <= rule_tup[1][1] for t in tickets):
+            if all(
+                rule_tup[0][0] <= t[i] <= rule_tup[0][1]
+                or rule_tup[1][0] <= t[i] <= rule_tup[1][1]
+                for t in tickets
+            ):
                 if rule_name in matches:
                     matches[rule_name].append(i)
                 else:
@@ -97,7 +118,6 @@ def get_matching_rules(tickets: List[List[int]], rules: Dict[str, Tuple[Tuple[in
     return definitions
 
 
-
 class Test2020Day16(unittest.TestCase):
     def test_error_rate(self):
         rules, own, tickets = load_dataset("data/16-test.txt")
@@ -107,10 +127,12 @@ class Test2020Day16(unittest.TestCase):
         rules, own, tickets = load_dataset("data/16-test2.txt")
         correct = get_correct_tickets(tickets, rules)
         self.assertListEqual(correct, tickets[:-1])
-        self.assertDictEqual(get_matching_rules(correct, rules), {"class": 1, "row": 0, "seat": 2})
+        self.assertDictEqual(
+            get_matching_rules(correct, rules), {"class": 1, "row": 0, "seat": 2}
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 16:")
     puzzle_rules, puzzle_own, puzzle_tickets = load_dataset("data/16.txt")
     print("Part 1):")

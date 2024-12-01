@@ -14,11 +14,15 @@ def process_ingredients(ingredients: List[str]) -> List[Tuple[Set[str], Set[str]
     contents = []
     for ingredient in ingredients:
         prod_ingr, allergens = ingredient[:-1].split("(contains")
-        contents.append((set(prod_ingr.strip().split(" ")), set(allergens.strip().split(", "))))
+        contents.append(
+            (set(prod_ingr.strip().split(" ")), set(allergens.strip().split(", ")))
+        )
     return contents
 
 
-def find_matching_ingredients(ingredients: List[Tuple[Set[str], Set[str]]]) -> Dict[str, Set[str]]:
+def find_matching_ingredients(
+    ingredients: List[Tuple[Set[str], Set[str]]]
+) -> Dict[str, Set[str]]:
     """get corresponding counterpart for every ingredient"""
     possible = dict()
     for cryptic, allergens in ingredients:
@@ -72,15 +76,17 @@ class Test2020Day21(unittest.TestCase):
             "mxmxvkd kfcds sqjhc nhms(contains dairy, fish)",
             "trh fvjkl sbzzf mxmxvkd(contains dairy)",
             "sqjhc fvjkl(contains soy)",
-            "sqjhc mxmxvkd sbzzf(contains fish)"
+            "sqjhc mxmxvkd sbzzf(contains fish)",
         ]
         processed = process_ingredients(ingredients)
         matches = find_matching_ingredients(processed)
-        self.assertDictEqual(matches, {"dairy": {"mxmxvkd"}, "fish": {"sqjhc"}, "soy": {"fvjkl"}})
+        self.assertDictEqual(
+            matches, {"dairy": {"mxmxvkd"}, "fish": {"sqjhc"}, "soy": {"fvjkl"}}
+        )
         self.assertEqual(find_unused_products(processed), 5)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 21:")
     puzzle_input = load_from_file("data/21.txt")
     puzzle_processed = process_ingredients(puzzle_input)

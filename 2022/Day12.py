@@ -13,17 +13,30 @@ Position = Tuple[int, int]
 class PathFinder:
     """given a map evaluate it and find efficient paths"""
 
-    def __init__(self, height_map: np.ndarray, skip_at: int = np.inf, g_value_init: np.ndarray = None):
+    def __init__(
+        self,
+        height_map: np.ndarray,
+        skip_at: int = np.inf,
+        g_value_init: np.ndarray = None,
+    ):
         self.skip_at: int = skip_at
         self.height_map: np.ndarray = height_map
         self.height, self.width = self.height_map.shape
-        self.start_pos: Position = tuple(int(x) for x in np.where(self.height_map == ord("S")))
-        self.final_pos: Position = tuple(int(x) for x in np.where(self.height_map == ord("E")))
+        self.start_pos: Position = tuple(
+            int(x) for x in np.where(self.height_map == ord("S"))
+        )
+        self.final_pos: Position = tuple(
+            int(x) for x in np.where(self.height_map == ord("E"))
+        )
         # create f and g value map where the minimal cost of every node is stored
         # f: estimate path to goal from node
         self.f_value_map: np.ndarray = np.full(self.height_map.shape, np.inf, dtype=int)
         # g: cost to reach node
-        self.g_value_map: np.ndarray = np.full(self.height_map.shape, self.width * self.height, dtype=int) if g_value_init is None else g_value_init
+        self.g_value_map: np.ndarray = (
+            np.full(self.height_map.shape, self.width * self.height, dtype=int)
+            if g_value_init is None
+            else g_value_init
+        )
         # create a mapping where every (interesting) node points to the successor with the (current) minimal cost
         self.predecessor_map: Dict[Position, Position] = dict()
         # replace start and goal value
@@ -36,7 +49,9 @@ class PathFinder:
         given the current object use a-star algorithm to find the shortest path from start to final
         """
 
-        def expand_node(current_node: Position, open_list: Set[Position], closed_list: Set[Position]):
+        def expand_node(
+            current_node: Position, open_list: Set[Position], closed_list: Set[Position]
+        ):
             """
             expand the given node as part of A* Algorithm
             in place modification of open list
@@ -55,7 +70,11 @@ class PathFinder:
                 if successor in closed_list:
                     continue
                 # skip if out of bounds
-                if any(axis < 0 for axis in successor) or successor[0] >= self.height or successor[1] >= self.width:
+                if (
+                    any(axis < 0 for axis in successor)
+                    or successor[0] >= self.height
+                    or successor[1] >= self.width
+                ):
                     continue
                 # skip if height difference > 1 -> no step possible
                 if self.height_map[successor] - self.height_map[current_node] > 1:
@@ -65,7 +84,10 @@ class PathFinder:
                 # costs to get to successor is cost to get to current plus one step:
                 tentative_g = self.g_value_map[current_node] + 1
                 # skip successor if in open list and successor not better than previously
-                if successor in open_list and tentative_g >= self.g_value_map[successor]:
+                if (
+                    successor in open_list
+                    and tentative_g >= self.g_value_map[successor]
+                ):
                     continue
                 # successor is the best current successor
                 # update successor minimal g value
@@ -83,8 +105,12 @@ class PathFinder:
         # set open and closed list initial values, and set some type hints
         open_list: Set[Position] = {self.start_pos}
         closed_list: Set[Position] = {self.start_pos}
-        self.g_value_map[self.start_pos] = 0  # value to get to start (actually does not matter)
-        self.f_value_map[self.start_pos] = 0  # value to get to start (actually does not matter)
+        self.g_value_map[self.start_pos] = (
+            0  # value to get to start (actually does not matter)
+        )
+        self.f_value_map[self.start_pos] = (
+            0  # value to get to start (actually does not matter)
+        )
         current_node: Position
         curr_node_value: int
         # run algorithm as long as there are values in open list,
@@ -130,7 +156,9 @@ def scenic_route_finder(height_map: np.ndarray) -> List[Position]:
     best_g_value_map = deepcopy(default_pathfinder_object.g_value_map)
 
     # replace default starting position in height_map with "a"
-    default_start_pos: Position = tuple(int(x) for x in np.where(height_map == ord("S")))
+    default_start_pos: Position = tuple(
+        int(x) for x in np.where(height_map == ord("S"))
+    )
     height_map[default_start_pos] = ord("a")
     # for every a check shortest path
     for new_start in np.argwhere(height_map == ord("a")):
@@ -141,7 +169,9 @@ def scenic_route_finder(height_map: np.ndarray) -> List[Position]:
 
         new_hm = deepcopy(height_map)
         new_hm[new_start] = ord("S")
-        new_pathfinder = PathFinder(height_map=new_hm, skip_at=len(best_path), g_value_init=best_g_value_map)
+        new_pathfinder = PathFinder(
+            height_map=new_hm, skip_at=len(best_path), g_value_init=best_g_value_map
+        )
         new_path = new_pathfinder.find_shortest_path()
         if len(new_path) and len(new_path) < len(best_path):
             best_path = new_path
@@ -151,21 +181,29 @@ def scenic_route_finder(height_map: np.ndarray) -> List[Position]:
 
 
 class Test2022Day12(unittest.TestCase):
-    test_height_map = np.array(read_lines_as_list(filepath="data/12-test.txt", instance_type=ord, split="every"))
+    test_height_map = np.array(
+        read_lines_as_list(
+            filepath="data/12-test.txt", instance_type=ord, split="every"
+        )
+    )
     test_path_finder_object = PathFinder(deepcopy(test_height_map))
 
     # ! careful ! number of steps is len(path) -1 !
 
     def test_find_length_of_shortest_path_from_start(self):
-        self.assertEqual(len(deepcopy(self.test_path_finder_object).find_shortest_path()) - 1, 31)
+        self.assertEqual(
+            len(deepcopy(self.test_path_finder_object).find_shortest_path()) - 1, 31
+        )
 
     def test_find_shortest_path_from_a(self):
         self.assertEqual(len(scenic_route_finder(self.test_height_map)) - 1, 29)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 12:")
-    puzzle_input = np.array(read_lines_as_list(filepath="data/12.txt", instance_type=ord, split="every"))
+    puzzle_input = np.array(
+        read_lines_as_list(filepath="data/12.txt", instance_type=ord, split="every")
+    )
     print("Part 1): ", len(PathFinder(deepcopy(puzzle_input)).find_shortest_path()) - 1)
     print("Part 2): ", len(scenic_route_finder(deepcopy(puzzle_input))) - 1)
     print("End Main 12<<<")

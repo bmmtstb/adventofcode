@@ -29,7 +29,9 @@ def load_data(filepath: str) -> Tuple[Stacks, Orders]:
                     init_stacks[stack].insert(0, value)
     # get orders
     # get item number 1,3,5 from the split list -> the numbers
-    init_orders: Orders = [tuple(map(int, order.split(" ")[1::2])) for order in raw_orders]
+    init_orders: Orders = [
+        tuple(map(int, order.split(" ")[1::2])) for order in raw_orders
+    ]
     return init_stacks, init_orders
 
 
@@ -48,7 +50,6 @@ def run_orders(init_config: Stacks, orders: Orders, keep_order: bool = False) ->
     return config
 
 
-
 def get_top_of_stack(stacks: Stacks) -> str:
     """get the characters that are on top of each stack"""
     return "".join(stack[-1] for stack in stacks)
@@ -65,8 +66,14 @@ class Test2022Day05(unittest.TestCase):
         self.assertEqual(config, self.test_start_config_validation)
 
     def test_run_orders(self):
-        self.assertEqual(run_orders(self.test_config, self.test_orders), self.test_end_config_validation_single)
-        self.assertEqual(run_orders(self.test_config, self.test_orders, keep_order=True), self.test_end_config_validation_multiple)
+        self.assertEqual(
+            run_orders(self.test_config, self.test_orders),
+            self.test_end_config_validation_single,
+        )
+        self.assertEqual(
+            run_orders(self.test_config, self.test_orders, keep_order=True),
+            self.test_end_config_validation_multiple,
+        )
 
     def test_get_top_of_stack(self):
         for stacks, word in [
@@ -74,13 +81,16 @@ class Test2022Day05(unittest.TestCase):
             (run_orders(self.test_config, self.test_orders), "CMZ"),
             (run_orders(self.test_config, self.test_orders, keep_order=True), "MCD"),
         ]:
-            with self.subTest(msg=f'Word {word}'):
+            with self.subTest(msg=f"Word {word}"):
                 self.assertEqual(get_top_of_stack(stacks), word)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 05:")
     puzzle_stack, puzzle_orders = load_data(filepath="data/05.txt")
     print("Part 1): ", get_top_of_stack(run_orders(puzzle_stack, puzzle_orders)))
-    print("Part 2): ", get_top_of_stack(run_orders(puzzle_stack, puzzle_orders, keep_order=True)))
+    print(
+        "Part 2): ",
+        get_top_of_stack(run_orders(puzzle_stack, puzzle_orders, keep_order=True)),
+    )
     print("End Main 05<<<")

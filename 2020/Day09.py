@@ -15,7 +15,7 @@ def find_not_matching(data: List[int], n: int = 25, nof_prev_nums: int = 2) -> i
     """Find fist number in list, which is not a sum of previous numbers"""
     # start after preamble
     for i in range(n, len(data)):
-        if data[i] not in sum_of_different_n(data[i - n:i], nof_prev_nums):
+        if data[i] not in sum_of_different_n(data[i - n : i], nof_prev_nums):
             return data[i]
     return -1
 
@@ -26,7 +26,7 @@ def sum_of_different_n(data: List[int], n=2) -> Set[int]:
         return set(data)
     sums = []
     for i in range(len(data)):
-        for j in sum_of_different_n(data[:i] + data[i + 1:], n - 1):
+        for j in sum_of_different_n(data[:i] + data[i + 1 :], n - 1):
             sums.append(int(data[i] + j))
     return set(sums)
 
@@ -38,9 +38,9 @@ def find_continuous_sum(data: List[int], goal: int) -> List[int]:
         current_sum = data[i]
         while current_sum <= goal:
             if current_sum == goal:
-                return data[i:i + n]
+                return data[i : i + n]
             n += 1
-            current_sum = sum(data[i:i + n])
+            current_sum = sum(data[i : i + n])
     return []
 
 
@@ -55,16 +55,58 @@ class Test2020Day09(unittest.TestCase):
                 self.assertEqual(sum_of_different_n(d, n), res)
 
     def test_find_not_matching(self):
-        data = [35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576]
+        data = [
+            35,
+            20,
+            15,
+            25,
+            47,
+            40,
+            62,
+            55,
+            65,
+            95,
+            102,
+            117,
+            150,
+            182,
+            127,
+            219,
+            299,
+            277,
+            309,
+            576,
+        ]
         self.assertEqual(find_not_matching(data, 5), 127)
 
     def test_find_continuous_sum(self):
-        data = [35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576]
+        data = [
+            35,
+            20,
+            15,
+            25,
+            47,
+            40,
+            62,
+            55,
+            65,
+            95,
+            102,
+            117,
+            150,
+            182,
+            127,
+            219,
+            299,
+            277,
+            309,
+            576,
+        ]
         cont = [15, 25, 47, 40]
         self.assertEqual(find_continuous_sum(data, 127), cont)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 09:")
     puzzle_input = load("data/09.txt")
     print("Part 1):")

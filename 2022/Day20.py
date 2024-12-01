@@ -7,6 +7,7 @@ from helper.file import read_lines_as_list
 def load(fp: str) -> List[int]:
     return read_lines_as_list(fp, instance_type=int)
 
+
 class Node:
     def __init__(self, value, id_):
         self.value: int = value
@@ -19,19 +20,18 @@ class Node:
         self.next: Node = next_
 
 
-
 class LinkedList:
     def __init__(self, fp: str):
         data = load(fp)
         self.zero_id = data.index(0)
 
         # init nodes
-        self.state: Tuple[Node] = tuple([
-            Node(value, i) for i, value in enumerate(data)
-        ])
+        self.state: Tuple[Node] = tuple(
+            [Node(value, i) for i, value in enumerate(data)]
+        )
         # then link them
         for i, n in enumerate(self.state):
-            n.link(self.state[i-1], self.state[(i+1) % len(data)])
+            n.link(self.state[i - 1], self.state[(i + 1) % len(data)])
 
     def get_score(self) -> int:
         """1000th, 2000th and 3000th value after 0"""
@@ -105,7 +105,7 @@ class LinkedList:
 
         # cut current node from graph
         self.remove(curr_node)
-        
+
         if curr_node.value > 0:
             self.insert_after(nth_node, curr_node)
         else:
@@ -117,13 +117,13 @@ class LinkedList:
         return self.get_score()
 
 
-
 class Test2022Day20(unittest.TestCase):
 
     def test_get_result(self):
         self.assertEqual(LinkedList("./data/20-test.txt").decrypt(), 3)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     print(">>> Start Main 20:")
     puzzle_input = LinkedList("./data/20.txt")
     print("Part 1): ", puzzle_input.decrypt())  # 2622

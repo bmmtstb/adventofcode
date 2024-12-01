@@ -33,14 +33,19 @@ def fold_along_axis(positions: Positions, axis: int, axis_pos: int):
         positions.add(add)
 
 
-def draw_positions(positions: Set[Tuple[int, int]], console_print: bool = False) -> List[str]:
+def draw_positions(
+    positions: Set[Tuple[int, int]], console_print: bool = False
+) -> List[str]:
     """draw a "#" for every position, "." otherwise"""
     min_x: int = min(pos[0] for pos in positions)
     max_x: int = max(pos[0] for pos in positions)
     min_y: int = min(pos[1] for pos in positions)
     max_y: int = max(pos[1] for pos in positions)
 
-    picture = ["".join("#" if (x, y) in positions else "." for x in range(min_x, max_x + 1)) for y in range(min_y, max_y + 1)]
+    picture = [
+        "".join("#" if (x, y) in positions else "." for x in range(min_x, max_x + 1))
+        for y in range(min_y, max_y + 1)
+    ]
     if console_print:
         for p in picture:
             print(p)
@@ -60,8 +65,26 @@ def fold_paper(positions: Positions, folds: List[str]) -> Positions:
 
 
 class Test2021Day13(unittest.TestCase):
-    test_dots = {(6, 10), (0, 14), (9, 10), (0, 3), (10, 4), (4, 11), (6, 0), (6, 12), (4, 1), (0, 13), (10, 12),
-                 (3, 4), (3, 0), (8, 4), (1, 10), (2, 14), (8, 10), (9, 0)}
+    test_dots = {
+        (6, 10),
+        (0, 14),
+        (9, 10),
+        (0, 3),
+        (10, 4),
+        (4, 11),
+        (6, 0),
+        (6, 12),
+        (4, 1),
+        (0, 13),
+        (10, 12),
+        (3, 4),
+        (3, 0),
+        (8, 4),
+        (1, 10),
+        (2, 14),
+        (8, 10),
+        (9, 0),
+    }
 
     def test_fold_nof_points(self):
         for folds, nof_points in [
@@ -69,28 +92,30 @@ class Test2021Day13(unittest.TestCase):
             [["y=7", "x=5"], 16],
         ]:
             with self.subTest():
-                self.assertEqual(len(fold_paper(deepcopy(self.test_dots), folds)), nof_points)
+                self.assertEqual(
+                    len(fold_paper(deepcopy(self.test_dots), folds)), nof_points
+                )
 
     def test_fold_result_visually(self):
         new_positions = fold_paper(deepcopy(self.test_dots), ["y=7", "x=5"])
         draw_str = draw_positions(new_positions)
-        test_str = [
-            "#####",
-            "#...#",
-            "#...#",
-            "#...#",
-            "#####"
-        ]
+        test_str = ["#####", "#...#", "#...#", "#...#", "#####"]
         self.assertEqual(draw_str, test_str)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     d = load_file_and_split("data/13.txt", separator="\n\n")
-    puzzle_positions: Positions = {(int(line.split(",")[0]), int(line.split(",")[1])) for line in d[0].split("\n")}
+    puzzle_positions: Positions = {
+        (int(line.split(",")[0]), int(line.split(",")[1])) for line in d[0].split("\n")
+    }
     puzzle_instructions = [s[11:] for s in d[1].split("\n") if len(s) > 0]
     print(">>> Start Main 13:")
-    print("Part 1): ", len(fold_paper(deepcopy(puzzle_positions), deepcopy([puzzle_instructions[0]]))))
+    print(
+        "Part 1): ",
+        len(fold_paper(deepcopy(puzzle_positions), deepcopy([puzzle_instructions[0]]))),
+    )
     print("Part 2): ")
-    draw_positions(fold_paper(deepcopy(puzzle_positions), deepcopy(puzzle_instructions)), True)
+    draw_positions(
+        fold_paper(deepcopy(puzzle_positions), deepcopy(puzzle_instructions)), True
+    )
     print("End Main 13<<<")

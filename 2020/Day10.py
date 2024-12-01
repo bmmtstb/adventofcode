@@ -15,7 +15,10 @@ def get_adapter_differences(adapters: List[int]) -> Dict[int, int]:
     """calculate Adapter differences using all adapters"""
     sorted_adapters = adapters.copy() + [0, max(adapters) + 3]
     sorted_adapters.sort()
-    differences = [sorted_adapters[c + 1] - sorted_adapters[c] for c in range(len(sorted_adapters) - 1)]
+    differences = [
+        sorted_adapters[c + 1] - sorted_adapters[c]
+        for c in range(len(sorted_adapters) - 1)
+    ]
     return {val: differences.count(val) for val in set(differences)}
 
 
@@ -46,11 +49,14 @@ def get_different_arrangements(adapters: List[int]) -> int:
     comb_of_val = {sorted_adapters[0]: 1}
     for node in sorted_adapters[1:]:
         if node in comb_of_val.keys():
-            comb_of_val[node] += sum(comb_of_val[key] for key in possible_combinations[node])
+            comb_of_val[node] += sum(
+                comb_of_val[key] for key in possible_combinations[node]
+            )
         else:
-            comb_of_val[node] = sum(comb_of_val[key] for key in possible_combinations[node])
+            comb_of_val[node] = sum(
+                comb_of_val[key] for key in possible_combinations[node]
+            )
     return comb_of_val[0]
-
 
 
 class Test2020Day10(unittest.TestCase):
@@ -64,7 +70,7 @@ class Test2020Day10(unittest.TestCase):
                 self.assertEqual(get_different_arrangements(adapters), arr)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 10:")
     puzzle_input = load("data/10.txt")
     print("Part 1):")

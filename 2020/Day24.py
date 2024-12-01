@@ -28,7 +28,7 @@ def follow_direction(dirs: str) -> Tuple[int, int]:
             pos = tuple_add_tuple(pos, directions[dirs[i]])
             i += 1
         else:
-            pos = tuple_add_tuple(pos, directions[dirs[i:i+2]])
+            pos = tuple_add_tuple(pos, directions[dirs[i : i + 2]])
             i += 2
     return pos
 
@@ -50,7 +50,9 @@ def count_active(tiles: Dict[Tuple[int, int], bool]) -> int:
     return sum(1 if tile else 0 for tile in tiles.values())
 
 
-def get_adjacent_tile_colors(colored: Dict[Tuple[int, int], bool], tile: Tuple[int, int]) -> Dict[bool, int]:
+def get_adjacent_tile_colors(
+    colored: Dict[Tuple[int, int], bool], tile: Tuple[int, int]
+) -> Dict[bool, int]:
     """get the colors of all adjacent tiles"""
     adjacent = {False: 0, True: 0}
     for curr_dir in directions.values():
@@ -62,7 +64,9 @@ def get_adjacent_tile_colors(colored: Dict[Tuple[int, int], bool], tile: Tuple[i
     return adjacent
 
 
-def tile_colors_after_n_days(colored: Dict[Tuple[int, int], bool], n: int = 100) -> Dict[Tuple[int, int], bool]:
+def tile_colors_after_n_days(
+    colored: Dict[Tuple[int, int], bool], n: int = 100
+) -> Dict[Tuple[int, int], bool]:
     """get the number of active tiles after n days"""
     for _ in range(n):
         # work on duplicate of data
@@ -105,15 +109,12 @@ class Test2020Day24(unittest.TestCase):
         "nenewswnwewswnenesenwnesewesw",
         "eneswnwswnwsenenwnwnwwseeswneewsenese",
         "neswnwewnwnwseenwseesewsenwsweewe",
-        "wseweeenwnesenwwwswnew"
+        "wseweeenwnesenwwwswnew",
     ]
     colors = follow_directions(deepcopy(test_dirs))
 
     def test_changed_tiles(self):
-        for direction, res in [
-            ["esew", {(0.5, 1): True}],
-            ["nwwswee", {(0, 0): True}]
-        ]:
+        for direction, res in [["esew", {(0.5, 1): True}], ["nwwswee", {(0, 0): True}]]:
             with self.subTest():
                 self.assertEqual(follow_directions([direction]), res)
 
@@ -134,7 +135,7 @@ class Test2020Day24(unittest.TestCase):
                 self.assertEqual(count_active(colors), count)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 24:")
     puzzle_input = read_lines_as_list("data/24.txt")
     print("Part 1):")

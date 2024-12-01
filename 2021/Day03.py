@@ -24,7 +24,6 @@ def get_char_row_count(data: List[str], idx: int) -> Dict[int, int]:
     return char_count
 
 
-
 def get_row_common(row_counts: List[Dict[int, int]], f: Union[min, max]) -> str:
     """Given the row counts of each char, return the most or least common per row"""
     res = ""
@@ -69,11 +68,40 @@ def filter_data(d: List[str], criterion: str) -> str:
 
 
 class Test2021Day03(unittest.TestCase):
-    default_data_short = ["00", "11", "10", "10", "10", "01", "00", "11", "10", "11", "00", "01"]
-    default_data = ["00100", "11110", "10110", "10111", "10101", "01111", "00111", "11100", "10000", "11001", "00010", "01010"]
+    default_data_short = [
+        "00",
+        "11",
+        "10",
+        "10",
+        "10",
+        "01",
+        "00",
+        "11",
+        "10",
+        "11",
+        "00",
+        "01",
+    ]
+    default_data = [
+        "00100",
+        "11110",
+        "10110",
+        "10111",
+        "10101",
+        "01111",
+        "00111",
+        "11100",
+        "10000",
+        "11001",
+        "00010",
+        "01010",
+    ]
 
     def test_row_counts(self):
-        self.assertEqual(get_word_row_counts(self.default_data_short.copy()), [{0: 5, 1: 7}, {0: 7, 1: 5}])
+        self.assertEqual(
+            get_word_row_counts(self.default_data_short.copy()),
+            [{0: 5, 1: 7}, {0: 7, 1: 5}],
+        )
 
     def test_common(self):
         for f, r in [
@@ -93,7 +121,7 @@ class Test2021Day03(unittest.TestCase):
                 self.assertEqual(filter_data(self.default_data.copy(), crit), res)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 03:")
     puzzle_input = read_lines_as_list("data/03.txt")
     counts = get_word_row_counts(puzzle_input.copy())

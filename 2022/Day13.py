@@ -5,7 +5,9 @@ import ast
 
 from helper.file import load_file_and_split
 
-Packet = List[Union[int, "Packet"]]  # every list contains zero or more comma-separated values
+Packet = List[
+    Union[int, "Packet"]
+]  # every list contains zero or more comma-separated values
 PacketPair = Tuple[Packet, Packet]
 Packets = List[PacketPair]
 OrderedPackets = List[Packet]
@@ -94,7 +96,9 @@ def put_packets_in_correct_order(pair_packets: Packets) -> Tuple[OrderedPackets,
         if not inserted:
             ordered_packets.append(unordered_packet)
 
-    return ordered_packets, (ordered_packets.index(divider1) + 1) * (ordered_packets.index(divider2) + 1)
+    return ordered_packets, (ordered_packets.index(divider1) + 1) * (
+        ordered_packets.index(divider2) + 1
+    )
 
 
 class Test2022Day13(unittest.TestCase):
@@ -117,7 +121,7 @@ class Test2022Day13(unittest.TestCase):
         [7, 7, 7],
         [7, 7, 7, 7],
         [[8, 7, 6]],
-        [9]
+        [9],
     ]
 
     def test_predefined_examples(self):
@@ -131,19 +135,26 @@ class Test2022Day13(unittest.TestCase):
             (7, False),
             (8, False),
         ]:
-            with self.subTest(msg=f'Pair: {self.test_packets[pair_id - 1]}, should_be_correct: {correctly_sorted}'):
-                self.assertEqual(is_correctly_sorted(deepcopy(self.test_packets)[pair_id - 1]), correctly_sorted)
+            with self.subTest(
+                msg=f"Pair: {self.test_packets[pair_id - 1]}, should_be_correct: {correctly_sorted}"
+            ):
+                self.assertEqual(
+                    is_correctly_sorted(deepcopy(self.test_packets)[pair_id - 1]),
+                    correctly_sorted,
+                )
 
     def test_sum_of_correct_packets(self):
         self.assertEqual(sum_of_correct_packets(deepcopy(self.test_packets)), 13)
 
     def test_put_packets_in_correct_order(self):
-        result_packets, decoder_key = put_packets_in_correct_order(deepcopy(self.test_packets))
+        result_packets, decoder_key = put_packets_in_correct_order(
+            deepcopy(self.test_packets)
+        )
         self.assertListEqual(result_packets, self.test_result_order)
         self.assertEqual(decoder_key, 140)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 13:")
     puzzle_input: Packets = load_packets("data/13.txt")
     print("Part 1): ", sum_of_correct_packets(puzzle_input))

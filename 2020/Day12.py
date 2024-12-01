@@ -22,9 +22,16 @@ def load(filepath: str) -> List[Tuple[str, int]]:
 # Action R means to turn right the given number of degrees.
 # Action F means to move forward by the given value in the direction the ship is currently facing.
 
+
 class Ship:
     """create a simple Ship and steer it according to directions, maybe using a waypoint"""
-    def __init__(self, pos: Tuple[int, int] = (0, 0), waypoint_exists: bool = False, wp_pos: Tuple[int, int] = (10, 1)):
+
+    def __init__(
+        self,
+        pos: Tuple[int, int] = (0, 0),
+        waypoint_exists: bool = False,
+        wp_pos: Tuple[int, int] = (10, 1),
+    ):
         self.facing: Tuple[int, int] = (1, 0)  # (x, y) east
         self.pos: Tuple[int, int] = pos  # (x, y)
         self.has_wp: bool = waypoint_exists
@@ -49,7 +56,9 @@ class Ship:
         elif (deg == 90 and direction == "L") or (deg == 270 and direction == "R"):
             self.facing = (-self.facing[1], self.facing[0])
         else:
-            raise Exception("turn value of {} not expected for turn, aborting".format(deg))
+            raise Exception(
+                "turn value of {} not expected for turn, aborting".format(deg)
+            )
 
     def turn_waypoint(self, direction: str, deg: int):
         """turn the waypoint around the ship"""
@@ -62,7 +71,9 @@ class Ship:
         elif (deg == 90 and direction == "L") or (deg == 270 and direction == "R"):
             self.wp = (-self.wp[1], self.wp[0])
         else:
-            raise Exception("turn value of {} not expected for turn_waypoint, aborting".format(deg))
+            raise Exception(
+                "turn value of {} not expected for turn_waypoint, aborting".format(deg)
+            )
 
     def follow_directions(self, instructions: List[Tuple[str, int]]):
         """follow a given list of instructions"""
@@ -114,7 +125,6 @@ class Test2020Day12(unittest.TestCase):
             [[("F", 10), ("N", 3), ("F", 7)], (17, 3), 20],
             [[("F", 10), ("N", 3), ("F", 7), ("R", 90)], (17, 3), 20],
             [[("F", 10), ("N", 3), ("F", 7), ("R", 90), ("F", 11)], (17, -8), 25],
-
         ]:
             with self.subTest():
                 test_ship = Ship()
@@ -128,7 +138,12 @@ class Test2020Day12(unittest.TestCase):
             [[("F", 10), ("N", 3)], (100, 10), (10, 4), 110],
             [[("F", 10), ("N", 3), ("F", 7)], (170, 38), (10, 4), 208],
             [[("F", 10), ("N", 3), ("F", 7), ("R", 90)], (170, 38), (4, -10), 208],
-            [[("F", 10), ("N", 3), ("F", 7), ("R", 90), ("F", 11)], (214, -72), (4, -10), 286],
+            [
+                [("F", 10), ("N", 3), ("F", 7), ("R", 90), ("F", 11)],
+                (214, -72),
+                (4, -10),
+                286,
+            ],
         ]:
             with self.subTest():
                 test_ship = Ship(waypoint_exists=True)
@@ -138,7 +153,7 @@ class Test2020Day12(unittest.TestCase):
                 self.assertEqual(test_ship.get_manhatten_distance(), man_dist)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 12:")
     ship = Ship()
     dirs = load("data/12.txt")

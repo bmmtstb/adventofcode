@@ -10,8 +10,12 @@ Elves = List[Elf]
 
 def load_data(filepath: str) -> Elves:
     """get a list of items every elf carries"""
-    return [[int(calorie) for calorie in elf.strip("\n").split("\n")] for elf in
-            load_file_and_split(filepath=filepath, separator="\n\n", instance_type=str)]
+    return [
+        [int(calorie) for calorie in elf.strip("\n").split("\n")]
+        for elf in load_file_and_split(
+            filepath=filepath, separator="\n\n", instance_type=str
+        )
+    ]
 
 
 def get_elves_with_most_calories(elves: Elves) -> List[Tuple[int, int]]:
@@ -20,7 +24,9 @@ def get_elves_with_most_calories(elves: Elves) -> List[Tuple[int, int]]:
     :returns elf_if and amount
     """
     elf_values: List[int] = [sum(elf_values) for elf_values in elves]
-    return list(sorted(enumerate(elf_values), key=lambda enum_item: enum_item[1], reverse=True))
+    return list(
+        sorted(enumerate(elf_values), key=lambda enum_item: enum_item[1], reverse=True)
+    )
 
 
 def get_three_most_sum(elves: Elves):
@@ -37,7 +43,9 @@ class Test2022Day01(unittest.TestCase):
             (1, 0, 4000),
             (4, 0, 10000),
         ]:
-            with self.subTest(msg=f'Elf {elf_id} carries as item {calorie_id} an amount of {amount}'):
+            with self.subTest(
+                msg=f"Elf {elf_id} carries as item {calorie_id} an amount of {amount}"
+            ):
                 self.assertEqual(self.test_data[elf_id][calorie_id], amount)
 
     def test_get_elf_with_most_calories(self):
@@ -53,7 +61,7 @@ class Test2022Day01(unittest.TestCase):
         self.assertEqual(get_three_most_sum(self.test_data), 45000)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 01:")
     puzzle_input = load_data("data/01.txt")
     print("Part 1): ", get_elves_with_most_calories(puzzle_input)[0][1])

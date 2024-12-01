@@ -51,13 +51,17 @@ def count_same_in_group(groups_data: List[Dict[str, List[int]]]) -> int:
 class Test2020Day06(unittest.TestCase):
 
     def test_count_different(self):
-        self.assertEqual(sum(count_different_questions(read_file_in_groups("data/06-test.txt"))), 11)
+        self.assertEqual(
+            sum(count_different_questions(read_file_in_groups("data/06-test.txt"))), 11
+        )
 
     def test_count_same_in_group(self):
-        self.assertEqual(count_same_in_group(read_file_in_groups("data/06-test.txt")), 6)
+        self.assertEqual(
+            count_same_in_group(read_file_in_groups("data/06-test.txt")), 6
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 06:")
     puzzle_input = read_file_in_groups("data/06.txt")
     print("Part 1):")

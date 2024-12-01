@@ -7,17 +7,11 @@ from Day05 import run_intcode_program
 
 # Directions
 # north (1), south (2), west (3), and east (4)
-dirs = {
-    1: (0,  1),
-    2: (0, -1),
-    3: (-1, 0),
-    4: (1,  0)
-}
+dirs = {1: (0, 1), 2: (0, -1), 3: (-1, 0), 4: (1, 0)}
 
 
 def find_shortest_path(
-        program: List[int],
-        valid_programs: List[List[int]]
+    program: List[int], valid_programs: List[List[int]]
 ) -> (int, List[int]):
     """find the length of the shortest path by generating all paths with length n"""
     new_valid_programs = []
@@ -41,7 +35,7 @@ class Test2019Day15(unittest.TestCase):
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 15:")
     program = read_lines_as_list("data/15.txt")
     i, path = find_shortest_path(program, [[]])

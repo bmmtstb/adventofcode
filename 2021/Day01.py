@@ -5,7 +5,7 @@ from helper.file import read_lines_as_list
 
 def find_increasing(l: List[int]) -> int:
     """in a list of integers find increasing ones"""
-    return sum(1 if l[i] < l[i+1] else 0 for i in range(len(l)-1))
+    return sum(1 if l[i] < l[i + 1] else 0 for i in range(len(l) - 1))
 
 
 def create_sliding_window_list(l: List[int], size: int = 3) -> List[int]:
@@ -19,16 +19,19 @@ class Test2021Day01(unittest.TestCase):
     def test_increasing(self):
         for data, incr in [
             [self.draft, 7],
-            [[607, 618, 618, 617, 647, 716, 769, 792], 5]
+            [[607, 618, 618, 617, 647, 716, 769, 792], 5],
         ]:
             with self.subTest():
                 self.assertEqual(find_increasing(data), incr)
 
     def test_sliding_list(self):
-        self.assertEqual(create_sliding_window_list(self.draft), [607, 618, 618, 617, 647, 716, 769, 792])
+        self.assertEqual(
+            create_sliding_window_list(self.draft),
+            [607, 618, 618, 617, 647, 716, 769, 792],
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 01:")
     puzzle_input = read_lines_as_list("data/01.txt", int)
     print("Part 1): ", find_increasing(puzzle_input))

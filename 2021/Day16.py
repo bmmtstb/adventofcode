@@ -86,7 +86,7 @@ def decode_packet(bin_s: str) -> (int, int, int):
         while not loop_exit:  # find all sub-values until one starts with a "0"
             if bin_s[p] == "0":
                 loop_exit = True
-            bin_val += bin_s[p+1:p+5]
+            bin_val += bin_s[p + 1 : p + 5]
             p += 5  # move pointer
         return bin_to_int(bin_val), p, version
     else:  # operator contains one or more packets
@@ -102,7 +102,11 @@ def decode_packet(bin_s: str) -> (int, int, int):
         # min   - set start to max int
         # sum   - set start to 0
         # max   - set start to 0
-        val_sum = 1 if type_id == 1 else None if type_id in [5, 6, 7] else maxsize if type_id == 2 else 0
+        val_sum = (
+            1
+            if type_id == 1
+            else None if type_id in [5, 6, 7] else maxsize if type_id == 2 else 0
+        )
         # set version sum to own version, sub-packages will be added later
         version_sum = version  # total version sum value
 
@@ -112,7 +116,7 @@ def decode_packet(bin_s: str) -> (int, int, int):
 
         if len_type_id == "0":
             # next 15 bits are a number that represents the total length in bits of the sub-packets contained by this packet
-            sub_packet_len = bin_to_int(bin_s[p:p+15])
+            sub_packet_len = bin_to_int(bin_s[p : p + 15])
             p += 15
             fin = p + sub_packet_len
             while "1" in bin_s[p:fin]:
@@ -120,7 +124,7 @@ def decode_packet(bin_s: str) -> (int, int, int):
             return val_sum, fin, version_sum
         else:
             # the next 11 bits are a number that represents the number of sub-packets immediately contained by this packet
-            nof_sub_packets = bin_to_int(bin_s[p:p+11])
+            nof_sub_packets = bin_to_int(bin_s[p : p + 11])
             p += 11
             for _ in range(nof_sub_packets):
                 p, val_sum, version_sum = sub_call(type_id, p, val_sum, version_sum)
@@ -142,9 +146,8 @@ class Test2021Day16(unittest.TestCase):
         for s, binary in [
             ("D2FE28", "110100101111111000101000"),
         ]:
-            with self.subTest(msg=f'str: {s}, sum: {binary}'):
+            with self.subTest(msg=f"str: {s}, sum: {binary}"):
                 self.assertEqual(hexa_to_bin(s), binary)
-
 
     def test_version_sum(self):
         for s, vers_sum in [
@@ -156,7 +159,7 @@ class Test2021Day16(unittest.TestCase):
             ("C0015000016115A2E0802F182340", 23),
             ("A0016C880162017C3686B18A3D4780", 31),
         ]:
-            with self.subTest(msg=f'str: {s}'):
+            with self.subTest(msg=f"str: {s}"):
                 bin_input = hexa_to_bin(s)
                 ls, _, vs = decode_packet(bin_input)
                 self.assertEqual(vs, vers_sum)
@@ -173,24 +176,31 @@ class Test2021Day16(unittest.TestCase):
             ("9C005AC2F8F0", 0),
             ("9C0141080250320F1802104A08", 1),
         ]:
-            with self.subTest(msg=f'str: {s}'):
+            with self.subTest(msg=f"str: {s}"):
                 bin_input = hexa_to_bin(s)
                 ls, _, vs = decode_packet(bin_input)
                 if lit_sum is not None:
                     self.assertEqual(ls, lit_sum)
 
-
     def test_bin_to_int_conversion(self):
         for s, i in [
-            ("000", 0), ("001", 1), ("010", 2), ("011", 3), ("100", 4), ("101", 5), ("110", 6), ("111", 7),
-            ("0000", 0), ("1111", 15), ("11111", 31)
+            ("000", 0),
+            ("001", 1),
+            ("010", 2),
+            ("011", 3),
+            ("100", 4),
+            ("101", 5),
+            ("110", 6),
+            ("111", 7),
+            ("0000", 0),
+            ("1111", 15),
+            ("11111", 31),
         ]:
-            with self.subTest(msg=f'str: {s}, int: {i}'):
+            with self.subTest(msg=f"str: {s}, int: {i}"):
                 self.assertEqual(bin_to_int(s), i)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 16:")
     puzzle_input = load_from_file("data/16.txt")
     bin_input = hexa_to_bin(puzzle_input)

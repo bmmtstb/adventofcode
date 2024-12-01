@@ -5,10 +5,121 @@
 
 import unittest
 
-puzzle_intcode = [1, 0, 0, 3, 1, 1, 2, 3, 1, 3, 4, 3, 1, 5, 0, 3, 2, 1, 10, 19, 1, 19, 6, 23, 2, 23, 13, 27, 1, 27, 5,
-                  31, 2, 31, 10, 35, 1, 9, 35, 39, 1, 39, 9, 43, 2, 9, 43, 47, 1, 5, 47, 51, 2, 13, 51, 55, 1, 55, 9, 59,
-                  2, 6, 59, 63, 1, 63, 5, 67, 1, 10, 67, 71, 1, 71, 10, 75, 2, 75, 13, 79, 2, 79, 13, 83, 1, 5, 83, 87,
-                  1, 87, 6, 91, 2, 91, 13, 95, 1, 5, 95, 99, 1, 99, 2, 103, 1, 103, 6, 0, 99, 2, 14, 0, 0]
+puzzle_intcode = [
+    1,
+    0,
+    0,
+    3,
+    1,
+    1,
+    2,
+    3,
+    1,
+    3,
+    4,
+    3,
+    1,
+    5,
+    0,
+    3,
+    2,
+    1,
+    10,
+    19,
+    1,
+    19,
+    6,
+    23,
+    2,
+    23,
+    13,
+    27,
+    1,
+    27,
+    5,
+    31,
+    2,
+    31,
+    10,
+    35,
+    1,
+    9,
+    35,
+    39,
+    1,
+    39,
+    9,
+    43,
+    2,
+    9,
+    43,
+    47,
+    1,
+    5,
+    47,
+    51,
+    2,
+    13,
+    51,
+    55,
+    1,
+    55,
+    9,
+    59,
+    2,
+    6,
+    59,
+    63,
+    1,
+    63,
+    5,
+    67,
+    1,
+    10,
+    67,
+    71,
+    1,
+    71,
+    10,
+    75,
+    2,
+    75,
+    13,
+    79,
+    2,
+    79,
+    13,
+    83,
+    1,
+    5,
+    83,
+    87,
+    1,
+    87,
+    6,
+    91,
+    2,
+    91,
+    13,
+    95,
+    1,
+    5,
+    95,
+    99,
+    1,
+    99,
+    2,
+    103,
+    1,
+    103,
+    6,
+    0,
+    99,
+    2,
+    14,
+    0,
+    0,
+]
 
 
 def run_intcode_program(intcode):
@@ -17,11 +128,19 @@ def run_intcode_program(intcode):
     opcode = intcode[instruction_pointer]
     while opcode != 99:
         if opcode == 1:
-            intcode[intcode[instruction_pointer + 3]] = intcode[intcode[instruction_pointer + 1]] + intcode[intcode[instruction_pointer + 2]]
+            intcode[intcode[instruction_pointer + 3]] = (
+                intcode[intcode[instruction_pointer + 1]]
+                + intcode[intcode[instruction_pointer + 2]]
+            )
         elif opcode == 2:
-            intcode[intcode[instruction_pointer + 3]] = intcode[intcode[instruction_pointer + 1]] * intcode[intcode[instruction_pointer + 2]]
+            intcode[intcode[instruction_pointer + 3]] = (
+                intcode[intcode[instruction_pointer + 1]]
+                * intcode[intcode[instruction_pointer + 2]]
+            )
         else:
-            raise ValueError("Something went wrong, opcode {} is not expected.".format(opcode))
+            raise ValueError(
+                "Something went wrong, opcode {} is not expected.".format(opcode)
+            )
         instruction_pointer += 4
         opcode = intcode[instruction_pointer]
     return intcode, intcode[0]
@@ -35,6 +154,7 @@ def find_intcode_inputs(input_intcode, input_addresses, input_range, wished_outp
     :param input_range: list of tuples, one 2D-tuple for each input address
     :param wished_output: wished output at pos[0]
     """
+
     def set_new_intcode(saved_code, address, value):
         """Set a new intcode value at specified address, old intcode should not change"""
         new_intcode = saved_code.copy()
@@ -43,7 +163,12 @@ def find_intcode_inputs(input_intcode, input_addresses, input_range, wished_outp
 
     if len(input_addresses) > 1:
         for i in range(*input_range[0]):
-            result = find_intcode_inputs(set_new_intcode(input_intcode, input_addresses[0], i), input_addresses[1:], input_range[1:], wished_output)
+            result = find_intcode_inputs(
+                set_new_intcode(input_intcode, input_addresses[0], i),
+                input_addresses[1:],
+                input_range[1:],
+                wished_output,
+            )
             if result:
                 result.insert(0, i)
                 return result
@@ -51,7 +176,9 @@ def find_intcode_inputs(input_intcode, input_addresses, input_range, wished_outp
     else:
         for j in range(*input_range[0]):
             try:
-                _, output = run_intcode_program(set_new_intcode(input_intcode, input_addresses[0], j))
+                _, output = run_intcode_program(
+                    set_new_intcode(input_intcode, input_addresses[0], j)
+                )
                 if output == wished_output:
                     return [j]
             except ValueError:
@@ -68,23 +195,43 @@ class Test2019Day02(unittest.TestCase):
             ["Addition", [1, 0, 0, 0, 99], [2, 0, 0, 0, 99]],
             ["Multiplication", [2, 3, 0, 3, 99], [2, 3, 0, 6, 99]],
             ["Trailing 0", [2, 4, 4, 5, 99, 0], [2, 4, 4, 5, 99, 9801]],
-            ["removed 99", [1, 1, 1, 4, 99, 5, 6, 0, 99], [30, 1, 1, 4, 2, 5, 6, 0, 99]],
-            ["multistep", [1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50], [3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50]],
+            [
+                "removed 99",
+                [1, 1, 1, 4, 99, 5, 6, 0, 99],
+                [30, 1, 1, 4, 2, 5, 6, 0, 99],
+            ],
+            [
+                "multistep",
+                [1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50],
+                [3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50],
+            ],
         ]:
-            with self.subTest(msg=f'name={name}'):
+            with self.subTest(msg=f"name={name}"):
                 code_result, _ = run_intcode_program(code)
-                self.assertEqual(code_result, result, msg="Test {} failed.".format(name))
+                self.assertEqual(
+                    code_result, result, msg="Test {} failed.".format(name)
+                )
 
-    def testFindOutput(self, ):
+    def testFindOutput(
+        self,
+    ):
         for i_code, i_addresses, i_range, output, result in [
             [[1, 0, 0, 0, 99], [1, 2], [(0, 99), (0, 99)], 2, [0, 0]],
-            [[1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50], [1, 2], [(0, 99), (0, 99)], 3500, [9, 10]],
+            [
+                [1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50],
+                [1, 2],
+                [(0, 99), (0, 99)],
+                3500,
+                [9, 10],
+            ],
         ]:
             with self.subTest():
-                self.assertEqual(find_intcode_inputs(i_code, i_addresses, i_range, output), result)
+                self.assertEqual(
+                    find_intcode_inputs(i_code, i_addresses, i_range, output), result
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # make sure to use unique memory for every test
     # before running the program, replace position 1 with the value 12 and replace position 2 with the value 2.
     # What value is left at position 0 after the program halts?

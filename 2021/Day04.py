@@ -12,7 +12,7 @@ def parse_data(filepath: str) -> (List[int], List[List[int]]):
     for board in parts[1:]:
         board_data = []
         for line in board.split("\n"):
-            board_data += [int(line[i:i + 3].strip()) for i in range(0, len(line), 3)]
+            board_data += [int(line[i : i + 3].strip()) for i in range(0, len(line), 3)]
         boards.append(board_data)
     return numbers, boards
 
@@ -27,10 +27,11 @@ def play_bingo(numbers: List[int], boards: List[List[int]]) -> int:
                 board[idx] = None
                 # check changed boards for lines using idx
                 remainder = idx % 5
-                row_start = (idx - remainder)
+                row_start = idx - remainder
                 # horizontal (neighbors) or vertical (every fifth)
-                if all(val is None for val in board[row_start:row_start + 5]) or \
-                        all(val is None for val in board[remainder::5]):
+                if all(val is None for val in board[row_start : row_start + 5]) or all(
+                    val is None for val in board[remainder::5]
+                ):
                     return number * sum(val for val in board if val is not None)
 
             except ValueError:
@@ -49,10 +50,11 @@ def last_board(numbers: List[int], boards: List[List[int]]) -> int:
                 board[idx] = None
                 # check changed boards for lines using idx
                 remainder = idx % 5
-                row_start = (idx - remainder)
+                row_start = idx - remainder
                 # horizontal (neighbors) or vertical (every fifth)
-                if all(val is None for val in board[row_start:row_start + 5]) or \
-                        all(val is None for val in board[remainder::5]):
+                if all(val is None for val in board[row_start : row_start + 5]) or all(
+                    val is None for val in board[remainder::5]
+                ):
                     # save id for removal
                     remove_ids.append(board_id)
                     # current board is final board -> worst choice
@@ -63,7 +65,6 @@ def last_board(numbers: List[int], boards: List[List[int]]) -> int:
         # remove boards from possible choices
         boards = [boards[i] for i in range(len(boards)) if i not in remove_ids]
     raise Exception("No valid field found.")
-
 
 
 class Test2021Day04(unittest.TestCase):
@@ -77,7 +78,7 @@ class Test2021Day04(unittest.TestCase):
         self.assertEqual(last_board(num, boards), 1924)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 04:")
     puzzle_input_numbers, puzzle_input_boards = parse_data("data/04.txt")
     print("Part 1): ", play_bingo(puzzle_input_numbers, puzzle_input_boards))

@@ -18,13 +18,13 @@ def criteria_within_puzzle_input(num):
 def criteria_two_adjacent_digits(num):
     """Returns true if the number contains two adjacent digits"""
     num = str(num)
-    return any(int(num[i]) == int(num[i+1]) for i in range(len(num)-1))
+    return any(int(num[i]) == int(num[i + 1]) for i in range(len(num) - 1))
 
 
 def criteria_non_decreasing_sequence(num):
     """Returns true if the number does not contain a decreasing sequence"""
     num = str(num)
-    return all(int(num[i+1]) >= int(num[i]) for i in range(len(num)-1))
+    return all(int(num[i + 1]) >= int(num[i]) for i in range(len(num) - 1))
 
 
 def criteria_no_larger_group(num):
@@ -34,14 +34,27 @@ def criteria_no_larger_group(num):
 
 def number_meets_criteria_1(num):
     """Returns true if a number meets all the given criteria for part 1"""
-    return all([criteria_non_decreasing_sequence(num), criteria_two_adjacent_digits(num),
-                criteria_within_puzzle_input(num), criteria_six_digit(num)])
+    return all(
+        [
+            criteria_non_decreasing_sequence(num),
+            criteria_two_adjacent_digits(num),
+            criteria_within_puzzle_input(num),
+            criteria_six_digit(num),
+        ]
+    )
 
 
 def number_meets_criteria_2(num):
     """Returns true if a number meets all the given criteria for part 1"""
-    return all([criteria_non_decreasing_sequence(num), criteria_two_adjacent_digits(num),
-                criteria_within_puzzle_input(num), criteria_six_digit(num), criteria_no_larger_group(num)])
+    return all(
+        [
+            criteria_non_decreasing_sequence(num),
+            criteria_two_adjacent_digits(num),
+            criteria_within_puzzle_input(num),
+            criteria_six_digit(num),
+            criteria_no_larger_group(num),
+        ]
+    )
 
 
 def how_many_correct_in_puzzle_range(part):
@@ -104,6 +117,6 @@ class Test2019Day04(unittest.TestCase):
                 self.assertEqual(criteria_no_larger_group(number), meets)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("1: ", how_many_correct_in_puzzle_range(1))
     print("2: ", how_many_correct_in_puzzle_range(2))

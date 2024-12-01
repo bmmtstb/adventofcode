@@ -17,7 +17,7 @@ def get_letter_multiples(s: str) -> Dict[str, int]:
 
 def calculate_checksum(l: List[str]) -> int:
     """calculate nof strings where a letter appears exactly twice
-        multiplied by nof strings where a char appears exactly three times"""
+    multiplied by nof strings where a char appears exactly three times"""
     twice = 0
     trice = 0
     for word in l:
@@ -30,7 +30,7 @@ def calculate_checksum(l: List[str]) -> int:
 def check_difference(s1: str, s2: str) -> int:
     """given two strings return if the number of uncommon characters is not bigger than one"""
     if len(s1) != len(s2):
-        raise Exception(f'Strings should have same length. [{s1}] [{s2}]')
+        raise Exception(f"Strings should have same length. [{s1}] [{s2}]")
     diff = 0
     for i in range(len(s1)):
         diff += 0 if s1[i] == s2[i] else 1
@@ -80,7 +80,7 @@ class Test2021Day02(unittest.TestCase):
         self.assertTupleEqual(find_closely_matching_strings(l), t)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 02:")
     puzzle_input = read_lines_as_list("data/02.txt")
     print("Part 1): ", calculate_checksum(puzzle_input))

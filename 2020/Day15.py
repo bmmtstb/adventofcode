@@ -36,7 +36,6 @@ def get_nth_spoken_faster(start: List[int], n: int) -> int:
     return last_spoken
 
 
-
 class Test2020Day15(unittest.TestCase):
     def test_nth_number(self):
         for start, n, res in [
@@ -79,7 +78,7 @@ class Test2020Day15(unittest.TestCase):
                 self.assertEqual(get_nth_spoken_faster(start.copy(), n), res)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 15:")
     puzzle_input = [12, 20, 0, 6, 1, 17, 7]
     print("Part 1):")

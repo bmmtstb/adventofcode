@@ -36,10 +36,24 @@ def get_neighboring_value(i: Image, pos: Tuple[int, int], filler: int = 0) -> in
     then using its binary representation, cast it to int
     padding: zero-padding on all sides (infinite image)
     """
-    positions = [tuple_add_tuple(pos, mod) for mod in [(-1, -1), (0, -1), (1, -1),
-                                                       (-1, 0), (0, 0), (1, 0),
-                                                       (-1, 1), (0, 1), (1, 1)]]
-    values = [i[p[1]][p[0]] if 0 <= p[0] < len(i[0]) and 0 <= p[1] < len(i) else filler for p in positions]
+    positions = [
+        tuple_add_tuple(pos, mod)
+        for mod in [
+            (-1, -1),
+            (0, -1),
+            (1, -1),
+            (-1, 0),
+            (0, 0),
+            (1, 0),
+            (-1, 1),
+            (0, 1),
+            (1, 1),
+        ]
+    ]
+    values = [
+        i[p[1]][p[0]] if 0 <= p[0] < len(i[0]) and 0 <= p[1] < len(i) else filler
+        for p in positions
+    ]
     # concat as string then use base 2 and return value
     return int("".join(str(v) for v in values), 2)
 
@@ -49,9 +63,19 @@ def image_enhancement(algo: Algorithm, img: Image, n: int = 2) -> Image:
     create a new image that is one bigger on every side than the original, then enhance using get_neighbors
     """
     for i in range(n):
-        img = [[algo[
-                      get_neighboring_value(img, (x, y), filler=(i % 2 if algo[0] == 1 and algo[-1] == 0 else 0))
-                  ] for x in range(-1, len(img[0]) + 1)] for y in range(-1, len(img) + 1)]
+        img = [
+            [
+                algo[
+                    get_neighboring_value(
+                        img,
+                        (x, y),
+                        filler=(i % 2 if algo[0] == 1 and algo[-1] == 0 else 0),
+                    )
+                ]
+                for x in range(-1, len(img[0]) + 1)
+            ]
+            for y in range(-1, len(img) + 1)
+        ]
     return img
 
 
@@ -65,8 +89,15 @@ class Test2021Day20(unittest.TestCase):
             (2, 35),
             (50, 3351),
         ]:
-            with self.subTest(msg=f'count_lit - {i}'):
-                self.assertEqual(lit, count_lit(image_enhancement(self.test_algo, deepcopy(self.test_image), n=i)))
+            with self.subTest(msg=f"count_lit - {i}"):
+                self.assertEqual(
+                    lit,
+                    count_lit(
+                        image_enhancement(
+                            self.test_algo, deepcopy(self.test_image), n=i
+                        )
+                    ),
+                )
 
     def test_get_neighboring_pixels(self):
         for pos, num in [
@@ -77,13 +108,25 @@ class Test2021Day20(unittest.TestCase):
             ((2, 0), 8),
             ((0, 2), 152),
         ]:
-            with self.subTest(msg=f'get_neighboring_value - {pos}'):
-                self.assertEqual(num, get_neighboring_value(deepcopy(self.test_image), pos))
+            with self.subTest(msg=f"get_neighboring_value - {pos}"):
+                self.assertEqual(
+                    num, get_neighboring_value(deepcopy(self.test_image), pos)
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 20:")
     puzzle_algo, puzzle_image = load("data/20.txt")
-    print("Part 1): ", count_lit(image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=2)))
-    print("Part 2): ", count_lit(image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=50)))
+    print(
+        "Part 1): ",
+        count_lit(
+            image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=2)
+        ),
+    )
+    print(
+        "Part 2): ",
+        count_lit(
+            image_enhancement(deepcopy(puzzle_algo), deepcopy(puzzle_image), n=50)
+        ),
+    )
     print("End Main 20<<<")

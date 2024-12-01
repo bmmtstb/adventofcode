@@ -7,10 +7,10 @@ run_base = os.path.join(dir_base, "../.idea/runConfigurations")
 for year in years:
     for day_num in range(1, 26):
         DAY = "0" + str(day_num) if day_num < 10 else str(day_num)
-        text = \
-            ('<component name="ProjectRunConfigurationManager">\
+        text = (
+            '<component name="ProjectRunConfigurationManager">\
               <configuration name="Unittests in {year} Day{day}.py" default="false" type="tests" '
-             'factoryName="Unittests" folderName="{year}" nameIsGenerated="false">\
+            'factoryName="Unittests" folderName="{year}" nameIsGenerated="false">\
                 <module name="adventofcode" />\
                 <option name="INTERPRETER_OPTIONS" value="" />\
                 <option name="PARENT_ENVS" value="true" />\
@@ -26,8 +26,11 @@ for year in years:
                 <option name="_new_targetType" value="&quot;PATH&quot;" />\
                 <method v="2" />\
               </configuration>\
-            </component>').format(day=DAY, year=year)
-        filepath = os.path.join(run_base, "Unittests_in_" + str(year) + "_Day" + DAY + "_py.xml")
+            </component>'
+        ).format(day=DAY, year=year)
+        filepath = os.path.join(
+            run_base, "Unittests_in_" + str(year) + "_Day" + DAY + "_py.xml"
+        )
         if os.path.exists(filepath):
             with open(filepath, "w", encoding="utf-8") as file:
                 file.write(text)

@@ -47,7 +47,9 @@ def follow_motions(motions: Motions, knots: int = 2) -> int:
 
             # for every knot head - tail combination
             for head_i in range(knots - 1):
-                rope_pos[head_i], rope_pos[head_i + 1] = move_rope(head_pos=rope_pos[head_i], tail_pos=rope_pos[head_i + 1])
+                rope_pos[head_i], rope_pos[head_i + 1] = move_rope(
+                    head_pos=rope_pos[head_i], tail_pos=rope_pos[head_i + 1]
+                )
 
             # add position of tail
             tail_visited_positions.append(rope_pos[-1].copy())
@@ -56,10 +58,24 @@ def follow_motions(motions: Motions, knots: int = 2) -> int:
 
 class Test2022Day09(unittest.TestCase):
     test_motions: Motions = [
-        ("R", "4"), ("U", "4"), ("L", "3"), ("D", "1"), ("R", "4"), ("D", "1"), ("L", "5"), ("R", "2")
+        ("R", "4"),
+        ("U", "4"),
+        ("L", "3"),
+        ("D", "1"),
+        ("R", "4"),
+        ("D", "1"),
+        ("L", "5"),
+        ("R", "2"),
     ]
     test_motions_2: Motions = [
-        ("R", "5"), ("U", "8"), ("L", "8"), ("D", "3"), ("R", "17"), ("D", "10"), ("L", "25"), ("U", "20")
+        ("R", "5"),
+        ("U", "8"),
+        ("L", "8"),
+        ("D", "3"),
+        ("R", "17"),
+        ("D", "10"),
+        ("L", "25"),
+        ("U", "20"),
     ]
 
     def test_move_rope(self):
@@ -70,8 +86,12 @@ class Test2022Day09(unittest.TestCase):
             ((3, 1), (1, 2), (2, 2)),  # diagonal step
             ((3, 1), (2, 3), (2, 2)),  # diagonal step
         ]:
-            with self.subTest(msg=f'tail_pos: {tail_pos}, head_pos: {head_pos}, new_tail_pos: {new_tail_pos}'):
-                nhp, ntp = move_rope(head_pos=np.array(head_pos), tail_pos=np.array(tail_pos))
+            with self.subTest(
+                msg=f"tail_pos: {tail_pos}, head_pos: {head_pos}, new_tail_pos: {new_tail_pos}"
+            ):
+                nhp, ntp = move_rope(
+                    head_pos=np.array(head_pos), tail_pos=np.array(tail_pos)
+                )
                 self.assertTrue(np.alltrue(nhp == np.array(head_pos)))
                 self.assertTrue(np.alltrue(ntp == np.array(new_tail_pos)))
 
@@ -81,11 +101,11 @@ class Test2022Day09(unittest.TestCase):
             (self.test_motions, 10, 1),
             (self.test_motions_2, 10, 36),
         ]:
-            with self.subTest(msg=f'knots: {knots}, visited: {visited}'):
+            with self.subTest(msg=f"knots: {knots}, visited: {visited}"):
                 self.assertEqual(follow_motions(motions=motions, knots=knots), visited)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 09:")
     puzzle_input = read_lines_as_list("data/09.txt", split=" ")
     print("Part 1): ", follow_motions(puzzle_input, knots=2))

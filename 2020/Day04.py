@@ -71,14 +71,24 @@ def passport_fields_valid(passport: dict):
     else:
         return False
     # hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
-    if passport["hcl"][0] != "#" or len(passport["hcl"]) != 7 or \
-            any(not (c.isnumeric() or c in ["a", "b", "c", "d", "e", "f"]) for c in passport["hcl"][1:]):
+    if (
+        passport["hcl"][0] != "#"
+        or len(passport["hcl"]) != 7
+        or any(
+            not (c.isnumeric() or c in ["a", "b", "c", "d", "e", "f"])
+            for c in passport["hcl"][1:]
+        )
+    ):
         return False
     # ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth
     if not passport["ecl"] in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]:
         return False
     # pid (Passport ID) - a nine-digit number, including leading zeroes
-    if not passport["pid"].isnumeric() or len(passport["pid"]) != 9 or not all(0 <= int(c) <= 9 for c in passport["pid"]):
+    if (
+        not passport["pid"].isnumeric()
+        or len(passport["pid"]) != 9
+        or not all(0 <= int(c) <= 9 for c in passport["pid"])
+    ):
         return False
     # cid (Country ID) - ignored, missing or not
     return True
@@ -103,7 +113,9 @@ class Test2020Day04(unittest.TestCase):
             ["data/04.txt", 208],
         ]:
             with self.subTest():
-                self.assertEqual(count_valid_passports(load_passports_from_file(fname))[0], valid)
+                self.assertEqual(
+                    count_valid_passports(load_passports_from_file(fname))[0], valid
+                )
 
     def test_count_valid_advanced(self):
         for fname, valid in [
@@ -112,10 +124,12 @@ class Test2020Day04(unittest.TestCase):
             ["data/04.txt", 167],
         ]:
             with self.subTest():
-                self.assertEqual(count_valid_passports(load_passports_from_file(fname))[1], valid)
+                self.assertEqual(
+                    count_valid_passports(load_passports_from_file(fname))[1], valid
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 04:")
     puzzle_input = load_passports_from_file("data/04.txt")
     valid = count_valid_passports(puzzle_input)

@@ -23,7 +23,13 @@ def play_deterministic_dirac(starting_pos: List[int]) -> (int, int):
     # play the game
     while not any(score >= winning_score for score in scores):
         # roll dice
-        dice_sum = sum(dice[(nof_dice_rolled % dice_size):(nof_dice_rolled % dice_size + throw_amount)])
+        dice_sum = sum(
+            dice[
+                (nof_dice_rolled % dice_size) : (
+                    nof_dice_rolled % dice_size + throw_amount
+                )
+            ]
+        )
         # increase rolls
         nof_dice_rolled += throw_amount
         # move player
@@ -34,7 +40,9 @@ def play_deterministic_dirac(starting_pos: List[int]) -> (int, int):
         player_turn = (player_turn + 1) % nof_players
 
     # the winner is:
-    return nof_dice_rolled, sum(score if score < winning_score else 0 for score in scores)
+    return nof_dice_rolled, sum(
+        score if score < winning_score else 0 for score in scores
+    )
 
 
 def play_quantum_dirac(starting_pos: List[int]) -> int:
@@ -52,7 +60,9 @@ def play_quantum_dirac(starting_pos: List[int]) -> int:
     player_turn = 0
 
     curr_scores: Dict[Tuple[int], Dict[Tuple[int, int], int]] = {
-        tuple(pos - 1 for pos in starting_pos): {(0, 0): 1}  # again zero-indexed positions
+        tuple(pos - 1 for pos in starting_pos): {
+            (0, 0): 1
+        }  # again zero-indexed positions
     }
     while len(curr_scores.keys()):
         new_scores: Dict[Tuple[int], Dict[Tuple[int, int], int]] = dict()
@@ -62,11 +72,16 @@ def play_quantum_dirac(starting_pos: List[int]) -> int:
         for dice_sum, nof_times in dice_sum_possibilities.items():
             for pos, old_scores in curr_scores.items():
                 # move curr player forward
-                new_pos = tuple_mod_number(tuple_add_tuple(tuple_mult_scalar(curr_base, dice_sum), pos), 10)
+                new_pos = tuple_mod_number(
+                    tuple_add_tuple(tuple_mult_scalar(curr_base, dice_sum), pos), 10
+                )
                 # update all scores
                 for old_score, old_count in old_scores.items():
                     # add new position to score(s)
-                    new_score: Tuple[int, int] = tuple_add_tuple(old_score, tuple_mult_scalar(curr_base, new_pos[player_turn] + 1))
+                    new_score: Tuple[int, int] = tuple_add_tuple(
+                        old_score,
+                        tuple_mult_scalar(curr_base, new_pos[player_turn] + 1),
+                    )
                     # the current sum may be rolled multiple times
                     new_count = nof_times * old_count
                     # check if player won
@@ -98,10 +113,9 @@ class Test2021Day21(unittest.TestCase):
         self.assertEqual(max_wins, 444356092776315)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 21:")
-    puzzle_input = "Player 1 starting position: 3" \
-                   "Player 2 starting position: 5"
+    puzzle_input = "Player 1 starting position: 3" "Player 2 starting position: 5"
     throws, loosing = play_deterministic_dirac([3, 5])
     print("Part 1): ", throws * loosing)
     print("Part 2): ", play_quantum_dirac([3, 5]))

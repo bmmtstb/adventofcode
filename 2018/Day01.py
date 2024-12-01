@@ -41,14 +41,14 @@ class Test2018Day01(unittest.TestCase):
             [[+1, +1, -2], 1],
             [[+1, -1], 1],
             [[+3, +3, +4, -2, -4], 10],
-            [[- 6, +3, +8, +5, -6], 5],
+            [[-6, +3, +8, +5, -6], 5],
             [[+7, +7, -2, -7, -4], 14],
         ]:
             with self.subTest():
                 self.assertEqual(find_recurring_frequency(freq_change), rec)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 01:")
     puzzle_input = read_lines_as_list("data/01.txt", instance_type=int)
     print("Part 1): ", cumulate_frequency_change(puzzle_input))

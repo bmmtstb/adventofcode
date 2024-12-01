@@ -22,7 +22,7 @@ def get_next_departure(curr_time: int, shedule: list) -> Tuple[int, int]:
 
 def find_matching_timestamp(shedule: List) -> int:
     """find a timestamp that holds the definition of having the busses in the list depart n minutes after to for item
-    at list[n] """
+    at list[n]"""
     timestemp = 1
     wait_time = 1  # there are only a few times we need to check, not every single one -> increment counter step by step
     for diff, bus in enumerate(shedule):
@@ -42,7 +42,9 @@ def find_matching_timestamp(shedule: List) -> int:
 
 class Test2020Day13(unittest.TestCase):
     def test_departure_times(self):
-        self.assertEqual(get_next_departure(939, [7, 13, "x", "x", 59, "x", 31, 19]), (59, 5))
+        self.assertEqual(
+            get_next_departure(939, [7, 13, "x", "x", 59, "x", 31, 19]), (59, 5)
+        )
 
     def test_find_timestemp(self):
         for shed, ts in [
@@ -53,17 +55,85 @@ class Test2020Day13(unittest.TestCase):
             [[1789, 37, 47, 1889], 1202161486],
             [[7, 13, "x", "x", 59, "x", 31, 19], 1068781],
         ]:
-            with self.subTest(msg=f''):
+            with self.subTest(msg=f""):
                 self.assertEqual(find_matching_timestamp(shed), ts)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 13:")
-    timestemp, shedule = (1000391,
-                          [19, "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", 37, "x", "x", "x", "x", "x",
-                           383, "x", "x", "x", "x", "x", "x", "x", 23, "x", "x", "x", "x", 13, "x", "x", "x", "x", "x",
-                           "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", 29, "x", 457, "x", "x", "x", "x", "x", "x",
-                           "x", "x", "x", 41, "x", "x", "x", "x", "x", "x", 17])
+    timestemp, shedule = (
+        1000391,
+        [
+            19,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            37,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            383,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            23,
+            "x",
+            "x",
+            "x",
+            "x",
+            13,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            29,
+            "x",
+            457,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            41,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            17,
+        ],
+    )
     print("Part 1):")
     b, t = get_next_departure(timestemp, shedule)
     print(b * t)

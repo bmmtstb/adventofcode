@@ -9,10 +9,13 @@ RangePair = Tuple[Range, Range]
 
 def load_ranges(filepath: str) -> List[RangePair]:
     """load list from file, get list of two Ranges"""
-    return [(
-        tuple(map(int, range_pair[0].split("-"))),
-        tuple(map(int, range_pair[1].split("-")))
-    ) for range_pair in read_lines_as_list(filepath=filepath, split=",")]
+    return [
+        (
+            tuple(map(int, range_pair[0].split("-"))),
+            tuple(map(int, range_pair[1].split("-"))),
+        )
+        for range_pair in read_lines_as_list(filepath=filepath, split=",")
+    ]
 
 
 def does_range_fully_contain_range(range_pair: RangePair) -> bool:
@@ -24,7 +27,12 @@ def does_range_fully_contain_range(range_pair: RangePair) -> bool:
 def does_range_overlap(range_pair: RangePair) -> bool:
     """return whether r1 does overlap with r2"""
     r1, r2 = range_pair
-    return r2[0] <= r1[0] <= r2[1] or r2[0] <= r1[1] <= r2[1] or r1[0] <= r2[0] <= r1[1] or r1[0] <= r2[1] <= r1[1]
+    return (
+        r2[0] <= r1[0] <= r2[1]
+        or r2[0] <= r1[1] <= r2[1]
+        or r1[0] <= r2[0] <= r1[1]
+        or r1[0] <= r2[1] <= r1[1]
+    )
 
 
 def count_fully_containing(ranges: List[RangePair]) -> int:
@@ -52,8 +60,10 @@ class Test2022Day04(unittest.TestCase):
             (7, False),
             (8, False),
         ]:
-            with self.subTest(msg=f'Pair {i}: {self.test_data[i]}'):
-                self.assertEqual(does_range_fully_contain_range(self.test_data[i]), contains)
+            with self.subTest(msg=f"Pair {i}: {self.test_data[i]}"):
+                self.assertEqual(
+                    does_range_fully_contain_range(self.test_data[i]), contains
+                )
 
     def test_count_fully_containing(self):
         self.assertEqual(count_fully_containing(self.test_data), 3)
@@ -70,14 +80,14 @@ class Test2022Day04(unittest.TestCase):
             (7, True),
             (8, False),
         ]:
-            with self.subTest(msg=f'Pair {i}: {self.test_data[i]}'):
+            with self.subTest(msg=f"Pair {i}: {self.test_data[i]}"):
                 self.assertEqual(does_range_overlap(self.test_data[i]), contains)
 
     def test_count_overlapping(self):
         self.assertEqual(count_overlapping(self.test_data), 6)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 04:")
     puzzle_input = load_ranges("data/04.txt")
     print("Part 1): ", count_fully_containing(puzzle_input))

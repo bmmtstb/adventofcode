@@ -1,8 +1,7 @@
 import unittest
 
 # position of four moons [Io, Europa, Ganymede, Callisto]
-puzzle_input =\
-    "<x=5, y=13, z=-3>\
+puzzle_input = "<x=5, y=13, z=-3>\
      <x=18, y=-7, z=13>\
      <x=16, y=3, z=4>\
      <x=0, y=8, z=8>"
@@ -11,18 +10,27 @@ puzzle_input =\
 
 def convert_string_to_tuple(inp: str):
     """convert input of form <x=...,y=...,z=...> to tuple (x,y,z)"""
-    pos = inp.replace(' ', '').replace('\n', '').replace('<', '').replace('>', '')
-    return tuple(int(x[x.find('=')+1:]) for x in pos.split(','))
+    pos = inp.replace(" ", "").replace("\n", "").replace("<", "").replace(">", "")
+    return tuple(int(x[x.find("=") + 1 :]) for x in pos.split(","))
 
 
 def convert_list_of_coordinates_to_tuple(inp: str):
     """convert input <x=...><x=...><x=...> to list of tuples [(x,...)(x,...)(x,...)]"""
-    return list(convert_string_to_tuple(pos) for pos in inp.replace(' ', '').replace('\n', '').split('><'))
+    return list(
+        convert_string_to_tuple(pos)
+        for pos in inp.replace(" ", "").replace("\n", "").split("><")
+    )
 
 
 def convert_tuple_to_string(inp: tuple):
     """convert input of form tuple (x,y,z) to a string '<x=...,y=...,z=...>'"""
-    return "<" + "".join(map(lambda sign, val: sign + "=" + str(val) + ",", ['x', 'y', 'z'], inp))[:-1] + ">"
+    return (
+        "<"
+        + "".join(
+            map(lambda sign, val: sign + "=" + str(val) + ",", ["x", "y", "z"], inp)
+        )[:-1]
+        + ">"
+    )
 
 
 def convert_list_of_tuples_to_string(inp: list):
@@ -35,12 +43,12 @@ def convert_pos_vel_string_to_tuples(inp: str):
     pos = []
     vel = []
     for d in inp.split(">"):
-        if d.startswith('pos'):
+        if d.startswith("pos"):
             pos.append(d)
-        elif d.startswith(', vel'):
+        elif d.startswith(", vel"):
             vel.append(d[2:])
-    pos = [convert_string_to_tuple(p.replace('pos=', '') + '>') for p in pos]
-    vel = [convert_string_to_tuple(v.replace('vel=', '') + '>') for v in vel]
+    pos = [convert_string_to_tuple(p.replace("pos=", "") + ">") for p in pos]
+    vel = [convert_string_to_tuple(v.replace("vel=", "") + ">") for v in vel]
     return pos, vel
 
 
@@ -52,7 +60,9 @@ def update_velocity(moon, other_positions, velocity):
     """update current moons velocity based on other velocities"""
     for other in other_positions:
         velocity = tuple(
-            velocity[i] + (1 if other[i] > moon[i] else (-1 if other[i] < moon[i] else 0)) for i in range(len(velocity))
+            velocity[i]
+            + (1 if other[i] > moon[i] else (-1 if other[i] < moon[i] else 0))
+            for i in range(len(velocity))
         )
     return velocity
 
@@ -77,7 +87,7 @@ def simulate_t_time_steps(init_positions: list, init_velocities=None, time_steps
     """simulate t time steps given list of tuples of position and velocity"""
     total_energy = 0
     if init_velocities is None:
-        init_velocities = [(0,)*len(init_positions[0])]*len(init_positions)
+        init_velocities = [(0,) * len(init_positions[0])] * len(init_positions)
     positions = init_positions
     velocities = init_velocities
     for t in range(time_steps):
@@ -87,7 +97,9 @@ def simulate_t_time_steps(init_positions: list, init_velocities=None, time_steps
             positions[i] = update_positions(positions[i], velocities[i])
 
     for i in range(len(positions)):
-        total_energy += get_kinetic_energy(velocities[i]) * get_potential_energy(positions[i])
+        total_energy += get_kinetic_energy(velocities[i]) * get_potential_energy(
+            positions[i]
+        )
 
     return positions, velocities, total_energy
 
@@ -95,6 +107,7 @@ def simulate_t_time_steps(init_positions: list, init_velocities=None, time_steps
 def least_common_multiple(list_of_divisors: list):
     """calculate lcm of a list"""
     from math import gcd
+
     lcm = list_of_divisors[0]
     for i in list_of_divisors[1:]:
         lcm = lcm * i // gcd(lcm, i)
@@ -105,9 +118,9 @@ def find_previously_match(init_positions: list, init_velocities=None):
     """Simulate time steps until there is a state that was previously seen"""
     # thanks to SO, dimensions x,y,z are independent! brute force did not work
     dimension = len(init_positions[0])
-    dim_period = [0]*dimension
+    dim_period = [0] * dimension
     if init_velocities is None:
-        init_velocities = [(0,)*len(init_positions[0])]*len(init_positions)
+        init_velocities = [(0,) * len(init_positions[0])] * len(init_positions)
     positions = init_positions
     velocities = init_velocities
     for d in range(dimension):
@@ -116,8 +129,17 @@ def find_previously_match(init_positions: list, init_velocities=None):
         velocities_d = tuple(v[d] for v in velocities)
         while True:
             seen_states.append((positions_d + velocities_d))
-            velocities_d = tuple(velocities_d[i] + sum(1 if other > current else (-1 if other < current else 0) for other in positions_d) for i, current in enumerate(positions_d))
-            positions_d = tuple(positions_d[i] + velocities_d[i] for i in range(len(positions_d)))
+            velocities_d = tuple(
+                velocities_d[i]
+                + sum(
+                    1 if other > current else (-1 if other < current else 0)
+                    for other in positions_d
+                )
+                for i, current in enumerate(positions_d)
+            )
+            positions_d = tuple(
+                positions_d[i] + velocities_d[i] for i in range(len(positions_d))
+            )
             if (positions_d + velocities_d) in seen_states:
                 dim_period[d] = len(seen_states)
                 break
@@ -128,37 +150,62 @@ def find_previously_match(init_positions: list, init_velocities=None):
 class Test2019Day12(unittest.TestCase):
     def test_pos_vel_after_time_steps(self):
         for time_step, result in [
-            [0,
-             "pos=<x=-1, y=  0, z= 2>, vel=<x= 0, y= 0, z= 0>pos=<x= 2, y=-10, z=-7>, vel=<x= 0, y= 0, z= 0>pos=<x= 4, y= -8, z= 8>, vel=<x= 0, y= 0, z= 0>pos=<x= 3, y=  5, z=-1>, vel=<x= 0, y= 0, z= 0>"],
-            [1,
-             "pos=<x= 2, y=-1, z= 1>, vel=<x= 3, y=-1, z=-1>pos=<x= 3, y=-7, z=-4>, vel=<x= 1, y= 3, z= 3>pos=<x= 1, y=-7, z= 5>, vel=<x=-3, y= 1, z=-3>pos=<x= 2, y= 2, z= 0>, vel=<x=-1, y=-3, z= 1>"],
-            [5,
-             "pos=<x=-1, y=-9, z= 2>, vel=<x=-3, y=-1, z= 2>pos=<x= 4, y= 1, z= 5>, vel=<x= 2, y= 0, z=-2>pos=<x= 2, y= 2, z=-4>, vel=<x= 0, y=-1, z= 2>pos=<x= 3, y=-7, z=-1>, vel=<x= 1, y= 2, z=-2>"],
-            [10,
-             "pos=<x= 2, y= 1, z=-3>, vel=<x=-3, y=-2, z= 1>pos=<x= 1, y=-8, z= 0>, vel=<x=-1, y= 1, z= 3>pos=<x= 3, y=-6, z= 1>, vel=<x= 3, y= 2, z=-3>pos=<x= 2, y= 0, z= 4>, vel=<x= 1, y=-1, z=-1>"],
+            [
+                0,
+                "pos=<x=-1, y=  0, z= 2>, vel=<x= 0, y= 0, z= 0>pos=<x= 2, y=-10, z=-7>, vel=<x= 0, y= 0, z= 0>pos=<x= 4, y= -8, z= 8>, vel=<x= 0, y= 0, z= 0>pos=<x= 3, y=  5, z=-1>, vel=<x= 0, y= 0, z= 0>",
+            ],
+            [
+                1,
+                "pos=<x= 2, y=-1, z= 1>, vel=<x= 3, y=-1, z=-1>pos=<x= 3, y=-7, z=-4>, vel=<x= 1, y= 3, z= 3>pos=<x= 1, y=-7, z= 5>, vel=<x=-3, y= 1, z=-3>pos=<x= 2, y= 2, z= 0>, vel=<x=-1, y=-3, z= 1>",
+            ],
+            [
+                5,
+                "pos=<x=-1, y=-9, z= 2>, vel=<x=-3, y=-1, z= 2>pos=<x= 4, y= 1, z= 5>, vel=<x= 2, y= 0, z=-2>pos=<x= 2, y= 2, z=-4>, vel=<x= 0, y=-1, z= 2>pos=<x= 3, y=-7, z=-1>, vel=<x= 1, y= 2, z=-2>",
+            ],
+            [
+                10,
+                "pos=<x= 2, y= 1, z=-3>, vel=<x=-3, y=-2, z= 1>pos=<x= 1, y=-8, z= 0>, vel=<x=-1, y= 1, z= 3>pos=<x= 3, y=-6, z= 1>, vel=<x= 3, y= 2, z=-3>pos=<x= 2, y= 0, z= 4>, vel=<x= 1, y=-1, z=-1>",
+            ],
         ]:
-            with self.subTest(msg=f'result: {result}'):
-                example_input = convert_list_of_coordinates_to_tuple("<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>")
-                self.assertEqual(simulate_t_time_steps(example_input, time_steps=time_step)[:2], convert_pos_vel_string_to_tuples(result))
+            with self.subTest(msg=f"result: {result}"):
+                example_input = convert_list_of_coordinates_to_tuple(
+                    "<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>"
+                )
+                self.assertEqual(
+                    simulate_t_time_steps(example_input, time_steps=time_step)[:2],
+                    convert_pos_vel_string_to_tuples(result),
+                )
 
     def test_energy_after_time_steps(self):
-        example_input = convert_list_of_coordinates_to_tuple("< x = -8, y = -10, z = 0 >< x = 5, y = 5, z = 10 >< x = 2, y = -7, z = 3 >< x = 9, y = -8, z = -3 >")
+        example_input = convert_list_of_coordinates_to_tuple(
+            "< x = -8, y = -10, z = 0 >< x = 5, y = 5, z = 10 >< x = 2, y = -7, z = 3 >< x = 9, y = -8, z = -3 >"
+        )
         self.assertEqual(simulate_t_time_steps(example_input, time_steps=100)[2], 1940)
 
     def test_find_match(self):
         for string_input, t in [
-            ["<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>", 2772],
-            ["<x=-8, y=-10, z=0><x=5, y=5, z=10><x=2, y=-7, z=3><x=9, y=-8, z=-3>", 4686774924],
+            [
+                "<x=-1, y=0, z=2><x=2, y=-10, z=-7><x=4, y=-8, z=8><x=3, y=5, z=-1>",
+                2772,
+            ],
+            [
+                "<x=-8, y=-10, z=0><x=5, y=5, z=10><x=2, y=-7, z=3><x=9, y=-8, z=-3>",
+                4686774924,
+            ],
         ]:
-            with self.subTest(msg=f''):
+            with self.subTest(msg=f""):
                 example_input = convert_list_of_coordinates_to_tuple(string_input)
                 self.assertEqual(find_previously_match(example_input), t)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 12:")
     print("Part 1):")
-    print(simulate_t_time_steps(convert_list_of_coordinates_to_tuple(puzzle_input), time_steps=1000)[2])
+    print(
+        simulate_t_time_steps(
+            convert_list_of_coordinates_to_tuple(puzzle_input), time_steps=1000
+        )[2]
+    )
     print("Part 2):")
     print("final value: 271442326847376")
     print(find_previously_match(convert_list_of_coordinates_to_tuple(puzzle_input)))

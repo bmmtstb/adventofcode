@@ -13,7 +13,7 @@ with open("data/19.txt", "r") as data:
         if Line.startswith("---"):
             pass
         elif len(Line) > 1:
-            NewList = list(map(int, t.split(',')))
+            NewList = list(map(int, t.split(",")))
             LineList.append(NewList)
         else:
             ScannerBeaconMaster.append(LineList)
@@ -23,11 +23,30 @@ with open("data/19.txt", "r") as data:
 ScannerNum = len(ScannerBeaconMaster)
 print("ScannerNum:", ScannerNum)
 OrientationList = [
-    ['x', 'y', 'z'], ['x', 'z', '-y'], ['x', '-y', '-z'], ['x', '-z', 'y'], ['-x', '-y', 'z'],
-    ['-x', 'z', 'y'], ['-x', 'y', '-z'], ['-x', '-z', '-y'], ['y', 'z', 'x'], ['y', 'x', '-z'],
-    ['y', '-z', '-x'], ['y', '-x', 'z'], ['-y', '-z', 'x'], ['-y', 'x', 'z'], ['-y', 'z', '-x'],
-    ['-y', '-x', '-z'], ['z', 'x', 'y'], ['z', 'y', '-x'], ['z', '-x', '-y'], ['z', '-y', 'x'],
-    ['-z', '-x', 'y'], ['-z', 'y', 'x'], ['-z', 'x', '-y'], ['-z', '-y', '-x']
+    ["x", "y", "z"],
+    ["x", "z", "-y"],
+    ["x", "-y", "-z"],
+    ["x", "-z", "y"],
+    ["-x", "-y", "z"],
+    ["-x", "z", "y"],
+    ["-x", "y", "-z"],
+    ["-x", "-z", "-y"],
+    ["y", "z", "x"],
+    ["y", "x", "-z"],
+    ["y", "-z", "-x"],
+    ["y", "-x", "z"],
+    ["-y", "-z", "x"],
+    ["-y", "x", "z"],
+    ["-y", "z", "-x"],
+    ["-y", "-x", "-z"],
+    ["z", "x", "y"],
+    ["z", "y", "-x"],
+    ["z", "-x", "-y"],
+    ["z", "-y", "x"],
+    ["-z", "-x", "y"],
+    ["-z", "y", "x"],
+    ["-z", "x", "-y"],
+    ["-z", "-y", "-x"],
 ]
 
 ScannerAddedtoGrid = []
@@ -51,8 +70,11 @@ for ScanNum, Scanner in enumerate(ScannerBeaconMaster):
     for x, Beacon1 in enumerate(Scanner):
         for y, Beacon2 in enumerate(Scanner):
             if x > y:
-                DistSq = (((Beacon1[0] - Beacon2[0]) ** 2) + ((Beacon1[1] - Beacon2[1]) ** 2) + (
-                            (Beacon1[2] - Beacon2[2]) ** 2))
+                DistSq = (
+                    ((Beacon1[0] - Beacon2[0]) ** 2)
+                    + ((Beacon1[1] - Beacon2[1]) ** 2)
+                    + ((Beacon1[2] - Beacon2[2]) ** 2)
+                )
                 BeaconDistances.append(DistSq)
     ScannerBeaconDistances.append(BeaconDistances)
 
@@ -105,7 +127,11 @@ while Continue:
                             ZOffset = e[2] - d[2]
                             Count = 0
                             for r in NewBeaconTestList:
-                                TestList = [r[0] + XOffset, r[1] + YOffset, r[2] + ZOffset]
+                                TestList = [
+                                    r[0] + XOffset,
+                                    r[1] + YOffset,
+                                    r[2] + ZOffset,
+                                ]
                                 if TestList in CheckBeacons:
                                     Count += 1
                                 if Count >= 12:
@@ -118,7 +144,11 @@ while Continue:
                             break
                     if ValidBeaconListFound:
                         for j in NewBeaconTestList:
-                            NewPotentialBeacon = [j[0] + XOffset, j[1] + YOffset, j[2] + ZOffset]
+                            NewPotentialBeacon = [
+                                j[0] + XOffset,
+                                j[1] + YOffset,
+                                j[2] + ZOffset,
+                            ]
                             NewCheckBeacons.append(NewPotentialBeacon)
                             if NewPotentialBeacon not in PermanentBeacons:
                                 PermanentBeacons.append(NewPotentialBeacon)
@@ -138,7 +168,7 @@ while Continue:
         CheckBeacons.append(NewCheckBeacons.pop())
 
     ScannerCount = 0
-    print(f'{CycleCount = }')
+    print(f"{CycleCount = }")
     for p in ScannerAddedtoGrid:
         ScannerCount += p
     if ScannerCount == ScannerNum:

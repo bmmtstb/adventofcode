@@ -65,4 +65,4 @@ def manhattan_distance(a: BaseVectorLength, b: BaseVectorLength) -> Number:
 
 def tuple_euclidean_norm(a: BaseVector) -> float:
     """calculate euclidean norm of vector"""
-    return math.sqrt(sum(value ** 2 for value in a))
+    return math.sqrt(sum(value**2 for value in a))

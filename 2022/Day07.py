@@ -10,7 +10,9 @@ TOTAL_FS_SIZE = 70000000
 UPDATE_NEEDED_SIZE = 30000000
 
 
-def get_folder_structure_at_path(folder_structure: FolderStructure, path: Path) -> FolderStructure:
+def get_folder_structure_at_path(
+    folder_structure: FolderStructure, path: Path
+) -> FolderStructure:
     """
     step into the given folder structure following a given path
     returns the (reference) to the nested object
@@ -48,11 +50,13 @@ def parse_folder_structure(filepath: str) -> FolderStructure:
         # read in directories
         elif list_directories:
             # insert new data at current folder level
-            structure = get_folder_structure_at_path(full_folder_structure, current_path)
+            structure = get_folder_structure_at_path(
+                full_folder_structure, current_path
+            )
             obj_name = line[1]
             structure[obj_name] = dict() if line[0] == "dir" else int(line[0])
         else:
-            raise Exception(f'Unexpected line {line}')
+            raise Exception(f"Unexpected line {line}")
     return full_folder_structure
 
 
@@ -69,7 +73,9 @@ def get_folder_structure_total_size(folder_structure: FolderStructure) -> int:
     return sum_of_curr_folder
 
 
-def find_size_of_small_directories(folder_structure: FolderStructure, max_size: int = 100000) -> int:
+def find_size_of_small_directories(
+    folder_structure: FolderStructure, max_size: int = 100000
+) -> int:
     """
     get the total size of all folders that have a size of at most max_size
     returns the accumulated sum of the small directories
@@ -90,7 +96,9 @@ def find_size_of_small_directories(folder_structure: FolderStructure, max_size: 
     return accumulated_sum + int(sum_of_curr_folder <= max_size) * sum_of_curr_folder
 
 
-def find_smallest_directory_larger_than(folder_structure: FolderStructure, needed_size: int) -> int:
+def find_smallest_directory_larger_than(
+    folder_structure: FolderStructure, needed_size: int
+) -> int:
     """find the size of the smallest directory that is bigger than needed size"""
     current_best = get_folder_structure_total_size(folder_structure=folder_structure)
 
@@ -98,7 +106,9 @@ def find_smallest_directory_larger_than(folder_structure: FolderStructure, neede
         # only directories matter ! no file sizes
         if type(file_object) == dict:
             # update best based on the recursion through sub-folders
-            sub_smallest_size = find_smallest_directory_larger_than(file_object, needed_size)
+            sub_smallest_size = find_smallest_directory_larger_than(
+                file_object, needed_size
+            )
             if abs(needed_size) <= sub_smallest_size < current_best:
                 current_best = sub_smallest_size
 
@@ -109,25 +119,23 @@ def find_smallest_directory_larger_than(folder_structure: FolderStructure, neede
     return current_best
 
 
-
-
 class Test2022Day07(unittest.TestCase):
     test_expected_folder_structure = {
-        "a":     {
-            "e":     {
+        "a": {
+            "e": {
                 "i": 584,
             },
-            "f":     29116,
-            "g":     2557,
+            "f": 29116,
+            "g": 2557,
             "h.lst": 62596,
         },
         "b.txt": 14848514,
         "c.dat": 8504156,
-        "d":     {
-            "j":     4060174,
+        "d": {
+            "j": 4060174,
             "d.log": 8033020,
             "d.ext": 5626152,
-            "k":     7214296,
+            "k": 7214296,
         },
     }
 
@@ -138,11 +146,13 @@ class Test2022Day07(unittest.TestCase):
             (["d"], self.test_expected_folder_structure["d"]),
             (["a", "e"], self.test_expected_folder_structure["a"]["e"]),
         ]:
-            with self.subTest(msg=f'path: {path}'):
-                self.assertEqual(get_folder_structure_at_path(
-                    folder_structure=self.test_expected_folder_structure,
-                    path=path
-                ), resulting_structure)
+            with self.subTest(msg=f"path: {path}"):
+                self.assertEqual(
+                    get_folder_structure_at_path(
+                        folder_structure=self.test_expected_folder_structure, path=path
+                    ),
+                    resulting_structure,
+                )
 
     def test_parse_folder_structure(self):
         folder_structure = parse_folder_structure("data/07-test.txt")
@@ -155,28 +165,40 @@ class Test2022Day07(unittest.TestCase):
             (self.test_expected_folder_structure["d"], 24933642),
             (self.test_expected_folder_structure["a"]["e"], 584),
         ]:
-            with self.subTest(msg=f'size: {total_size}'):
-                self.assertEqual(get_folder_structure_total_size(folder_structure), total_size)
+            with self.subTest(msg=f"size: {total_size}"):
+                self.assertEqual(
+                    get_folder_structure_total_size(folder_structure), total_size
+                )
 
     def test_find_size_of_small_directories(self):
-        self.assertEqual(find_size_of_small_directories(self.test_expected_folder_structure), 95437)
+        self.assertEqual(
+            find_size_of_small_directories(self.test_expected_folder_structure), 95437
+        )
 
     def test_find_smallest_directory_larger_than(self):
-        total_size = get_folder_structure_total_size(self.test_expected_folder_structure)
+        total_size = get_folder_structure_total_size(
+            self.test_expected_folder_structure
+        )
         smallest = find_smallest_directory_larger_than(
             folder_structure=self.test_expected_folder_structure,
-            needed_size=TOTAL_FS_SIZE - total_size - UPDATE_NEEDED_SIZE)
+            needed_size=TOTAL_FS_SIZE - total_size - UPDATE_NEEDED_SIZE,
+        )
         self.assertEqual(smallest, 24933642)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 07:")
     puzzle_folder_structure = parse_folder_structure("data/07.txt")
-    puzzle_accumulated_smaller_size = find_size_of_small_directories(puzzle_folder_structure)
+    puzzle_accumulated_smaller_size = find_size_of_small_directories(
+        puzzle_folder_structure
+    )
     puzzle_total_size = get_folder_structure_total_size(puzzle_folder_structure)
     print("Part 1): ", puzzle_accumulated_smaller_size)
-    print("Part 2): ", find_smallest_directory_larger_than(
-        folder_structure=puzzle_folder_structure,
-        needed_size=TOTAL_FS_SIZE - puzzle_total_size - UPDATE_NEEDED_SIZE
-    ))
+    print(
+        "Part 2): ",
+        find_smallest_directory_larger_than(
+            folder_structure=puzzle_folder_structure,
+            needed_size=TOTAL_FS_SIZE - puzzle_total_size - UPDATE_NEEDED_SIZE,
+        ),
+    )
     print("End Main 07<<<")

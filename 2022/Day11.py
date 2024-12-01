@@ -61,7 +61,9 @@ class Monkey:
 
     def load_data(self, monkey_infos) -> None:
         """load data from file"""
-        items, operation, test, true, false = [line.split(": ")[1] for line in monkey_infos.split("\n")[1:]]
+        items, operation, test, true, false = [
+            line.split(": ")[1] for line in monkey_infos.split("\n")[1:]
+        ]
         # items
         if ", " in items:
             self.items = [int(item) for item in items.split(", ")]
@@ -69,7 +71,9 @@ class Monkey:
             self.items = [int(items)]
         # operation
         val1, op, val2 = operation[6:].split(" ")
-        self.operation = lambda old: OPERATORS[op](old if val1 == "old" else int(val1), old if val2 == "old" else int(val2))
+        self.operation = lambda old: OPERATORS[op](
+            old if val1 == "old" else int(val1), old if val2 == "old" else int(val2)
+        )
         # test
         self.divisible_test_factor = int(test[13:])
         # true
@@ -80,7 +84,10 @@ class Monkey:
 
 class Monkeys:
     def __init__(self, filepath: str):
-        self.monkeys: List[Monkey] = [Monkey(monkey) for monkey in load_file_and_split(filepath=filepath, separator="\n\n")]
+        self.monkeys: List[Monkey] = [
+            Monkey(monkey)
+            for monkey in load_file_and_split(filepath=filepath, separator="\n\n")
+        ]
 
     def change_relief_factor(self) -> None:
         """for p2 relief factor is the product of all the monkeys test divisors (all primes)"""
@@ -91,7 +98,7 @@ class Monkeys:
             monkey.relief_factor = relief_factor
 
     def play_round(self) -> None:
-        """play a round of 'Keep Away' """
+        """play a round of 'Keep Away'"""
         for monkey in self.monkeys:
             # inspect all items the monkey has
             passed_items = monkey.inspect_items()
@@ -117,18 +124,25 @@ class Test2022Day11(unittest.TestCase):
         self.assertEqual(new_monkeys.monkeys[1].items, [2080, 25, 167, 207, 401, 1046])
 
     def test_after_n_rounds(self):
-        self.assertEqual(deepcopy(self.test_monkeys).calculate_monkey_business_after_n_rounds(20), 10605)
+        self.assertEqual(
+            deepcopy(self.test_monkeys).calculate_monkey_business_after_n_rounds(20),
+            10605,
+        )
 
     def test_after_large_n_rounds(self):
         monkeys = deepcopy(self.test_monkeys)
         monkeys.change_relief_factor()
-        self.assertEqual(monkeys.calculate_monkey_business_after_n_rounds(10_000), 2713310158)
+        self.assertEqual(
+            monkeys.calculate_monkey_business_after_n_rounds(10_000), 2713310158
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 11:")
     puzzle_input = Monkeys("data/11.txt")
-    print("Part 1): ", deepcopy(puzzle_input).calculate_monkey_business_after_n_rounds(20))
+    print(
+        "Part 1): ", deepcopy(puzzle_input).calculate_monkey_business_after_n_rounds(20)
+    )
     puzzle_input.change_relief_factor()
     print("Part 2): ", puzzle_input.calculate_monkey_business_after_n_rounds(10_000))
     print("End Main 11<<<")

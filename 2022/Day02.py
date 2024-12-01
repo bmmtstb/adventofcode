@@ -13,9 +13,9 @@ from helper.file import read_lines_as_list
 # Y for Paper -> 2
 # Z for Scissors -> 3
 shape_scores = {
-  "X": 1,
-  "Y": 2,
-  "Z": 3,
+    "X": 1,
+    "Y": 2,
+    "Z": 3,
 }
 
 Match = Tuple[str, str]
@@ -58,11 +58,16 @@ def get_correct_symbol(guide: Guide) -> Guide:
         if game_result == "Y":
             guide[i] = (enemy_play, chr(ord(enemy_play) + 23))
         elif game_result == "X":  # loose
-            guide[i] = (enemy_play, "X" if enemy_play == "B" else "Y" if enemy_play == "C" else "Z")
+            guide[i] = (
+                enemy_play,
+                "X" if enemy_play == "B" else "Y" if enemy_play == "C" else "Z",
+            )
         else:  # win
-            guide[i] = (enemy_play, "X" if enemy_play == "C" else "Y" if enemy_play == "A" else "Z")
+            guide[i] = (
+                enemy_play,
+                "X" if enemy_play == "C" else "Y" if enemy_play == "A" else "Z",
+            )
     return guide
-
 
 
 class Test2022Day02(unittest.TestCase):
@@ -79,14 +84,14 @@ class Test2022Day02(unittest.TestCase):
             (1, 1),
             (2, 6),
         ]:
-            with self.subTest(msg=f'match {match_index} should have score {score}'):
+            with self.subTest(msg=f"match {match_index} should have score {score}"):
                 self.assertEqual(get_match_score(self.test_guide[match_index]), score)
 
     def test_get_correct_symbol(self):
         self.assertEqual(get_correct_symbol(self.test_guide), self.test_self_play)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 02:")
     puzzle_input = load_strategy_guide("data/02.txt")
 

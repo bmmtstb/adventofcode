@@ -16,7 +16,10 @@ def read_file_in_groups(filepath: str) -> Dict[str, Dict[str, int]]:
             rs_bags = rs.strip().replace(" bags", "").replace(" bag", "").split(",")
             if rs_bags[0] == leaf_node:
                 rs_bags[0] = "0 " + rs_bags[0]
-            rules[ls_bag] = {" ".join(bag.strip().split(" ")[1:]): int(bag.strip().split(" ")[0]) for bag in rs_bags}
+            rules[ls_bag] = {
+                " ".join(bag.strip().split(" ")[1:]): int(bag.strip().split(" ")[0])
+                for bag in rs_bags
+            }
     return rules
 
 
@@ -73,7 +76,7 @@ class Test2020Day07(unittest.TestCase):
                 self.assertEqual(count_child_nodes(data, goal=goal), bags)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 07:")
     puzzle_input = read_file_in_groups("data/07.txt")
     print("Part 1):")

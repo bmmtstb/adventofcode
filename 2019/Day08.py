@@ -11,7 +11,7 @@ def image_string_to_list(raw: str, width: int = 25, height: int = 6):
     :return: nested list, with one list for every row (all strings)
     """
     raw_len = len(raw)
-    raw_list = [raw[i:i+width] for i in range(0, raw_len, width)]
+    raw_list = [raw[i : i + width] for i in range(0, raw_len, width)]
     layers = [[] for _ in range(int(raw_len / height / width))]
     for i, item in enumerate(raw_list):
         layers[int(i / height)].append(str(item))
@@ -46,16 +46,19 @@ class Test2019Day08(unittest.TestCase):
                 self.assertListEqual(image_string_to_list(raw_input, 3, 2), output)
 
     def test_load_square_image(self):
-        self.assertListEqual(image_string_to_list("123456789012345678", 3, 3), [["123", "456", "789"], ["012", "345", "678"]])
+        self.assertListEqual(
+            image_string_to_list("123456789012345678", 3, 3),
+            [["123", "456", "789"], ["012", "345", "678"]],
+        )
 
     def test_visible_image(self):
         self.assertListEqual(get_visible_image("0222112222120000", 2, 2), ["01", "10"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Start Main 08:")
     raw_data = image_string_to_list(puzzle_input)
-    min_zeros = float('inf')
+    min_zeros = float("inf")
     min_index = 0
     for i, layer in enumerate(raw_data):
         row_sum = sum(value.count("0") for value in layer)
@@ -64,7 +67,11 @@ if __name__ == '__main__':
             min_index = i
     ones = sum(value.count("1") for value in raw_data[min_index])
     twos = sum(value.count("2") for value in raw_data[min_index])
-    print("1) Layer {} has fewest zeros [{}]. This layer conains {} ones and {} twos -> {}".format(min_index, min_zeros, ones, twos, ones * twos))
+    print(
+        "1) Layer {} has fewest zeros [{}]. This layer conains {} ones and {} twos -> {}".format(
+            min_index, min_zeros, ones, twos, ones * twos
+        )
+    )
     visible_data = get_visible_image(puzzle_input)
     print("2)")
     for row in visible_data:

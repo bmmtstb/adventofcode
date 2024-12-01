@@ -51,11 +51,12 @@ def is_descendant(monkeys: Monkeys, shouter: str, current: str) -> bool:
     if type(monkeys[current]) is int:
         return current == shouter
     else:
-        return any([
-            is_descendant(monkeys, shouter, monkeys[current][0]),
-            is_descendant(monkeys, shouter, monkeys[current][2]),
-        ])
-
+        return any(
+            [
+                is_descendant(monkeys, shouter, monkeys[current][0]),
+                is_descendant(monkeys, shouter, monkeys[current][2]),
+            ]
+        )
 
 
 def human_shout(monkeys: Monkeys) -> int:
@@ -74,7 +75,9 @@ def human_shout(monkeys: Monkeys) -> int:
         # find on which side human did shout
         did_human_shout_left = is_descendant(monkeys, shouter="humn", current=left)
         # get the result where human did not shout
-        sub_result = shouting_number(monkeys, root=right if did_human_shout_left else left)
+        sub_result = shouting_number(
+            monkeys, root=right if did_human_shout_left else left
+        )
         # get the new result using the inverse operation, make sure to keep order intact
         # division and minus are not consistent
         if op == operator.sub and not did_human_shout_left:
@@ -112,7 +115,7 @@ class Test2022Day21(unittest.TestCase):
             ("drzm", 30),
             ("hmdt", 32),
         ]:
-            with self.subTest(msg=f'name: {name}'):
+            with self.subTest(msg=f"name: {name}"):
                 self.assertEqual(shouting_number(self.test_monkeys, name), result)
 
     def test_is_descendant(self):
@@ -134,8 +137,10 @@ class Test2022Day21(unittest.TestCase):
             ("drzm", False),
             ("hmdt", False),
         ]:
-            with self.subTest(msg=f'name: {name}'):
-                self.assertEqual(is_descendant(self.test_monkeys, "humn", name), descendant)
+            with self.subTest(msg=f"name: {name}"):
+                self.assertEqual(
+                    is_descendant(self.test_monkeys, "humn", name), descendant
+                )
 
     def test_root_number(self):
         self.assertEqual(shouting_number(self.test_monkeys), 152)
@@ -147,7 +152,7 @@ class Test2022Day21(unittest.TestCase):
         self.assertEqual(human_shout(load_data("data/21.txt")), 3243420789721)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 21:")
     puzzle_input: Monkeys = load_data("data/21.txt")
     print("Part 1): ", shouting_number(puzzle_input.copy()))

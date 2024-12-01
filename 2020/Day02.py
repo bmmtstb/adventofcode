@@ -8,13 +8,17 @@ def load_data(filename="data/02.txt"):
     with open(filename) as file:
         for l in file.readlines():
             words = l.split(" ")
-            data.append({
-                "policy": tuple([
-                    tuple(map(cast_int, words[0].split("-"))),
-                    words[1].replace(":", "")
-                ]),
-                "pw": words[2].replace("\n", ""),
-            })
+            data.append(
+                {
+                    "policy": tuple(
+                        [
+                            tuple(map(cast_int, words[0].split("-"))),
+                            words[1].replace(":", ""),
+                        ]
+                    ),
+                    "pw": words[2].replace("\n", ""),
+                }
+            )
     return data
 
 
@@ -52,7 +56,7 @@ class Test2020Day02(unittest.TestCase):
         self.assertEqual(get_valid_passwords_indexed(load_data("data/02-Test.txt")), 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 2:")
     puzzle_input = load_data()
     print("Part 1):")

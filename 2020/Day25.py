@@ -53,12 +53,9 @@ class Test2020Day25(unittest.TestCase):
         self.assertEqual(handshake(card_pub=5764801, door_pub=17807724), 14897079)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 25:")
-    puzzle_input = [  # card and door pub key
-        13135480,
-        8821721
-    ]
+    puzzle_input = [13135480, 8821721]  # card and door pub key
     print("Part 1):")
     print(handshake(card_pub=puzzle_input[0], door_pub=puzzle_input[1]))
     print("Part 2):")

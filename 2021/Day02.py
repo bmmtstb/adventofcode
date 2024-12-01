@@ -38,18 +38,32 @@ def follow_directions_2(dirs: List[List[str]]) -> Tuple[int, int]:
 
 class Test2021Day02(unittest.TestCase):
     def test_follow_dirs(self):
-        dirs = [["forward", "5"], ["down", "5"], ["forward", "8"], ["up", "3"], ["down", "8"], ["forward", "2"]]
+        dirs = [
+            ["forward", "5"],
+            ["down", "5"],
+            ["forward", "8"],
+            ["up", "3"],
+            ["down", "8"],
+            ["forward", "2"],
+        ]
         fin = (15, 10)
 
         self.assertTupleEqual(follow_directions(dirs), fin)
 
     def test_follow_dirs_2(self):
-        dirs = [["forward", "5"], ["down", "5"], ["forward", "8"], ["up", "3"], ["down", "8"], ["forward", "2"]]
+        dirs = [
+            ["forward", "5"],
+            ["down", "5"],
+            ["forward", "8"],
+            ["up", "3"],
+            ["down", "8"],
+            ["forward", "2"],
+        ]
         fin = (15, 60)
         self.assertTupleEqual(follow_directions_2(dirs), fin)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 02:")
     puzzle_input = read_lines_as_list("data/02.txt", split=" ")
     p_final = follow_directions(puzzle_input)

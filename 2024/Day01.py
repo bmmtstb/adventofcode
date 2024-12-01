@@ -30,7 +30,7 @@ def part2(data: tuple[tuple[int, ...], tuple[int, ...]]) -> int:
 
 class Test2024Day001(unittest.TestCase):
 
-    test_file = './data/01-test.txt'
+    test_file = "./data/01-test.txt"
     test_data = import_file(test_file)
 
     def test_load_data(self):
@@ -43,9 +43,9 @@ class Test2024Day001(unittest.TestCase):
         self.assertEqual(part2(self.test_data), 31)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 001:")
-    puzzle_input = import_file('./data/01.txt')
+    puzzle_input = import_file("./data/01.txt")
     print("Part 1): ", part1(puzzle_input))
     print("Part 2): ", part2(puzzle_input))
     print("End Main 001<<<")

@@ -20,8 +20,6 @@ def parse_input(filepath) -> List[List[coord]]:
     return line_infos
 
 
-
-
 def generate_line_points(start: coord, end: coord, diag: bool) -> List[coord]:
     """generate vertical and horizontal points between start and end - integer only"""
     step1: int = 1 if start[1] <= end[1] else -1
@@ -31,7 +29,10 @@ def generate_line_points(start: coord, end: coord, diag: bool) -> List[coord]:
     elif start[1] == end[1]:
         return [(i, start[1]) for i in range(start[0], end[0] + step0, step0)]
     elif diag and abs(start[0] - end[0]) == abs(start[1] - end[1]):
-        return [(start[0] + step0 * i, start[1] + step1 * i) for i in range(abs(start[0] - end[0]) + 1)]
+        return [
+            (start[0] + step0 * i, start[1] + step1 * i)
+            for i in range(abs(start[0] - end[0]) + 1)
+        ]
     else:
         return []
 
@@ -47,15 +48,15 @@ def count_per_field(points: List[coord]) -> Dict[coord, int]:
     return d
 
 
-
-def analyze_area(line_data: List[List[coord]], threshold: int, diag: bool = False) -> int:
+def analyze_area(
+    line_data: List[List[coord]], threshold: int, diag: bool = False
+) -> int:
     """for a given line data, count how many points are over a given threshold"""
     points: List[coord] = []
     for line in line_data:
         points += generate_line_points(line[0], line[1], diag)
     counts = count_per_field(points)
     return sum(1 if pos_val >= threshold else 0 for pos_val in counts.values())
-
 
 
 class Test2021Day05(unittest.TestCase):
@@ -65,13 +66,15 @@ class Test2021Day05(unittest.TestCase):
             [(0, 9), (5, 9), [(0, 9), (1, 9), (2, 9), (3, 9), (4, 9), (5, 9)]],
             [(0, 8), (8, 0), []],
             [(9, 4), (3, 4), [(9, 4), (8, 4), (7, 4), (6, 4), (5, 4), (4, 4), (3, 4)]],
-            [(9, 6), (9, 4), [(9, 6), (9, 5), (9, 4)]]
+            [(9, 6), (9, 4), [(9, 6), (9, 5), (9, 4)]],
         ]:
             with self.subTest():
                 self.assertEqual(generate_line_points(s, e, diag=False), pts)
 
     def test_test_data_h_v(self):
-        self.assertEqual(analyze_area(parse_input("data/05-test.txt"), 2, diag=False), 5)
+        self.assertEqual(
+            analyze_area(parse_input("data/05-test.txt"), 2, diag=False), 5
+        )
 
     def test_diag_lines(self):
         for s, e, pts in [
@@ -85,10 +88,12 @@ class Test2021Day05(unittest.TestCase):
                 self.assertEqual(generate_line_points(s, e, diag=True), pts)
 
     def test_test_data_diag(self):
-        self.assertEqual(analyze_area(parse_input("data/05-test.txt"), 2, diag=True), 12)
+        self.assertEqual(
+            analyze_area(parse_input("data/05-test.txt"), 2, diag=True), 12
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 05:")
     puzzle_input = parse_input("data/05.txt")
     print("Part 1): ", analyze_area(puzzle_input, 2))

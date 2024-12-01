@@ -34,7 +34,7 @@ active_subsets: Dict[int, Set[int]] = {
     4: {1},
     6: {5},
     7: {1},
-    9: {3, 4}
+    9: {3, 4},
 }
 
 
@@ -132,7 +132,7 @@ class Test2021Day08(unittest.TestCase):
     def test_find_unique(self):
         for outp, res in [
             [["fdgacbe", "cefdb", "cefbgd", "gcbe"], [True, False, False, True]],
-            [["fcgedb", "cgb", "dgebacf", "gc"], [False, True, True, True]]
+            [["fcgedb", "cgb", "dgebacf", "gc"], [False, True, True, True]],
         ]:
             with self.subTest():
                 self.assertListEqual(find_unique(outp), res)
@@ -158,14 +158,22 @@ class Test2021Day08(unittest.TestCase):
 
     def test_solve_example(self):
         test_lhs, test_rhs = load_data("data/08-test.txt")
-        numbers = [map_line(lhs=test_lhs[i], rhs=test_rhs[i]) for i in range(len(test_lhs))]
+        numbers = [
+            map_line(lhs=test_lhs[i], rhs=test_rhs[i]) for i in range(len(test_lhs))
+        ]
         self.assertEqual(numbers[0], 8394)
         self.assertEqual(sum(numbers), 61229)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(">>> Start Main 08:")
     puzzle_lhs, puzzle_output = load_data("data/08.txt")
     print("Part 1): ", sum(sum(find_unique(out)) for out in puzzle_output))
-    print("Part 2): ", sum(map_line(lhs=puzzle_lhs[i], rhs=puzzle_output[i]) for i in range(len(puzzle_lhs))))
+    print(
+        "Part 2): ",
+        sum(
+            map_line(lhs=puzzle_lhs[i], rhs=puzzle_output[i])
+            for i in range(len(puzzle_lhs))
+        ),
+    )
     print("End Main 08<<<")
