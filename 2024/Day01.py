@@ -4,6 +4,7 @@ from helper.file import read_lines_as_list
 
 
 def import_file(filepath: str) -> tuple[tuple[int, ...], tuple[int, ...]]:
+    """Import the file and return the data as a tuple containing two tuples with arbitrary length."""
     data = read_lines_as_list(filepath=filepath, instance_type=int, split="   ")
     return tuple(zip(*data))
 
@@ -34,6 +35,8 @@ class Test2024Day001(unittest.TestCase):
     test_data = import_file(test_file)
 
     def test_load_data(self):
+        self.assertEqual(len(self.test_data), 2)
+        self.assertEqual(len(self.test_data[0]), len(self.test_data[1]))
         self.assertEqual(self.test_data, ((3, 4, 2, 1, 3, 3), (4, 3, 5, 3, 9, 3)))
 
     def test_part1(self):

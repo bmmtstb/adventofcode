@@ -3,7 +3,7 @@ profile = "black"
 line_length = 120  # matching pylint
 
 [tool.pylint.main]
-ignore = ["CVS", "venv", "2018", "2019"]
+ignore = ["CVS", "venv", "2018", "2019", "2020", "2021", "2022"]
 
 ignore-patterns = ["^\\.#"]
 
@@ -18,9 +18,9 @@ good-names = ["i", "j", "k", "ex", "Run", "_"]
 
 include-naming-hint = true
 
-module-rgx = "(([a-z_][a-z0-9_]*$)|(^Day\\d\\d\\.py$))"
+module-rgx = "(([a-z_][a-z0-9_]*$)|[(\\d{4})]|(^Day\\d{2}))"
 
-no-docstring-rgx = "^_"
+no-docstring-rgx = "^(_|test_|Test\\d{4}Day\\d*)"
 
 property-classes = ["abc.abstractproperty"]
 
@@ -46,7 +46,7 @@ known-third-party = ["enchant"]
 logging-modules = ["logging"]
 
 [tool.pylint."messages control"]
-disable = ["raw-checker-failed", "bad-inline-option", "locally-disabled", "file-ignored", "suppressed-message", "useless-suppression", "deprecated-pragma", "use-symbolic-message-instead", "use-implicit-booleaness-not-comparison-to-string", "use-implicit-booleaness-not-comparison-to-zero"]
+disable = ["raw-checker-failed", "bad-inline-option", "locally-disabled", "file-ignored", "suppressed-message", "useless-suppression", "deprecated-pragma", "use-symbolic-message-instead", "use-implicit-booleaness-not-comparison-to-string", "use-implicit-booleaness-not-comparison-to-zero", "missing-module-docstring"]
 
 [tool.pylint.method_args]
 timeout-methods = ["requests.api.delete", "requests.api.get", "requests.api.head", "requests.api.options", "requests.api.patch", "requests.api.post", "requests.api.put", "requests.api.request"]
