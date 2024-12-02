@@ -1,7 +1,11 @@
+"""
+File for generating the unittest run configurations for the project.
+"""
+
 import os
 
 
-years = [2022]
+years = [2024]
 dir_base = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 run_base = os.path.join(dir_base, "../.idea/runConfigurations")
 for year in years:

@@ -1,3 +1,7 @@
+"""
+Implement basic mathematical operations on tuples, fully typed and tested.
+"""
+
 import math
 from typing import Tuple, TypeVar, Union
 

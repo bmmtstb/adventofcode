@@ -1,3 +1,7 @@
+"""
+File for generating the run configurations for the project.
+"""
+
 import os
 
 
@@ -8,7 +12,7 @@ run_base = os.path.join(
 )
 for year in years:
     for day_num in range(1, 26):
-        day = "0" + str(day_num) if day_num < 10 else str(day_num)
+        DAY = "0" + str(day_num) if day_num < 10 else str(day_num)
         text = (
             '<component name="ProjectRunConfigurationManager">\
               <configuration default="false" name="{year}-Day{day}" type="PythonConfigurationType" '
@@ -35,14 +39,15 @@ for year in years:
                 <method v="2">\
                   <option name="RunConfigurationTask" enabled="true" '
             'run_configuration_name="Unittests in {year} Day{day}.py" run_configuration_type="tests" />\
+                  <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_pylint" />\
                 </method>\
               </configuration>\
             </component>'
-        ).format(day=day, year=year)
-        filepath = os.path.join(run_base, str(year) + "_Day" + day + ".xml")
+        ).format(day=DAY, year=year)
+        filepath = os.path.join(run_base, str(year) + "_Day" + DAY + ".xml")
         if os.path.exists(filepath):
-            with open(filepath, "w") as file:
+            with open(filepath, "w", encoding="utf-8") as file:
                 file.write(text)
         else:
-            with open(filepath, "x") as file:
+            with open(filepath, "x", encoding="utf-8") as file:
                 file.write(text)
