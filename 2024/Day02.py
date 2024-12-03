@@ -5,7 +5,7 @@ from helper.file import read_lines_as_list
 
 def load_data(fp: str) -> list[list[int]]:
     """Read all reports."""
-    return read_lines_as_list(fp, instance_type=int, split=" ")
+    return read_lines_as_list(fp, inst=int, split=" ")
 
 
 def is_report_safe(report: list[int]) -> bool:

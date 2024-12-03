@@ -12,9 +12,7 @@ def load_data(filepath: str) -> Elves:
     """get a list of items every elf carries"""
     return [
         [int(calorie) for calorie in elf.strip("\n").split("\n")]
-        for elf in load_file_and_split(
-            filepath=filepath, separator="\n\n", instance_type=str
-        )
+        for elf in load_file_and_split(fp=filepath, sep="\n\n", inst=str)
     ]
 
 

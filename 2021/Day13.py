@@ -104,7 +104,7 @@ class Test2021Day13(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    d = load_file_and_split("data/13.txt", separator="\n\n")
+    d = load_file_and_split("data/13.txt", sep="\n\n")
     puzzle_positions: Positions = {
         (int(line.split(",")[0]), int(line.split(",")[1])) for line in d[0].split("\n")
     }

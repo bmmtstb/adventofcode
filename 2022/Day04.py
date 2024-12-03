@@ -14,7 +14,7 @@ def load_ranges(filepath: str) -> List[RangePair]:
             tuple(map(int, range_pair[0].split("-"))),
             tuple(map(int, range_pair[1].split("-"))),
         )
-        for range_pair in read_lines_as_list(filepath=filepath, split=",")
+        for range_pair in read_lines_as_list(fp=filepath, split=",")
     ]
 
 

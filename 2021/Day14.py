@@ -135,7 +135,7 @@ class Test2021Day14(unittest.TestCase):
 
 if __name__ == "__main__":
     print(">>> Start Main 14:")
-    puzzle_input = load_file_and_split("data/14.txt", separator="\n\n")
+    puzzle_input = load_file_and_split("data/14.txt", sep="\n\n")
     puzzle_template = str(puzzle_input[0])
     puzzle_rules = {line[:2]: line[-1] for line in puzzle_input[1].split("\n")[:-1]}
     puzzle_polymerase = perform_pair_insertion(puzzle_template, puzzle_rules.copy(), 10)

@@ -182,9 +182,7 @@ def scenic_route_finder(height_map: np.ndarray) -> List[Position]:
 
 class Test2022Day12(unittest.TestCase):
     test_height_map = np.array(
-        read_lines_as_list(
-            filepath="data/12-test.txt", instance_type=ord, split="every"
-        )
+        read_lines_as_list(fp="data/12-test.txt", inst=ord, split="every")
     )
     test_path_finder_object = PathFinder(deepcopy(test_height_map))
 
@@ -202,7 +200,7 @@ class Test2022Day12(unittest.TestCase):
 if __name__ == "__main__":
     print(">>> Start Main 12:")
     puzzle_input = np.array(
-        read_lines_as_list(filepath="data/12.txt", instance_type=ord, split="every")
+        read_lines_as_list(fp="data/12.txt", inst=ord, split="every")
     )
     print("Part 1): ", len(PathFinder(deepcopy(puzzle_input)).find_shortest_path()) - 1)
     print("Part 2): ", len(scenic_route_finder(deepcopy(puzzle_input))) - 1)

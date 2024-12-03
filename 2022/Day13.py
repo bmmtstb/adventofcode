@@ -15,7 +15,7 @@ OrderedPackets = List[Packet]
 
 def load_packets(filepath: str) -> Packets:
     """load packets from file"""
-    packets_raw = load_file_and_split(filepath=filepath, separator="\n\n")
+    packets_raw = load_file_and_split(fp=filepath, sep="\n\n")
     packets = []
     for packet_raw in packets_raw:
         left, right = packet_raw.split("\n")

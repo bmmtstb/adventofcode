@@ -140,7 +140,7 @@ class CaveSystem:
 class Test2022Day14(unittest.TestCase):
     test_paths: Paths = read_lines_as_list(
         "data/14-test.txt",
-        instance_type=lambda pos: tuple(int(x) for x in pos.split(",")),
+        inst=lambda pos: tuple(int(x) for x in pos.split(",")),
         split=" -> ",
     )
     test_cave_system = CaveSystem(paths=deepcopy(test_paths))
@@ -1016,7 +1016,7 @@ if __name__ == "__main__":
     print(">>> Start Main 14:")
     puzzle_input: Paths = read_lines_as_list(
         "data/14.txt",
-        instance_type=lambda pos: tuple(int(x) for x in pos.split(",")),
+        inst=lambda pos: tuple(int(x) for x in pos.split(",")),
         split=" -> ",
     )
     print("Part 1): ", CaveSystem(paths=deepcopy(puzzle_input)).produce_sand_till_end())

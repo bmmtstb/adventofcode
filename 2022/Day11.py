@@ -85,8 +85,7 @@ class Monkey:
 class Monkeys:
     def __init__(self, filepath: str):
         self.monkeys: List[Monkey] = [
-            Monkey(monkey)
-            for monkey in load_file_and_split(filepath=filepath, separator="\n\n")
+            Monkey(monkey) for monkey in load_file_and_split(fp=filepath, sep="\n\n")
         ]
 
     def change_relief_factor(self) -> None:

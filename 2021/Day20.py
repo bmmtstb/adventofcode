@@ -19,7 +19,7 @@ def load(filepath: str) -> (Algorithm, Image):
     def replace(s: str) -> List[int]:
         return [1 if char == "#" else 0 for char in s]
 
-    algo, image = load_file_and_split(filepath, separator="\n\n")[:2]
+    algo, image = load_file_and_split(filepath, sep="\n\n")[:2]
     algo_clean = replace(algo)
     image_clean = [replace(line) for line in image.split("\n")][:-1]
     return algo_clean, image_clean

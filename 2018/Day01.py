@@ -50,7 +50,7 @@ class Test2018Day01(unittest.TestCase):
 
 if __name__ == "__main__":
     print(">>> Start Main 01:")
-    puzzle_input = read_lines_as_list("data/01.txt", instance_type=int)
+    puzzle_input = read_lines_as_list("data/01.txt", inst=int)
     print("Part 1): ", cumulate_frequency_change(puzzle_input))
     print("Part 2): ", find_recurring_frequency(puzzle_input))
     print("End Main 01<<<")

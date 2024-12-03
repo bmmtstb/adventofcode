@@ -5,7 +5,7 @@ from helper.file import read_lines_as_list
 
 def import_file(filepath: str) -> tuple[tuple[int, ...], tuple[int, ...]]:
     """Import the file and return the data as a tuple containing two tuples with arbitrary length."""
-    data = read_lines_as_list(filepath=filepath, instance_type=int, split="   ")
+    data = read_lines_as_list(fp=filepath, inst=int, split="   ")
     return tuple(zip(*data))
 
 

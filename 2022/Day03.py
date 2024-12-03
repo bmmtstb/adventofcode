@@ -90,7 +90,7 @@ class Test2022Day03(unittest.TestCase):
 
 if __name__ == "__main__":
     print(">>> Start Main 03:")
-    puzzle_input = read_lines_as_list(filepath="data/03.txt")
+    puzzle_input = read_lines_as_list(fp="data/03.txt")
     print("Part 1): ", get_rucksack_priority_score(puzzle_input))
     print("Part 2): ", get_group_priority_scores(puzzle_input))
     print("End Main 03<<<")

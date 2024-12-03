@@ -77,16 +77,14 @@ class Test2021Day09(unittest.TestCase):
             with self.subTest():
                 test_input = [
                     [int(val) for val in line]
-                    for line in read_lines_as_list(
-                        "data/09-test.txt", instance_type=list
-                    )
+                    for line in read_lines_as_list("data/09-test.txt", inst=list)
                 ]
                 self.assertEqual(get_lowest_adjacent(test_input, tx, ty), lowest)
 
     def test_find_optima(self):
         test_input = [
             [int(val) for val in line]
-            for line in read_lines_as_list("data/09-test.txt", instance_type=list)
+            for line in read_lines_as_list("data/09-test.txt", inst=list)
         ]
         low_points = find_low_points(test_input)
         self.assertEqual(sum(val[0] + 1 for val in low_points), 15)
@@ -102,9 +100,7 @@ class Test2021Day09(unittest.TestCase):
             with self.subTest():
                 test_input = [
                     [int(val) for val in line]
-                    for line in read_lines_as_list(
-                        "data/09-test.txt", instance_type=list
-                    )
+                    for line in read_lines_as_list("data/09-test.txt", inst=list)
                 ]
                 self.assertEqual(get_basin_size(test_input, x, y), size)
 
@@ -113,7 +109,7 @@ if __name__ == "__main__":
     print(">>> Start Main 09:")
     puzzle_input = [
         [int(val) for val in line]
-        for line in read_lines_as_list("data/09.txt", instance_type=list)
+        for line in read_lines_as_list("data/09.txt", inst=list)
     ]
     low_points = find_low_points(puzzle_input)
     print("Part 1): ", sum(val[0] + 1 for val in low_points))

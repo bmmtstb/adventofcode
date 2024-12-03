@@ -26,7 +26,7 @@ def get_folder_structure_at_path(
 def parse_folder_structure(filepath: str) -> FolderStructure:
     """parse the sys log and create the folder structure"""
     # read datastream
-    plain_lines: List[List[str]] = read_lines_as_list(filepath=filepath, split=" ")
+    plain_lines: List[List[str]] = read_lines_as_list(fp=filepath, split=" ")
     # set up loop variables
     current_path: Path = []
     list_directories: bool = False

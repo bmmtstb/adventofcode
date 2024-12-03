@@ -12,7 +12,7 @@ Orders = List[Order]
 
 def load_data(filepath: str) -> Tuple[Stacks, Orders]:
     """load current configuration and move orders from file"""
-    raw_config, raw_orders = load_file_and_split(filepath=filepath, separator="\n\n")
+    raw_config, raw_orders = load_file_and_split(fp=filepath, sep="\n\n")
     raw_config = raw_config.split("\n")
     raw_orders = raw_orders.split("\n")
     # get config into correct format

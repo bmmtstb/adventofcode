@@ -194,19 +194,13 @@ class Elves:
 
 class Test2022Day23(unittest.TestCase):
     test_elves = Elves(
-        read_lines_as_list(
-            filepath="data/23-test.txt", instance_type=str, split="every"
-        )
+        read_lines_as_list(fp="data/23-test.txt", inst=str, split="every")
     )
     test_elves_small = Elves(
-        read_lines_as_list(
-            filepath="data/23-test-small.txt", instance_type=str, split="every"
-        )
+        read_lines_as_list(fp="data/23-test-small.txt", inst=str, split="every")
     )
     test_elves_it1 = Elves(
-        read_lines_as_list(
-            filepath="data/23-test-it1.txt", instance_type=str, split="every"
-        )
+        read_lines_as_list(fp="data/23-test-it1.txt", inst=str, split="every")
     )
 
     def test_setup(self):
@@ -276,9 +270,7 @@ class Test2022Day23(unittest.TestCase):
 
 if __name__ == "__main__":
     print(">>> Start Main 23:")
-    puzzle_input = Elves(
-        read_lines_as_list(filepath="data/23.txt", instance_type=str, split="every")
-    )
+    puzzle_input = Elves(read_lines_as_list(fp="data/23.txt", inst=str, split="every"))
     p1 = deepcopy(puzzle_input)
     p2 = deepcopy(puzzle_input)
     p1.run_simulation(n=10)

@@ -126,9 +126,7 @@ class Test2022Day08(unittest.TestCase):
         self.assertTrue(
             np.alltrue(
                 np.array(
-                    read_lines_as_list(
-                        filepath="data/08-test.txt", instance_type=int, split="every"
-                    )
+                    read_lines_as_list(fp="data/08-test.txt", inst=int, split="every")
                 )
                 == self.test_area_values
             )
@@ -180,11 +178,7 @@ class Test2022Day08(unittest.TestCase):
             (np.rot90(self.test_area_values), 21),
             (self.pyramid_trees, 25),
             (
-                np.array(
-                    read_lines_as_list(
-                        filepath="data/08.txt", instance_type=int, split="every"
-                    )
-                ),
+                np.array(read_lines_as_list(fp="data/08.txt", inst=int, split="every")),
                 1733,
             ),
         ]:
@@ -203,7 +197,7 @@ class Test2022Day08(unittest.TestCase):
 if __name__ == "__main__":
     print(">>> Start Main 08:")
     puzzle_input = np.array(
-        read_lines_as_list(filepath="data/08.txt", instance_type=int, split="every")
+        read_lines_as_list(fp="data/08.txt", inst=int, split="every")
     )
     print("Part 1): ", get_outside_visible_count(puzzle_input))
     print("Part 2): ", get_max_scenic_score(puzzle_input))

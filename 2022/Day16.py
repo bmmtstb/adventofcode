@@ -13,7 +13,7 @@ def load_data(
     filepath: str,
 ) -> Tuple[TunnelSystem, FlowRates, FlowRates, Edges, TravelGuide]:
     """load values from file"""
-    lines = read_lines_as_list(filepath=filepath, split="; ")
+    lines = read_lines_as_list(fp=filepath, split="; ")
     tunnel: TunnelSystem = {}
     flows: FlowRates = {}
     edges: Edges = []

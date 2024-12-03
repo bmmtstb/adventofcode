@@ -44,7 +44,7 @@ class Test2021Day07(unittest.TestCase):
 
 if __name__ == "__main__":
     print(">>> Start Main 07:")
-    puzzle_input = load_file_and_split("data/07.txt", separator=",", instance_type=int)
+    puzzle_input = load_file_and_split("data/07.txt", sep=",", inst=int)
     print("Part 1): ", get_fuel_efficient_level(puzzle_input.copy(), "lin"))
     print("Part 2): ", get_fuel_efficient_level(puzzle_input.copy(), "exp"))
     print("End Main 07<<<")

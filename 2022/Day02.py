@@ -24,7 +24,7 @@ Guide = List[Match]
 
 def load_strategy_guide(filepath: str) -> Guide:
     """load the strategy guide from file"""
-    return read_lines_as_list(filepath=filepath, split=" ", instance_type=str)
+    return read_lines_as_list(fp=filepath, split=" ", inst=str)
 
 
 def get_match_score(m: Match) -> int:

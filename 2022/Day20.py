@@ -5,7 +5,7 @@ from helper.file import read_lines_as_list
 
 
 def load(fp: str) -> List[int]:
-    return read_lines_as_list(fp, instance_type=int)
+    return read_lines_as_list(fp, inst=int)
 
 
 class Node:

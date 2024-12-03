@@ -232,7 +232,7 @@ class SensorBeaconMap:
 
 def load_data(filepath: str) -> Sensors:
     """load list of sensor beacon pairs from file"""
-    lines = read_lines_as_list(filepath=filepath, split=": ")
+    lines = read_lines_as_list(fp=filepath, split=": ")
     sensors: Sensors = []
     for sensor_str, beacon_str in lines:
         sensor_x, sensor_y = sensor_str[12:].split(", ")
