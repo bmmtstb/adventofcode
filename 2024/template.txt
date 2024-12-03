@@ -1,7 +1,12 @@
 import unittest
-from typing import Dict, List, Tuple, Set
 
 
+def part1() -> ...:
+	pass
+
+
+def part2() -> ...:
+	pass
 
 
 class Test2024DayXXX(unittest.TestCase):
@@ -16,6 +21,6 @@ class Test2024DayXXX(unittest.TestCase):
 if __name__ == '__main__':
     print(">>> Start Main XXX:")
     puzzle_input = []
-    print("Part 1): ")
-    print("Part 2): ")
+    print("Part 1): ", part1())
+    print("Part 2): ", part2())
     print("End Main XXX<<<")
