@@ -1,26 +1,30 @@
 import unittest
 
+def load_data(fp: str) -> str:
+	pass
+
 
 def part1() -> ...:
+	"""Part1: ..."""
 	pass
 
 
 def part2() -> ...:
-	pass
+	"""Part2: ..."""
 
 
 class Test2024DayXXX(unittest.TestCase):
+
+	fp = "./data/XXX-test.txt"
+	data = load_data(fp)
+
     def test_(self):
-        for x, y in [
-            (..., ...),
-        ]:
-            with self.subTest(msg=f''):
-                self.assertEqual(..., ...)
+		self.assertEqual(..., ...)
 
 
 if __name__ == '__main__':
     print(">>> Start Main XXX:")
-    puzzle_input = []
+    data = load_data("./data/XXX.txt")
     print("Part 1): ", part1())
     print("Part 2): ", part2())
     print("End Main XXX<<<")
