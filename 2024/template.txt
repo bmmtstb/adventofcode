@@ -1,7 +1,7 @@
 import unittest
 
 
-def load_data(fp: str) -> str:
+def load_data(fp: str) -> ...:
     pass
 
 
