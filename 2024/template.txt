@@ -17,7 +17,7 @@ def part2() -> ...:
 class Test2024DayXXX(unittest.TestCase):
 
     fp = "./data/XXX-test.txt"
-    data = load_data(fp)
+    test_data = load_data(fp)
 
     def test_(self):
         self.assertEqual(..., ...)
@@ -25,7 +25,7 @@ class Test2024DayXXX(unittest.TestCase):
 
 if __name__ == '__main__':
     print(">>> Start Main XXX:")
-    data = load_data("./data/XXX.txt")
+    puzzle_data = load_data("./data/XXX.txt")
     print("Part 1): ", part1())
     print("Part 2): ", part2())
     print("End Main XXX<<<")
