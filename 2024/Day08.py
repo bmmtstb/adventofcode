@@ -27,7 +27,16 @@ def load_data(fp: str) -> tuple[int, int, dict[str, Locations]]:
 def get_antinode_positions(
     locs: Locations, repeats: int = 1, skip: bool = True
 ) -> Locations:
-    """Get the antinode positions for the given locations."""
+    """Get the antinode positions for the given locations.
+    Works for part1 and part2, by passing the repeats and skip parameters.
+
+    Args:
+        locs (Locations): List of antenna locations.
+        repeats (int, optional): The number of repeats in every direction. Defaults to 1.
+            Can be simply set to the width or height of the grid.
+            Then even antennas with a distance of 1 will be considered.
+        skip (bool, optional): Skip the 0 and 1 repeats. Defaults to True for part 1.
+    """
     antinodes = []
     if len(locs) == 1:
         return antinodes
