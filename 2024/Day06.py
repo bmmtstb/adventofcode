@@ -56,7 +56,9 @@ def move(guard: Position, obstacles: Positions, shape: Position) -> Positions:
 def has_loop(guard: Position, obstacles: Positions, shape: Position) -> bool:
     """Play the game by moving the guard.
     If he bumps into an obstacle, he will change its direction looping through all DIRECTIONS.
+
     Check whether there are any loops in the visited positions by saving position with the respective direction.
+    Break if the guard is either out of bounds or the position with the current direction was already visited.
     """
     direction_idx = 0
     h, w = shape
