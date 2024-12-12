@@ -1,4 +1,4 @@
-[tool.isort]
+[tool.black]
 profile = "black"
 line_length = 120  # matching pylint
 
