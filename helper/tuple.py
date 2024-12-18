@@ -84,6 +84,15 @@ def tuple_mod_number(a: BaseVectorLength, b: Number) -> BaseVectorLength:
     return tuple(map(lambda i: i % b, a))
 
 
+def tuple_mod_tuple(a: BaseVectorLength, b: BaseVectorLength) -> BaseVectorLength:
+    """Modulo of every value in tuple using the value of the other tuple."""
+    if len(a) != len(b):
+        raise ValueError(f"Tuples should have same length. {len(a)} != {len(b)}")
+    if len(a) == 0:
+        raise ValueError("Tuple a should not be empty.")
+    return tuple(map(lambda i, j: i % j, a, b))
+
+
 def euclidean_distance(a: BaseVectorLength, b: BaseVectorLength) -> float:
     """Calculate the Euclidean distance between two points.
 
