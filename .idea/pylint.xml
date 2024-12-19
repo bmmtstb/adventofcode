@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PylintConfigService">
+    <option name="customPylintPath" value="D:\Martin\Programmable\GitProjects\adventofcode\venv\Scripts\pylint.exe" />
+    <option name="pylintArguments" value="--recursive=y adventofcode" />
+    <option name="pylintrcPath" value="D:\Martin\Programmable\GitProjects\adventofcode\.pylintrc" />
+  </component>
+</project>
