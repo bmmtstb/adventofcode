@@ -71,7 +71,7 @@ def part1(robots: list[tuple[Position, Position]], height: int = 103, width: int
 
 
 def part2(robots: list[tuple[Position, Position]], height: int = 103, width: int = 101) -> int:
-    """Part2: Run as long as it takes to find the cristmas tree."""
+    """Part2: Run as long as it takes to find the Christmas tree."""
 
     n = 1
     shape = (width, height)
