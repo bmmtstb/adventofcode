@@ -70,8 +70,23 @@ def part1(robots: list[tuple[Position, Position]], height: int = 103, width: int
     return ul * ur * ll * lr
 
 
-def part2() -> ...:
-    """Part2: ..."""
+def part2(robots: list[tuple[Position, Position]], height: int = 103, width: int = 101) -> int:
+    """Part2: Run as long as it takes to find the cristmas tree."""
+
+    n = 1
+    shape = (width, height)
+
+    while True:
+        positions = []
+        for position, velocity in robots:
+            positions.append((tuple_mod_tuple(tuple_add_tuple(position, velocity), shape), velocity))
+
+        if len(robots) == len(final_positions := set(pos for pos, _ in positions)):
+            print_robots(positions=list(final_positions), shape=(width, height))
+            return n
+
+        robots = positions
+        n += 1
 
 
 class Test2024Day14(unittest.TestCase):
@@ -107,5 +122,5 @@ if __name__ == "__main__":
     print(">>> Start Main 14:")
     puzzle_data = load_data("./data/14.txt")
     print("Part 1): ", part1(puzzle_data))
-    print("Part 2): ", part2())
+    print("Part 2): ", part2(puzzle_data))
     print("End Main 14<<<")
